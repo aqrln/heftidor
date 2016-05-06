@@ -30,7 +30,7 @@ public class OSXExtensions {
 
     private OSXExtensions() {
         try {
-            Class applicationClass = Class.forName("com.apple.eawt.Application");
+            Class<?> applicationClass = Class.forName("com.apple.eawt.Application");
             application = applicationClass.getMethod("getApplication").invoke(null);
 
             setDefaultMenuBarMethod = applicationClass.getMethod("setDefaultMenuBar", JMenuBar.class);
@@ -39,7 +39,7 @@ public class OSXExtensions {
             setAboutHandlerMethod = applicationClass.getMethod("setAboutHandler", aboutHandlerClass);
 
             quitHandlerClass = Class.forName("com.apple.eawt.QuitHandler");
-            Class quitResponseClass = Class.forName("com.apple.eawt.QuitResponse");
+            Class<?> quitResponseClass = Class.forName("com.apple.eawt.QuitResponse");
             cancelQuitMethod = quitResponseClass.getMethod("cancelQuit");
             setQuitHandlerMethod = applicationClass.getMethod("setQuitHandler", quitHandlerClass);
         } catch (Exception e) {
