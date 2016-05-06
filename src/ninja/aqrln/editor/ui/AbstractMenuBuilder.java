@@ -1,13 +1,14 @@
 package ninja.aqrln.editor.ui;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 /**
  * @author Alexey Orlenko
  */
 public abstract class AbstractMenuBuilder {
     public abstract void addSubMenu(JMenu menu);
-    public abstract void buildMenuItem(String name, KeyStroke keyStroke, int mnemonic);
+    public abstract void buildMenuItem(String name, KeyStroke keyStroke, int mnemonic, ActionListener listener);
     public abstract void buildSeparator();
 
     private MnemonicAdditionStrategy mnemonicStrategy;
@@ -22,5 +23,13 @@ public abstract class AbstractMenuBuilder {
         }
 
         mnemonicStrategy.setMnemonic(item, mnemonic);
+    }
+
+    protected JMenuItem createMenuItem(String name, KeyStroke keyStroke, int mnemonic, ActionListener listener) {
+        JMenuItem item = new JMenuItem(name);
+        setupMenuItem(item, keyStroke, mnemonic);
+        item.addActionListener(listener);
+
+        return item;
     }
 }

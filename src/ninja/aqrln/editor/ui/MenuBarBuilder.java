@@ -1,6 +1,7 @@
 package ninja.aqrln.editor.ui;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 /**
  * @author Alexey Orlenko
@@ -18,9 +19,8 @@ public class MenuBarBuilder extends AbstractMenuBuilder {
     }
 
     @Override
-    public void buildMenuItem(String name, KeyStroke keyStroke, int mnemonic) {
-        JMenuItem item = new JMenuItem(name);
-        setupMenuItem(item, keyStroke, mnemonic);
+    public void buildMenuItem(String name, KeyStroke keyStroke, int mnemonic, ActionListener listener) {
+        JMenuItem item = createMenuItem(name, keyStroke, mnemonic, listener);
         menuBar.add(item);
     }
 

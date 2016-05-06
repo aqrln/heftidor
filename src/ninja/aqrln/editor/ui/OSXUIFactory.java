@@ -41,6 +41,11 @@ public class OSXUIFactory extends UIFactory {
         return builder;
     }
 
+    @Override
+    public ApplicationMenuDirector createApplicationMenuDirector(ApplicationMenuListener listener) {
+        return new OSXApplicationMenuDirector(listener);
+    }
+
     private OSXUIFactory() {
     }
 }

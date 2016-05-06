@@ -29,4 +29,6 @@ public abstract class UIFactory {
     public abstract MenuBuilder createMenuBuilder();
 
     public abstract MenuBarBuilder createMenuBarBuilder();
+
+    public abstract ApplicationMenuDirector createApplicationMenuDirector(ApplicationMenuListener listener);
 }

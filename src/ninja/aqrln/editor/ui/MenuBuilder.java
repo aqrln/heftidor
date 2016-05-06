@@ -1,6 +1,7 @@
 package ninja.aqrln.editor.ui;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 /**
  * @author Alexey Orlenko
@@ -8,9 +9,9 @@ import javax.swing.*;
 public class MenuBuilder extends AbstractMenuBuilder {
     private JMenu menu;
 
-    public void buildMenu(String name, KeyStroke keyStroke, int mnemonic) {
+    public void buildMenu(String name, int mnemonic) {
         menu = new JMenu(name);
-        setupMenuItem(menu, keyStroke, mnemonic);
+        setupMenuItem(menu, null, mnemonic);
     }
 
     @Override
@@ -19,9 +20,8 @@ public class MenuBuilder extends AbstractMenuBuilder {
     }
 
     @Override
-    public void buildMenuItem(String name, KeyStroke keyStroke, int mnemonic) {
-        JMenuItem item = new JMenuItem(name);
-        setupMenuItem(item, keyStroke, mnemonic);
+    public void buildMenuItem(String name, KeyStroke keyStroke, int mnemonic, ActionListener listener) {
+        JMenuItem item = createMenuItem(name, keyStroke, mnemonic, listener);
         menu.add(item);
     }
 
