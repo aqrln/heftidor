@@ -1,5 +1,6 @@
 package ninja.aqrln.editor.core;
 
+import ninja.aqrln.editor.ui.AboutDialog;
 import ninja.aqrln.editor.ui.ApplicationMenuListener;
 import ninja.aqrln.editor.ui.UIFactory;
 import ninja.aqrln.editor.util.OSXExtensions;
@@ -106,6 +107,7 @@ public class Application implements ApplicationMenuListener {
 
     @Override
     public void onAbout() {
-        System.out.println("about");
+        JDialog about = new AboutDialog();
+        about.setVisible(true);
     }
 }
