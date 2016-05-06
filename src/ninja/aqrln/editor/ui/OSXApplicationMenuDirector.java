@@ -1,5 +1,7 @@
 package ninja.aqrln.editor.ui;
 
+import ninja.aqrln.editor.util.OSXExtensions;
+
 import javax.swing.*;
 
 /**
@@ -12,12 +14,9 @@ public class OSXApplicationMenuDirector extends ApplicationMenuDirector {
 
     @Override
     public JMenuBar buildApplicationMenu() {
-        com.apple.eawt.Application.getApplication().setAboutHandler(e -> listener.onAbout());
-        com.apple.eawt.Application.getApplication().setQuitHandler((quitEvent, quitResponse) -> {
-            listener.onQuit();
-            quitResponse.cancelQuit();
-        });
-        
+        OSXExtensions.setAboutHandler(() -> listener.onAbout());
+        OSXExtensions.setQuitHandler(() -> listener.onQuit());
+
         return super.buildApplicationMenu();
     }
 
