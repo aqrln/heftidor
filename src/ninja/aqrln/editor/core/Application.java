@@ -2,6 +2,7 @@ package ninja.aqrln.editor.core;
 
 import ninja.aqrln.editor.ui.ApplicationMenuListener;
 import ninja.aqrln.editor.ui.UIFactory;
+import ninja.aqrln.editor.util.OperatingSystem;
 
 import javax.swing.*;
 
@@ -23,7 +24,12 @@ public class Application implements ApplicationMenuListener {
 
     private Application() {
         applicationMenu = UIFactory.getInstance().createApplicationMenuDirector(this).buildApplicationMenu();
-        com.apple.eawt.Application.getApplication().setDefaultMenuBar(applicationMenu);
+    }
+
+    public void run() {
+        if (OperatingSystem.getOS() == OperatingSystem.OS_X) {
+            com.apple.eawt.Application.getApplication().setDefaultMenuBar(applicationMenu);
+        }
     }
 
     @Override
