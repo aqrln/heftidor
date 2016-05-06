@@ -14,8 +14,8 @@ public class OSXApplicationMenuDirector extends ApplicationMenuDirector {
 
     @Override
     public JMenuBar buildApplicationMenu() {
-        OSXExtensions.setAboutHandler(() -> listener.onAbout());
-        OSXExtensions.setQuitHandler(() -> listener.onQuit());
+        OSXExtensions.getInstance().setAboutHandler(() -> listener.onAbout());
+        OSXExtensions.getInstance().setQuitHandler(() -> listener.onQuit());
 
         return super.buildApplicationMenu();
     }

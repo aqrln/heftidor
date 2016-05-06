@@ -29,7 +29,7 @@ public class Application implements ApplicationMenuListener {
 
     public void run() {
         if (OperatingSystem.getOS() == OperatingSystem.OS_X) {
-            OSXExtensions.setMenuBar(applicationMenu);
+            OSXExtensions.getInstance().setMenuBar(applicationMenu);
         }
     }
 
