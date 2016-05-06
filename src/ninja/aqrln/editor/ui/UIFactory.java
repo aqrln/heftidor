@@ -7,22 +7,26 @@ import javax.swing.*;
 /**
  * @author Alexey Orlenko
  */
-public abstract class WidgetFactory {
-    private static WidgetFactory instance;
+public abstract class UIFactory {
+    private static UIFactory instance;
 
-    public static WidgetFactory getInstance() {
+    public static UIFactory getInstance() {
         if (instance != null) {
             return instance;
         }
 
         if (OperatingSystem.getOS() == OperatingSystem.OS_X) {
-            instance = OSXWidgetFactory.getInstance();
+            instance = OSXUIFactory.getInstance();
         } else {
-            instance = WindowsWidgetFactory.getInstance();
+            instance = WindowsUIFactory.getInstance();
         }
 
         return instance;
     }
 
     public abstract JScrollPane createScrollPane();
+
+    public abstract MenuBuilder createMenuBuilder();
+
+    public abstract MenuBarBuilder createMenuBarBuilder();
 }
