@@ -3,5 +3,5 @@ package ninja.aqrln.editor.core;
 /**
  * @author Alexey Orlenko
  */
-public abstract class DocumentElement {
+public abstract class Element {
 }
