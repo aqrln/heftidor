@@ -1,4 +1,4 @@
-package ninja.aqrln.editor.ui;
+package ninja.aqrln.editor.ui.frames;
 
 import javax.swing.*;
 import java.awt.*;

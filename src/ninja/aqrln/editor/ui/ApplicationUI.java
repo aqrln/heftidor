@@ -1,5 +1,7 @@
 package ninja.aqrln.editor.ui;
 
+import ninja.aqrln.editor.ui.frames.AboutDialog;
+import ninja.aqrln.editor.ui.frames.DocumentWindow;
 import ninja.aqrln.editor.util.OSXExtensions;
 import ninja.aqrln.editor.util.OperatingSystem;
 
