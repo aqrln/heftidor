@@ -1,6 +1,6 @@
 package ninja.aqrln.editor.util;
 
-import javax.swing.*;
+import javax.swing.JMenuBar;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 

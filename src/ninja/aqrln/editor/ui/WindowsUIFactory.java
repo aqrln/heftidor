@@ -1,8 +1,13 @@
 package ninja.aqrln.editor.ui;
 
-import ninja.aqrln.editor.ui.menu.*;
+import ninja.aqrln.editor.ui.menu.ApplicationMenuDirector;
+import ninja.aqrln.editor.ui.menu.ApplicationMenuListener;
+import ninja.aqrln.editor.ui.menu.MenuBarBuilder;
+import ninja.aqrln.editor.ui.menu.MenuBuilder;
+import ninja.aqrln.editor.ui.menu.WindowsApplicationMenuDirector;
+import ninja.aqrln.editor.ui.menu.WindowsMnemonicAdditionStrategy;
 
-import javax.swing.*;
+import javax.swing.JScrollPane;
 
 /**
  * @author Alexey Orlenko

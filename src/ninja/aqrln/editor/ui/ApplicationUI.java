@@ -6,7 +6,8 @@ import ninja.aqrln.editor.ui.menu.ApplicationMenuListener;
 import ninja.aqrln.editor.util.OSXExtensions;
 import ninja.aqrln.editor.util.OperatingSystem;
 
-import javax.swing.*;
+import javax.swing.JDialog;
+import javax.swing.JMenuBar;
 
 /**
  * @author Alexey Orlenko

@@ -1,7 +1,10 @@
 package ninja.aqrln.editor.ui.frames;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import java.awt.FlowLayout;
 
 /**
  * @author Alexey Orlenko

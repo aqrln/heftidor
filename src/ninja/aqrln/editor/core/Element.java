@@ -1,6 +1,7 @@
 package ninja.aqrln.editor.core;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.util.ListIterator;
 
 /**

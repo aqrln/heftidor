@@ -3,7 +3,8 @@ package ninja.aqrln.editor.ui.menu;
 import ninja.aqrln.editor.ui.KeystrokeHelper;
 import ninja.aqrln.editor.ui.UIFactory;
 
-import javax.swing.*;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import java.awt.event.KeyEvent;
 
 /**

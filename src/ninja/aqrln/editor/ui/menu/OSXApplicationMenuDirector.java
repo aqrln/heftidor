@@ -2,7 +2,7 @@ package ninja.aqrln.editor.ui.menu;
 
 import ninja.aqrln.editor.util.OSXExtensions;
 
-import javax.swing.*;
+import javax.swing.JMenuBar;
 
 /**
  * @author Alexey Orlenko

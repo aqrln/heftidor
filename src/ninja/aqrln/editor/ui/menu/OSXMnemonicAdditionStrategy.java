@@ -1,6 +1,6 @@
 package ninja.aqrln.editor.ui.menu;
 
-import javax.swing.*;
+import javax.swing.JMenuItem;
 
 /**
  * @author Alexey Orlenko

@@ -6,7 +6,7 @@ import ninja.aqrln.editor.ui.menu.MenuBarBuilder;
 import ninja.aqrln.editor.ui.menu.MenuBuilder;
 import ninja.aqrln.editor.util.OperatingSystem;
 
-import javax.swing.*;
+import javax.swing.JScrollPane;
 
 /**
  * @author Alexey Orlenko

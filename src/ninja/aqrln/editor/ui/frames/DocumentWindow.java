@@ -3,7 +3,7 @@ package ninja.aqrln.editor.ui.frames;
 import ninja.aqrln.editor.ui.ApplicationUI;
 import ninja.aqrln.editor.util.OperatingSystem;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 /**
  * @author Alexey Orlenko
