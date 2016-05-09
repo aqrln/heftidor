@@ -1,6 +1,6 @@
 package ninja.aqrln.editor;
 
-import ninja.aqrln.editor.core.Application;
+import ninja.aqrln.editor.ui.ApplicationUI;
 
 /**
  * Main class of the application
@@ -10,11 +10,11 @@ import ninja.aqrln.editor.core.Application;
 public class Main {
 
     /**
-     * Application entry point
+     * ApplicationUI entry point
      * @param args command-line arguments
      */
     public static void main(String[] args) {
-        Application app = Application.getInstance();
+        ApplicationUI app = ApplicationUI.getInstance();
         app.run();
     }
 

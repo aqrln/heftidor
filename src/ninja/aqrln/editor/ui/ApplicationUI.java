@@ -1,8 +1,5 @@
-package ninja.aqrln.editor.core;
+package ninja.aqrln.editor.ui;
 
-import ninja.aqrln.editor.ui.AboutDialog;
-import ninja.aqrln.editor.ui.ApplicationMenuListener;
-import ninja.aqrln.editor.ui.UIFactory;
 import ninja.aqrln.editor.util.OSXExtensions;
 import ninja.aqrln.editor.util.OperatingSystem;
 
@@ -11,12 +8,12 @@ import javax.swing.*;
 /**
  * @author Alexey Orlenko
  */
-public class Application implements ApplicationMenuListener {
-    private static Application instance;
+public class ApplicationUI implements ApplicationMenuListener {
+    private static ApplicationUI instance;
 
-    public static Application getInstance() {
+    public static ApplicationUI getInstance() {
         if (instance == null) {
-            instance = new Application();
+            instance = new ApplicationUI();
         }
 
         return instance;
@@ -24,7 +21,7 @@ public class Application implements ApplicationMenuListener {
 
     private JMenuBar applicationMenu;
 
-    private Application() {
+    private ApplicationUI() {
         applicationMenu = UIFactory.getInstance().createApplicationMenuDirector(this).buildApplicationMenu();
     }
 
@@ -32,11 +29,18 @@ public class Application implements ApplicationMenuListener {
         if (OperatingSystem.getOS() == OperatingSystem.OS_X) {
             OSXExtensions.getInstance().setMenuBar(applicationMenu);
         }
+
+        onFileNew();
+    }
+
+    public JMenuBar getApplicationMenu() {
+        return applicationMenu;
     }
 
     @Override
     public void onFileNew() {
-
+        DocumentWindow window = new DocumentWindow();
+        window.setVisible(true);
     }
 
     @Override
