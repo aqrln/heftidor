@@ -1,5 +1,7 @@
 package ninja.aqrln.editor.ui;
 
+import ninja.aqrln.editor.ui.menu.*;
+
 import javax.swing.*;
 
 /**

@@ -1,4 +1,4 @@
-package ninja.aqrln.editor.ui;
+package ninja.aqrln.editor.ui.menu;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -6,31 +6,31 @@ import java.awt.event.ActionListener;
 /**
  * @author Alexey Orlenko
  */
-public class MenuBuilder extends AbstractMenuBuilder {
-    private JMenu menu;
+public class MenuBarBuilder extends AbstractMenuBuilder {
+    private JMenuBar menuBar;
 
-    public void buildMenu(String name, int mnemonic) {
-        menu = new JMenu(name);
-        setupMenuItem(menu, null, mnemonic);
+    public void buildMenuBar() {
+        menuBar = new JMenuBar();
     }
 
     @Override
     public void addSubMenu(JMenu menu) {
-        menu.add(menu);
+        menuBar.add(menu);
     }
 
     @Override
     public void buildMenuItem(String name, KeyStroke keyStroke, int mnemonic, ActionListener listener) {
         JMenuItem item = createMenuItem(name, keyStroke, mnemonic, listener);
-        menu.add(item);
+        menuBar.add(item);
     }
 
     @Override
     public void buildSeparator() {
-        menu.addSeparator();
+        JSeparator separator = new JSeparator(JSeparator.VERTICAL);
+        menuBar.add(separator);
     }
 
-    public JMenu getMenu() {
-        return menu;
+    public JMenuBar getMenuBar() {
+        return menuBar;
     }
 }
