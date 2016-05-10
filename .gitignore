@@ -52,6 +52,7 @@ $RECYCLE.BIN/
 .idea/dictionaries
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
+.idea/codeStyleSettings.xml
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids
