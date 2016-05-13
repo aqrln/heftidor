@@ -3,7 +3,10 @@ package ninja.aqrln.editor.dom.model;
 import ninja.aqrln.editor.dom.core.ChildlessElement;
 import ninja.aqrln.editor.dom.core.Style;
 
+import java.awt.Canvas;
 import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 
 /**
  * @author Alexey Orlenko
@@ -23,7 +26,13 @@ public class CharacterElement extends ChildlessElement {
 
     @Override
     public Dimension getSize() {
-        return null;
+        Canvas canvas = new Canvas();
+        FontMetrics fontMetrics = canvas.getFontMetrics(style.getFont());
+
+        int width = fontMetrics.charWidth(character);
+        int height = fontMetrics.getHeight();
+
+        return new Dimension(width, height);
     }
 
     @Override
@@ -34,5 +43,19 @@ public class CharacterElement extends ChildlessElement {
     @Override
     public Style getStyle() {
         return style;
+    }
+
+    @Override
+    public void draw(Graphics graphics, int x, int y) {
+        Dimension size = getSize();
+        int width = (int)size.getWidth();
+        int height = (int)size.getHeight();
+
+        graphics.setColor(style.getBackgroundColor());
+        graphics.fillRect(x, y, width, height);
+
+        graphics.setFont(style.getFont());
+        graphics.setColor(style.getForegroundColor());
+        graphics.drawString("" + character, x, y + height);
     }
 }

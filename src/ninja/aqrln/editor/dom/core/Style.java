@@ -11,7 +11,7 @@ public class Style {
     private Color backgroundColor;
     private Color foregroundColor;
 
-    public static final Font DEFAULT_FONT = new Font(Font.SERIF, Font.PLAIN, 12);
+    public static final Font DEFAULT_FONT = new Font(Font.SERIF, Font.PLAIN, 14);
     public static final Color DEFAULT_FG_COLOR = Color.BLACK;
     public static final Color DEFAULT_BG_COLOR = Color.WHITE;
 
