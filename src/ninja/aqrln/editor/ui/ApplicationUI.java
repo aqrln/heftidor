@@ -8,6 +8,7 @@ import ninja.aqrln.editor.util.OperatingSystem;
 
 import javax.swing.JDialog;
 import javax.swing.JMenuBar;
+import javax.swing.SwingUtilities;
 
 /**
  * @author Alexey Orlenko
@@ -43,8 +44,10 @@ public class ApplicationUI implements ApplicationMenuListener {
 
     @Override
     public void onFileNew() {
-        DocumentWindow window = new DocumentWindow();
-        window.setVisible(true);
+        SwingUtilities.invokeLater(() -> {
+            DocumentWindow window = new DocumentWindow();
+            window.setVisible(true);
+        });
     }
 
     @Override
