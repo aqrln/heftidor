@@ -3,7 +3,10 @@ package ninja.aqrln.editor.dom.model;
 import ninja.aqrln.editor.dom.core.ChildlessElement;
 import ninja.aqrln.editor.dom.core.Style;
 
-import java.awt.*;
+import java.awt.Canvas;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
 
 /**
  * @author Alexey Orlenko
