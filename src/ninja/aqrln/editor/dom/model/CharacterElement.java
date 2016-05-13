@@ -1,4 +1,7 @@
-package ninja.aqrln.editor.core;
+package ninja.aqrln.editor.dom.model;
+
+import ninja.aqrln.editor.dom.core.ChildlessElement;
+import ninja.aqrln.editor.dom.core.Style;
 
 import java.awt.Dimension;
 

@@ -1,4 +1,4 @@
-package ninja.aqrln.editor.core;
+package ninja.aqrln.editor.dom.core;
 
 import java.awt.Color;
 import java.awt.Font;
