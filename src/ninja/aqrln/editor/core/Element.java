@@ -9,4 +9,6 @@ import java.util.ListIterator;
 public interface Element {
     ListIterator<Element> getListIterator();
     Dimension getSize();
+    void setStyle(Style style);
+    Style getStyle();
 }

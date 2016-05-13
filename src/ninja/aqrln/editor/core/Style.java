@@ -15,6 +15,8 @@ public class Style {
     public static final Color DEFAULT_FG_COLOR = Color.BLACK;
     public static final Color DEFAULT_BG_COLOR = Color.WHITE;
 
+    public static final Style DEFAULT_STYLE = new Style();
+
     public Style(Font font, Color foregroundColor, Color backgroundColor) {
         this.font = font;
         this.backgroundColor = backgroundColor;
