@@ -10,7 +10,7 @@ import java.util.ListIterator;
 public abstract class CompositeElement implements Element {
     protected List<Element> children;
 
-    public ListIterator<Element> getChildren() {
+    public ListIterator<Element> getListIterator() {
         return children.listIterator();
     }
 

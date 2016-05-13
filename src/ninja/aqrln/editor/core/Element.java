@@ -7,6 +7,6 @@ import java.util.ListIterator;
  * @author Alexey Orlenko
  */
 public interface Element {
-    ListIterator<Element> getChildren();
+    ListIterator<Element> getListIterator();
     Dimension getSize();
 }

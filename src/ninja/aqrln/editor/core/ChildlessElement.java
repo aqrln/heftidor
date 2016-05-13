@@ -6,7 +6,7 @@ import java.util.ListIterator;
  * @author Alexey Orlenko
  */
 public abstract class ChildlessElement implements Element {
-    public ListIterator<Element> getChildren() {
+    public ListIterator<Element> getListIterator() {
         return new ListIterator<Element>() {
             @Override
             public boolean hasNext() {
