@@ -4,7 +4,7 @@ import ninja.aqrln.editor.dom.core.CompositeElement;
 import ninja.aqrln.editor.dom.core.Element;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 /**
  * @author Alexey Orlenko
@@ -31,7 +31,7 @@ public class ParagraphElement extends CompositeElement {
     }
 
     @Override
-    public void draw(Graphics graphics, int x, int y) {
+    public void draw(Graphics2D graphics, int x, int y) {
         for (Element element : children) {
             element.draw(graphics, x, y);
             x += element.getSize().getWidth();

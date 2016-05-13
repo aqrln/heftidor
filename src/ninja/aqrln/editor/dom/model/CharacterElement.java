@@ -3,10 +3,7 @@ package ninja.aqrln.editor.dom.model;
 import ninja.aqrln.editor.dom.core.ChildlessElement;
 import ninja.aqrln.editor.dom.core.Style;
 
-import java.awt.Canvas;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
+import java.awt.*;
 
 /**
  * @author Alexey Orlenko
@@ -46,7 +43,7 @@ public class CharacterElement extends ChildlessElement {
     }
 
     @Override
-    public void draw(Graphics graphics, int x, int y) {
+    public void draw(Graphics2D graphics, int x, int y) {
         Dimension size = getSize();
         int width = (int)size.getWidth();
         int height = (int)size.getHeight();
