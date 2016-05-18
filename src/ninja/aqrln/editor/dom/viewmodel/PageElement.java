@@ -4,9 +4,7 @@ import ninja.aqrln.editor.dom.core.CompositeElement;
 import ninja.aqrln.editor.dom.core.DOMVisitor;
 import ninja.aqrln.editor.dom.core.Element;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
 
 /**
  * @author Alexey Orlenko
@@ -24,23 +22,6 @@ public class PageElement extends CompositeElement {
     @Override
     public Dimension getSize() {
         return PAGE_SIZE;
-    }
-
-    @Override
-    public void draw(Graphics2D graphics, int x, int y) {
-        graphics.setColor(Color.WHITE);
-        graphics.fillRect(x, y, PAGE_SIZE.width, PAGE_SIZE.height);
-
-        graphics.setColor(Color.BLACK);
-        graphics.drawRect(x, y, PAGE_SIZE.width, PAGE_SIZE.height);
-
-        x += PADDING_LEFT;
-        y += PADDING_TOP;
-
-        for (Element child : getChildren()) {
-            child.draw(graphics, x, y);
-            y += child.getSize().height;
-        }
     }
 
     @Override

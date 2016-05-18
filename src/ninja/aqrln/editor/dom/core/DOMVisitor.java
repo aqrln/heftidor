@@ -5,6 +5,7 @@ import ninja.aqrln.editor.dom.model.CharacterElement;
 import ninja.aqrln.editor.dom.model.ParagraphElement;
 import ninja.aqrln.editor.dom.viewmodel.LineElement;
 import ninja.aqrln.editor.dom.viewmodel.PageElement;
+import ninja.aqrln.editor.dom.viewmodel.SpaceElement;
 import ninja.aqrln.editor.dom.viewmodel.WordElement;
 
 /**
@@ -16,6 +17,6 @@ public interface DOMVisitor {
     void visitLineElement(LineElement element);
     void visitPageElement(PageElement element);
     void visitRootElement(RootElement element);
-    void visitWordElement(WordElement wordElement);
-    void visitSpaceElement();
+    void visitWordElement(WordElement element);
+    void visitSpaceElement(SpaceElement element);
 }

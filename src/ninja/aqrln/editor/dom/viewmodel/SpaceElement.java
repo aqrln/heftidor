@@ -1,11 +1,10 @@
 package ninja.aqrln.editor.dom.viewmodel;
 
 import ninja.aqrln.editor.dom.core.ChildlessElement;
-import ninja.aqrln.editor.dom.core.Style;
 import ninja.aqrln.editor.dom.core.DOMVisitor;
+import ninja.aqrln.editor.dom.core.Style;
 
 import java.awt.Dimension;
-import java.awt.Graphics2D;
 
 /**
  * @author Alexey Orlenko
@@ -55,15 +54,7 @@ public class SpaceElement extends ChildlessElement {
     }
 
     @Override
-    public void draw(Graphics2D graphics, int x, int y) {
-        Dimension size = getSize();
-
-        graphics.setColor(style.getBackgroundColor());
-        graphics.fillRect(x, y, size.width, size.height);
-    }
-
-    @Override
     public void accept(DOMVisitor visitor) {
-        visitor.visitSpaceElement();
+        visitor.visitSpaceElement(this);
     }
 }

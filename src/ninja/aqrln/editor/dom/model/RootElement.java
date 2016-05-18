@@ -5,7 +5,6 @@ import ninja.aqrln.editor.dom.core.DOMVisitor;
 import ninja.aqrln.editor.dom.core.Element;
 
 import java.awt.Dimension;
-import java.awt.Graphics2D;
 
 /**
  * @author Alexey Orlenko
@@ -31,15 +30,6 @@ public class RootElement extends CompositeElement {
         }
 
         return new Dimension(width, height);
-    }
-
-    @Override
-    public void draw(Graphics2D graphics, int x, int y) {
-        for (Element child : getChildren()) {
-            y += PAGE_SPACING;
-            child.draw(graphics, x, y);
-            y += child.getSize().height + PAGE_SPACING;
-        }
     }
 
     @Override

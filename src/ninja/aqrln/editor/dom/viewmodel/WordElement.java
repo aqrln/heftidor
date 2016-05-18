@@ -5,7 +5,6 @@ import ninja.aqrln.editor.dom.core.DOMVisitor;
 import ninja.aqrln.editor.dom.core.Element;
 
 import java.awt.Dimension;
-import java.awt.Graphics2D;
 
 /**
  * @author Alexey Orlenko
@@ -26,14 +25,6 @@ public class WordElement extends CompositeElement {
         }
 
         return new Dimension(width, height);
-    }
-
-    @Override
-    public void draw(Graphics2D graphics, int x, int y) {
-        for (Element child : getChildren()) {
-            child.draw(graphics, x, y);
-            x += child.getSize().width;
-        }
     }
 
     @Override

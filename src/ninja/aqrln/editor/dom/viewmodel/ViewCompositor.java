@@ -107,12 +107,12 @@ public class ViewCompositor implements DOMVisitor {
     }
 
     @Override
-    public void visitWordElement(WordElement wordElement) {
+    public void visitWordElement(WordElement element) {
         illegalElement("word");
     }
 
     @Override
-    public void visitSpaceElement() {
+    public void visitSpaceElement(SpaceElement element) {
         illegalElement("space");
     }
 

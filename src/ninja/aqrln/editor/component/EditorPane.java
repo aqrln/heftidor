@@ -35,6 +35,7 @@ public class EditorPane extends JPanel {
         setPreferredSize(contentSize);
         revalidate();
 
-        rootElement.draw(g2d, paddingLeft, 0);
+        DocumentRenderer renderer = new DocumentRenderer(g2d, paddingLeft, 0);
+        rootElement.accept(renderer);
     }
 }
