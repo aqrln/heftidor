@@ -1,7 +1,5 @@
 package ninja.aqrln.editor.dom.model;
 
-import ninja.aqrln.editor.dom.core.CompositeElement;
-import ninja.aqrln.editor.dom.core.DOMVisitor;
 import ninja.aqrln.editor.dom.core.Element;
 
 import java.awt.Dimension;
@@ -9,7 +7,7 @@ import java.awt.Dimension;
 /**
  * @author Alexey Orlenko
  */
-public class RootElement extends CompositeElement {
+public class RootElement extends DocumentModelCompositeElement {
     public static final int PAGE_SPACING = 10;
 
     @Override
@@ -33,7 +31,7 @@ public class RootElement extends CompositeElement {
     }
 
     @Override
-    public void accept(DOMVisitor visitor) {
+    public void accept(DocumentModelVisitor visitor) {
         visitor.visitRootElement(this);
     }
 }

@@ -1,7 +1,5 @@
 package ninja.aqrln.editor.dom.viewmodel;
 
-import ninja.aqrln.editor.dom.core.CompositeElement;
-import ninja.aqrln.editor.dom.core.DOMVisitor;
 import ninja.aqrln.editor.dom.core.Element;
 
 import java.awt.Dimension;
@@ -9,7 +7,7 @@ import java.awt.Dimension;
 /**
  * @author Alexey Orlenko
  */
-public class LineElement extends CompositeElement {
+public class LineElement extends DocumentViewModelCompositeElement {
     private boolean lastLineInParagraph = false;
 
     public boolean isLastLine() {
@@ -45,7 +43,7 @@ public class LineElement extends CompositeElement {
     }
 
     @Override
-    public void accept(DOMVisitor visitor) {
+    public void accept(DocumentViewModelVisitor visitor) {
         visitor.visitLineElement(this);
     }
 }

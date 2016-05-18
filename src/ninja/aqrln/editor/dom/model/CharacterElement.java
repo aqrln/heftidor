@@ -1,7 +1,5 @@
 package ninja.aqrln.editor.dom.model;
 
-import ninja.aqrln.editor.dom.core.ChildlessElement;
-import ninja.aqrln.editor.dom.core.DOMVisitor;
 import ninja.aqrln.editor.dom.core.Style;
 
 import java.awt.Canvas;
@@ -11,7 +9,7 @@ import java.awt.FontMetrics;
 /**
  * @author Alexey Orlenko
  */
-public class CharacterElement extends ChildlessElement {
+public class CharacterElement extends DocumentModelChildlessElement {
     private char character;
     private Style style;
 
@@ -50,7 +48,7 @@ public class CharacterElement extends ChildlessElement {
     }
 
     @Override
-    public void accept(DOMVisitor visitor) {
+    public void accept(DocumentModelVisitor visitor) {
         visitor.visitCharacterElement(this);
     }
 }

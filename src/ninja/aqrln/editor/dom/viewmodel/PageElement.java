@@ -1,7 +1,5 @@
 package ninja.aqrln.editor.dom.viewmodel;
 
-import ninja.aqrln.editor.dom.core.CompositeElement;
-import ninja.aqrln.editor.dom.core.DOMVisitor;
 import ninja.aqrln.editor.dom.core.Element;
 
 import java.awt.Dimension;
@@ -9,7 +7,7 @@ import java.awt.Dimension;
 /**
  * @author Alexey Orlenko
  */
-public class PageElement extends CompositeElement {
+public class PageElement extends DocumentViewModelCompositeElement {
     public static final Dimension PAGE_SIZE = new Dimension(400, 500);
     public static final int PADDING_TOP = 30;
     public static final int PADDING_LEFT = 30;
@@ -25,7 +23,7 @@ public class PageElement extends CompositeElement {
     }
 
     @Override
-    public void accept(DOMVisitor visitor) {
+    public void accept(DocumentViewModelVisitor visitor) {
         visitor.visitPageElement(this);
     }
 

@@ -1,7 +1,5 @@
 package ninja.aqrln.editor.dom.viewmodel;
 
-import ninja.aqrln.editor.dom.core.ChildlessElement;
-import ninja.aqrln.editor.dom.core.DOMVisitor;
 import ninja.aqrln.editor.dom.core.Style;
 
 import java.awt.Dimension;
@@ -9,7 +7,7 @@ import java.awt.Dimension;
 /**
  * @author Alexey Orlenko
  */
-public class SpaceElement extends ChildlessElement {
+public class SpaceElement extends DocumentViewModelChildlessElement {
     private int width;
     private Style style;
 
@@ -54,7 +52,7 @@ public class SpaceElement extends ChildlessElement {
     }
 
     @Override
-    public void accept(DOMVisitor visitor) {
+    public void accept(DocumentViewModelVisitor visitor) {
         visitor.visitSpaceElement(this);
     }
 }

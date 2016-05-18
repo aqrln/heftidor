@@ -1,14 +1,11 @@
 package ninja.aqrln.editor.dom.model;
 
-import ninja.aqrln.editor.dom.core.CompositeElement;
-import ninja.aqrln.editor.dom.core.DOMVisitor;
-
 import java.awt.Dimension;
 
 /**
  * @author Alexey Orlenko
  */
-public class ParagraphElement extends CompositeElement {
+public class ParagraphElement extends DocumentModelCompositeElement {
     private ParagraphAlignment alignment = ParagraphAlignment.JUSTIFY;
 
     public ParagraphAlignment getAlignment() {
@@ -25,7 +22,7 @@ public class ParagraphElement extends CompositeElement {
     }
 
     @Override
-    public void accept(DOMVisitor visitor) {
+    public void accept(DocumentModelVisitor visitor) {
         visitor.visitParagraphElement(this);
     }
 }

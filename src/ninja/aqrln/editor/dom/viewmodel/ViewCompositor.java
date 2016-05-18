@@ -1,25 +1,21 @@
 package ninja.aqrln.editor.dom.viewmodel;
 
-import ninja.aqrln.editor.dom.core.DOMVisitor;
 import ninja.aqrln.editor.dom.core.Element;
-import ninja.aqrln.editor.dom.model.CharacterElement;
-import ninja.aqrln.editor.dom.model.ParagraphAlignment;
-import ninja.aqrln.editor.dom.model.ParagraphElement;
-import ninja.aqrln.editor.dom.model.RootElement;
+import ninja.aqrln.editor.dom.model.*;
 import ninja.aqrln.editor.dom.viewmodel.alignment.TextAligner;
 
 /**
  * @author Alexey Orlenko
  */
-public class ViewCompositor implements DOMVisitor {
-    private RootElement result;
+public class ViewCompositor implements DocumentModelVisitor {
+    private ComposedRootElement result;
     private PageElement currentPage;
     private LineElement currentLine;
     private WordElement currentWord;
     private ParagraphAlignment currentAlignment;
 
     public ViewCompositor() {
-        result = new RootElement();
+        result = new ComposedRootElement();
         currentPage = new PageElement();
         currentWord = new WordElement();
     }
@@ -29,7 +25,7 @@ public class ViewCompositor implements DOMVisitor {
         if (Character.isSpaceChar(element.getCharacter())) {
             closeWord(true);
         } else {
-            currentWord.getChildren().add(element);
+            currentWord.getChildren().add(new CharacterViewElement(element));
         }
     }
 
@@ -64,7 +60,7 @@ public class ViewCompositor implements DOMVisitor {
         currentLine.getChildren().add(new IndentElement());
 
         for (Element child : element.getChildren()) {
-            child.accept(this);
+            ((DocumentModelElement) child).accept(this);
         }
 
         closeWord(false);
@@ -88,39 +84,15 @@ public class ViewCompositor implements DOMVisitor {
     }
 
     @Override
-    public void visitLineElement(LineElement element) {
-        illegalElement("line");
-    }
-
-    @Override
-    public void visitPageElement(PageElement element) {
-        illegalElement("page");
-    }
-
-    @Override
     public void visitRootElement(RootElement element) {
         for (Element child : element.getChildren()) {
-            child.accept(this);
+            ((DocumentModelElement) child).accept(this);
         }
 
         result.getChildren().add(currentPage);
     }
 
-    @Override
-    public void visitWordElement(WordElement element) {
-        illegalElement("word");
-    }
-
-    @Override
-    public void visitSpaceElement(SpaceElement element) {
-        illegalElement("space");
-    }
-
-    public RootElement getResult() {
+    public ComposedRootElement getResult() {
         return result;
-    }
-
-    private void illegalElement(String type) {
-        throw new IllegalStateException(type + " elements cannot appear in logical DOM model");
     }
 }

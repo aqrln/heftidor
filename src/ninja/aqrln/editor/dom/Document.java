@@ -4,6 +4,7 @@ import ninja.aqrln.editor.dom.model.CharacterElement;
 import ninja.aqrln.editor.dom.model.ParagraphAlignment;
 import ninja.aqrln.editor.dom.model.ParagraphElement;
 import ninja.aqrln.editor.dom.model.RootElement;
+import ninja.aqrln.editor.dom.viewmodel.ComposedRootElement;
 import ninja.aqrln.editor.dom.viewmodel.ViewCompositor;
 
 /**
@@ -54,7 +55,7 @@ public class Document {
         return paragraph;
     }
 
-    public RootElement getDocumentView() {
+    public ComposedRootElement getDocumentView() {
         ViewCompositor compositor = new ViewCompositor();
         documentData.accept(compositor);
         return compositor.getResult();

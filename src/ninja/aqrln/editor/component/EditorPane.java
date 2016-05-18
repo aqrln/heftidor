@@ -1,7 +1,7 @@
 package ninja.aqrln.editor.component;
 
 import ninja.aqrln.editor.dom.Document;
-import ninja.aqrln.editor.dom.model.RootElement;
+import ninja.aqrln.editor.dom.viewmodel.ComposedRootElement;
 import ninja.aqrln.editor.dom.viewmodel.PageElement;
 
 import javax.swing.JPanel;
@@ -30,7 +30,7 @@ public class EditorPane extends JPanel {
 
         int paddingLeft = (getSize().width - PageElement.PAGE_SIZE.width) / 2;
 
-        RootElement rootElement = document.getDocumentView();
+        ComposedRootElement rootElement = document.getDocumentView();
         Dimension contentSize = rootElement.getSize();
         setPreferredSize(contentSize);
         revalidate();

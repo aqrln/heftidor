@@ -13,5 +13,4 @@ public interface Element {
     Dimension getSize();
     void setStyle(Style style);
     Style getStyle();
-    void accept(DOMVisitor visitor);
 }

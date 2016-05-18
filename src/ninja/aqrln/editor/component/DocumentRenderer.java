@@ -1,15 +1,9 @@
 package ninja.aqrln.editor.component;
 
-import ninja.aqrln.editor.dom.core.DOMVisitor;
 import ninja.aqrln.editor.dom.core.Element;
 import ninja.aqrln.editor.dom.core.Style;
-import ninja.aqrln.editor.dom.model.CharacterElement;
-import ninja.aqrln.editor.dom.model.ParagraphElement;
 import ninja.aqrln.editor.dom.model.RootElement;
-import ninja.aqrln.editor.dom.viewmodel.LineElement;
-import ninja.aqrln.editor.dom.viewmodel.PageElement;
-import ninja.aqrln.editor.dom.viewmodel.SpaceElement;
-import ninja.aqrln.editor.dom.viewmodel.WordElement;
+import ninja.aqrln.editor.dom.viewmodel.*;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -20,7 +14,7 @@ import static ninja.aqrln.editor.dom.viewmodel.PageElement.PAGE_SIZE;
 /**
  * @author Alexey Orlenko
  */
-public class DocumentRenderer implements DOMVisitor {
+public class DocumentRenderer implements DocumentViewModelVisitor {
     private Graphics2D graphics;
     private int x;
     private int y;
@@ -32,7 +26,7 @@ public class DocumentRenderer implements DOMVisitor {
     }
 
     @Override
-    public void visitCharacterElement(CharacterElement element) {
+    public void visitCharacterElement(CharacterViewElement element) {
         Dimension size = element.getSize();
         int width = size.width;
         int height = size.height;
@@ -47,16 +41,11 @@ public class DocumentRenderer implements DOMVisitor {
     }
 
     @Override
-    public void visitParagraphElement(ParagraphElement element) {
-
-    }
-
-    @Override
     public void visitLineElement(LineElement element) {
         int prevX = x;
 
         for (Element child : element.getChildren()) {
-            child.accept(this);
+            ((DocumentViewModelElement) child).accept(this);
             x += child.getSize().width;
         }
 
@@ -78,7 +67,7 @@ public class DocumentRenderer implements DOMVisitor {
         y += PageElement.PADDING_TOP;
 
         for (Element child : element.getChildren()) {
-            child.accept(this);
+            ((DocumentViewModelElement) child).accept(this);
             y += child.getSize().height;
         }
 
@@ -87,10 +76,10 @@ public class DocumentRenderer implements DOMVisitor {
     }
 
     @Override
-    public void visitRootElement(RootElement element) {
+    public void visitRootElement(ComposedRootElement element) {
         for (Element child : element.getChildren()) {
             y += RootElement.PAGE_SPACING;
-            child.accept(this);
+            ((DocumentViewModelElement) child).accept(this);
             y += child.getSize().height + RootElement.PAGE_SPACING;
         }
     }
@@ -100,7 +89,7 @@ public class DocumentRenderer implements DOMVisitor {
         int prevX = x;
 
         for (Element child : element.getChildren()) {
-            child.accept(this);
+            ((DocumentViewModelElement) child).accept(this);
             x += child.getSize().width;
         }
 
