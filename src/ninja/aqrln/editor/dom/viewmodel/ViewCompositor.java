@@ -19,15 +19,16 @@ public class ViewCompositor implements DOMVisitor {
         result = new RootElement();
         currentPage = new PageElement();
         currentLine = new LineElement();
+        currentWord = new WordElement();
     }
 
     @Override
     public void visitCharacterElement(CharacterElement element) {
         if (Character.isSpaceChar(element.getCharacter())) {
             closeWord(true);
+        } else {
+            currentWord.getChildren().add(element);
         }
-
-        currentWord.getChildren().add(element);
     }
 
     private void closeWord(boolean addSpace) {
@@ -58,7 +59,7 @@ public class ViewCompositor implements DOMVisitor {
         currentLine.getChildren().add(new IndentElement());
 
         for (Element child : element.getChildren()) {
-            element.accept(this);
+            child.accept(this);
         }
 
         closeWord(false);
@@ -94,6 +95,8 @@ public class ViewCompositor implements DOMVisitor {
         for (Element child : element.getChildren()) {
             child.accept(this);
         }
+
+        result.getChildren().add(currentPage);
     }
 
     @Override

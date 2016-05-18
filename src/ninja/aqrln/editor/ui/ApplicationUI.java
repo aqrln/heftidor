@@ -1,5 +1,6 @@
 package ninja.aqrln.editor.ui;
 
+import ninja.aqrln.editor.dom.Document;
 import ninja.aqrln.editor.ui.frames.AboutDialog;
 import ninja.aqrln.editor.ui.frames.DocumentWindow;
 import ninja.aqrln.editor.ui.menu.ApplicationMenuListener;
@@ -45,7 +46,7 @@ public class ApplicationUI implements ApplicationMenuListener {
     @Override
     public void onFileNew() {
         SwingUtilities.invokeLater(() -> {
-            DocumentWindow window = new DocumentWindow();
+            DocumentWindow window = new DocumentWindow(new Document());
             window.setVisible(true);
         });
     }
