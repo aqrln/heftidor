@@ -33,7 +33,7 @@ public class DocumentWindow extends JFrame {
     private void initializeComponents() {
         EditorPane editor = new EditorPane(document);
         JScrollPane scrollPane = new JScrollPane(editor);
-        scrollPane.getVerticalScrollBar().setUnitIncrement(10);
+        scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 
         getContentPane().add(scrollPane);
         pack();
