@@ -23,8 +23,17 @@ public class DocumentWindow extends JFrame {
         setPreferredSize(new Dimension(800, 600));
         setLocationRelativeTo(null);
 
-        if (OperatingSystem.getOS() != OperatingSystem.OS_X) {
-            setJMenuBar(ApplicationUI.getInstance().getApplicationMenu());
+        setJMenuBar(ApplicationUI.getInstance().getApplicationMenu());
+
+        // If we are under OS X, the menu bar has to be set twice:
+        // globally and for each window made invisible, since otherwise
+        // the Swing windows steals accelerators and none of them except
+        // Quit and About work
+        if (OperatingSystem.getOS() == OperatingSystem.OS_X) {
+            Dimension invisible = new Dimension(0, 0);
+            getJMenuBar().setSize(invisible);
+            getJMenuBar().setPreferredSize(invisible);
+            getJMenuBar().setMaximumSize(invisible);
         }
 
         initializeComponents();
