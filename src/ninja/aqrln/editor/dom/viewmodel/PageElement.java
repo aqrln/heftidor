@@ -2,6 +2,7 @@ package ninja.aqrln.editor.dom.viewmodel;
 
 import ninja.aqrln.editor.dom.core.CompositeElement;
 import ninja.aqrln.editor.dom.core.DOMVisitor;
+import ninja.aqrln.editor.dom.core.Element;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -29,5 +30,15 @@ public class PageElement extends CompositeElement {
     @Override
     public void accept(DOMVisitor visitor) {
         visitor.visitPageElement(this);
+    }
+
+    public int getContentHeight() {
+        int height = 0;
+
+        for (Element child : this.getChildren()) {
+            height += child.getSize().height;
+        }
+
+        return height;
     }
 }

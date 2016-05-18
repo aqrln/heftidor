@@ -17,4 +17,5 @@ public interface DOMVisitor {
     void visitPageElement(PageElement element);
     void visitRootElement(RootElement element);
     void visitWordElement(WordElement wordElement);
+    void visitSpaceElement();
 }

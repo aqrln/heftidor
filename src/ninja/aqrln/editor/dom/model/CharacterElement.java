@@ -36,6 +36,10 @@ public class CharacterElement extends ChildlessElement {
         return new Dimension(width, height);
     }
 
+    public char getCharacter() {
+        return character;
+    }
+
     @Override
     public void setStyle(Style style) {
         this.style = style;

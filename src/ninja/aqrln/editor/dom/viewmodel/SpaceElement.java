@@ -11,19 +11,45 @@ import java.awt.Graphics2D;
  * @author Alexey Orlenko
  */
 public class SpaceElement extends ChildlessElement {
+    private int width;
+    private Style style;
+
+    public SpaceElement(int width) {
+        super();
+        this.width = width;
+    }
+
+    public SpaceElement(Style style) {
+        super();
+        int width = style.getFont().getSize() / 2;
+        this.width = width;
+    }
+
+    public SpaceElement() {
+        this(Style.DEFAULT_STYLE);
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
     @Override
     public Dimension getSize() {
-        return null;
+        return new Dimension(width, 0);
     }
 
     @Override
     public void setStyle(Style style) {
-
+        this.style = style;
     }
 
     @Override
     public Style getStyle() {
-        return null;
+        return style;
     }
 
     @Override
@@ -33,6 +59,6 @@ public class SpaceElement extends ChildlessElement {
 
     @Override
     public void accept(DOMVisitor visitor) {
-
+        visitor.visitSpaceElement();
     }
 }
