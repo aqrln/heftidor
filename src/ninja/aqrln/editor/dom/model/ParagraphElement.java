@@ -2,6 +2,7 @@ package ninja.aqrln.editor.dom.model;
 
 import ninja.aqrln.editor.dom.core.CompositeElement;
 import ninja.aqrln.editor.dom.core.Element;
+import ninja.aqrln.editor.dom.visitors.DOMVisitor;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -36,5 +37,10 @@ public class ParagraphElement extends CompositeElement {
             element.draw(graphics, x, y);
             x += element.getSize().getWidth();
         }
+    }
+
+    @Override
+    public void accept(DOMVisitor visitor) {
+        visitor.visitParagraphElement(this);
     }
 }

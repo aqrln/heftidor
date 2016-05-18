@@ -2,6 +2,7 @@ package ninja.aqrln.editor.dom.model;
 
 import ninja.aqrln.editor.dom.core.ChildlessElement;
 import ninja.aqrln.editor.dom.core.Style;
+import ninja.aqrln.editor.dom.visitors.DOMVisitor;
 
 import java.awt.Canvas;
 import java.awt.Dimension;
@@ -57,5 +58,10 @@ public class CharacterElement extends ChildlessElement {
         graphics.setFont(style.getFont());
         graphics.setColor(style.getForegroundColor());
         graphics.drawString("" + character, x, y + height);
+    }
+
+    @Override
+    public void accept(DOMVisitor visitor) {
+        visitor.visitCharacterElement(this);
     }
 }

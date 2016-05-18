@@ -15,6 +15,11 @@ public abstract class CompositeElement implements Element {
         return children.listIterator();
     }
 
+    @Override
+    public List<Element> getChildren() {
+        return children;
+    }
+
     public CompositeElement() {
         children = new LinkedList<>();
     }
