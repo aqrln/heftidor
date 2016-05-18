@@ -1,13 +1,10 @@
-package ninja.aqrln.editor.dom.visitors;
+package ninja.aqrln.editor.dom.viewmodel;
 
 import ninja.aqrln.editor.dom.core.DOMVisitor;
 import ninja.aqrln.editor.dom.core.Element;
 import ninja.aqrln.editor.dom.model.CharacterElement;
 import ninja.aqrln.editor.dom.model.ParagraphElement;
 import ninja.aqrln.editor.dom.model.RootElement;
-import ninja.aqrln.editor.dom.viewmodel.LineElement;
-import ninja.aqrln.editor.dom.viewmodel.PageElement;
-import ninja.aqrln.editor.dom.viewmodel.WordElement;
 
 /**
  * @author Alexey Orlenko
