@@ -31,6 +31,10 @@ public class EditorPane extends JPanel {
         int paddingLeft = (getSize().width - PageElement.PAGE_SIZE.width) / 2;
 
         RootElement rootElement = document.getDocumentView();
+        Dimension contentSize = rootElement.getSize();
+        setPreferredSize(contentSize);
+        revalidate();
+
         rootElement.draw(g2d, paddingLeft, 0);
     }
 }

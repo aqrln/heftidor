@@ -3,8 +3,10 @@ package ninja.aqrln.editor.dom.viewmodel;
 import ninja.aqrln.editor.dom.core.DOMVisitor;
 import ninja.aqrln.editor.dom.core.Element;
 import ninja.aqrln.editor.dom.model.CharacterElement;
+import ninja.aqrln.editor.dom.model.ParagraphAlignment;
 import ninja.aqrln.editor.dom.model.ParagraphElement;
 import ninja.aqrln.editor.dom.model.RootElement;
+import ninja.aqrln.editor.dom.viewmodel.alignment.TextAligner;
 
 /**
  * @author Alexey Orlenko
@@ -14,6 +16,7 @@ public class ViewCompositor implements DOMVisitor {
     private PageElement currentPage;
     private LineElement currentLine;
     private WordElement currentWord;
+    private ParagraphAlignment currentAlignment;
 
     public ViewCompositor() {
         result = new RootElement();
@@ -31,7 +34,7 @@ public class ViewCompositor implements DOMVisitor {
     }
 
     private void closeWord(boolean addSpace) {
-        int maxLineWidth = currentPage.getSize().width - PageElement.PADDING_LEFT - PageElement.PADDING_RIGHT;
+        int maxLineWidth = currentPage.CONTENT_WIDTH;
         int lineWidth = currentLine.getSize().width;
         int newLineWidth = lineWidth + currentWord.getSize().width;
 
@@ -55,6 +58,8 @@ public class ViewCompositor implements DOMVisitor {
 
     @Override
     public void visitParagraphElement(ParagraphElement element) {
+        currentAlignment = element.getAlignment();
+
         currentLine = new LineElement();
         currentLine.getChildren().add(new IndentElement());
 
@@ -68,7 +73,7 @@ public class ViewCompositor implements DOMVisitor {
     }
 
     private void addLineToPage() {
-        int maxContentHeight = currentPage.getSize().height - PageElement.PADDING_TOP - PageElement.PADDING_BOTTOM;
+        int maxContentHeight = currentPage.CONTENT_HEIGHT;
         int contentHeight = currentPage.getContentHeight();
         int newContentHeight = contentHeight + currentLine.getSize().height;
 
@@ -76,6 +81,8 @@ public class ViewCompositor implements DOMVisitor {
             result.getChildren().add(currentPage);
             currentPage = new PageElement();
         }
+
+        TextAligner.getAligner(currentAlignment).align(currentLine);
 
         currentPage.getChildren().add(currentLine);
     }

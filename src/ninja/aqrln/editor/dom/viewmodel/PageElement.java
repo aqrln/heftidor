@@ -18,6 +18,9 @@ public class PageElement extends CompositeElement {
     public static final int PADDING_BOTTOM = 30;
     public static final int PADDING_RIGHT = 30;
 
+    public static final int CONTENT_WIDTH = PAGE_SIZE.width - PADDING_LEFT - PADDING_RIGHT;
+    public static final int CONTENT_HEIGHT = PAGE_SIZE.height - PADDING_TOP - PADDING_BOTTOM;
+
     @Override
     public Dimension getSize() {
         return PAGE_SIZE;
