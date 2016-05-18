@@ -1,7 +1,7 @@
 package ninja.aqrln.editor.dom.model;
 
 import ninja.aqrln.editor.dom.core.CompositeElement;
-import ninja.aqrln.editor.dom.visitors.DOMVisitor;
+import ninja.aqrln.editor.dom.core.DOMVisitor;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;

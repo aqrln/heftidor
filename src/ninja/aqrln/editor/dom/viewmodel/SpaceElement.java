@@ -2,7 +2,7 @@ package ninja.aqrln.editor.dom.viewmodel;
 
 import ninja.aqrln.editor.dom.core.ChildlessElement;
 import ninja.aqrln.editor.dom.core.Style;
-import ninja.aqrln.editor.dom.visitors.DOMVisitor;
+import ninja.aqrln.editor.dom.core.DOMVisitor;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;

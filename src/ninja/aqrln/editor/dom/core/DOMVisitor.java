@@ -1,4 +1,4 @@
-package ninja.aqrln.editor.dom.visitors;
+package ninja.aqrln.editor.dom.core;
 
 import ninja.aqrln.editor.dom.model.RootElement;
 import ninja.aqrln.editor.dom.model.CharacterElement;

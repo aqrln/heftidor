@@ -1,7 +1,5 @@
 package ninja.aqrln.editor.dom.core;
 
-import ninja.aqrln.editor.dom.visitors.DOMVisitor;
-
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.util.List;

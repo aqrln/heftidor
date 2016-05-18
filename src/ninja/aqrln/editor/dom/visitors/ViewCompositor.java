@@ -1,5 +1,6 @@
 package ninja.aqrln.editor.dom.visitors;
 
+import ninja.aqrln.editor.dom.core.DOMVisitor;
 import ninja.aqrln.editor.dom.core.Element;
 import ninja.aqrln.editor.dom.model.CharacterElement;
 import ninja.aqrln.editor.dom.model.ParagraphElement;
