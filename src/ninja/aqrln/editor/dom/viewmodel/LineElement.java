@@ -29,7 +29,7 @@ public class LineElement extends CompositeElement {
         for (Element element : children) {
             Dimension elementSize = element.getSize();
             int elementWidth = elementSize.width;
-            int elementHeight = elementSize.height;
+            int elementHeight = (int)(elementSize.height * 1.2);
 
             if (elementHeight > height) {
                 height = elementHeight;
