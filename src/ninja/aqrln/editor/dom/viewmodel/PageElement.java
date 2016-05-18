@@ -12,7 +12,7 @@ import java.awt.Graphics2D;
  * @author Alexey Orlenko
  */
 public class PageElement extends CompositeElement {
-    public static final Dimension PAGE_SIZE = new Dimension(800, 1000);
+    public static final Dimension PAGE_SIZE = new Dimension(400, 500);
     public static final int PADDING_TOP = 30;
     public static final int PADDING_LEFT = 30;
     public static final int PADDING_BOTTOM = 30;

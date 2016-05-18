@@ -18,7 +18,6 @@ public class ViewCompositor implements DOMVisitor {
     public ViewCompositor() {
         result = new RootElement();
         currentPage = new PageElement();
-        currentLine = new LineElement();
         currentWord = new WordElement();
     }
 
@@ -56,6 +55,7 @@ public class ViewCompositor implements DOMVisitor {
 
     @Override
     public void visitParagraphElement(ParagraphElement element) {
+        currentLine = new LineElement();
         currentLine.getChildren().add(new IndentElement());
 
         for (Element child : element.getChildren()) {

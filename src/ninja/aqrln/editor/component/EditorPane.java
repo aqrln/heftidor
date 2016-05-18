@@ -2,8 +2,10 @@ package ninja.aqrln.editor.component;
 
 import ninja.aqrln.editor.dom.Document;
 import ninja.aqrln.editor.dom.model.RootElement;
+import ninja.aqrln.editor.dom.viewmodel.PageElement;
 
 import javax.swing.JPanel;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -16,6 +18,7 @@ public class EditorPane extends JPanel {
 
     public EditorPane(Document document) {
         this.document = document;
+        setPreferredSize(new Dimension(800, 600));
     }
 
     @Override
@@ -25,7 +28,9 @@ public class EditorPane extends JPanel {
         Graphics2D g2d = (Graphics2D)graphics;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
+        int paddingLeft = (getSize().width - PageElement.PAGE_SIZE.width) / 2;
+
         RootElement rootElement = document.getDocumentView();
-        rootElement.draw(g2d, 0, 0);
+        rootElement.draw(g2d, paddingLeft, 0);
     }
 }
