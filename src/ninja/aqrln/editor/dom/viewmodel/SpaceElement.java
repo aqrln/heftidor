@@ -17,12 +17,14 @@ public class SpaceElement extends ChildlessElement {
     public SpaceElement(int width) {
         super();
         this.width = width;
+        this.style = Style.DEFAULT_STYLE;
     }
 
     public SpaceElement(Style style) {
         super();
         int width = style.getFont().getSize() / 2;
         this.width = width;
+        this.style = style;
     }
 
     public SpaceElement() {
@@ -39,7 +41,7 @@ public class SpaceElement extends ChildlessElement {
 
     @Override
     public Dimension getSize() {
-        return new Dimension(width, 0);
+        return new Dimension(width, style.getFont().getSize());
     }
 
     @Override
@@ -54,7 +56,10 @@ public class SpaceElement extends ChildlessElement {
 
     @Override
     public void draw(Graphics2D graphics, int x, int y) {
+        Dimension size = getSize();
 
+        graphics.setColor(style.getBackgroundColor());
+        graphics.fillRect(x, y, size.width, size.height);
     }
 
     @Override

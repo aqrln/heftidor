@@ -1,6 +1,7 @@
 package ninja.aqrln.editor.ui.frames;
 
 import ninja.aqrln.editor.component.EditorPane;
+import ninja.aqrln.editor.dom.Document;
 import ninja.aqrln.editor.dom.core.Element;
 import ninja.aqrln.editor.dom.model.CharacterElement;
 import ninja.aqrln.editor.dom.model.ParagraphElement;
@@ -14,8 +15,12 @@ import java.util.ListIterator;
  * @author Alexey Orlenko
  */
 public class DocumentWindow extends JFrame {
-    public DocumentWindow() {
+    private Document document;
+
+    public DocumentWindow(Document document) {
         super("Untitled — Editor");
+
+        this.document = document;
 
         setSize(800, 600);
         setLocationRelativeTo(null);
@@ -28,13 +33,7 @@ public class DocumentWindow extends JFrame {
     }
 
     private void initializeComponents() {
-        ParagraphElement text = new ParagraphElement();
-        ListIterator<Element> iter = text.getListIterator();
-        for (char c : "Hello World!".toCharArray()) {
-            CharacterElement charElem = new CharacterElement(c);
-            iter.add(charElem);
-        }
-        EditorPane editor = new EditorPane(text);
+        EditorPane editor = new EditorPane(document);
 
         add(editor);
         pack();

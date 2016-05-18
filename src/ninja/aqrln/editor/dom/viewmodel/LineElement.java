@@ -38,12 +38,19 @@ public class LineElement extends CompositeElement {
             width += elementWidth;
         }
 
+        if (lastLineInParagraph) {
+            height *= 1.5;
+        }
+
         return new Dimension(width, height);
     }
 
     @Override
     public void draw(Graphics2D graphics, int x, int y) {
-
+        for (Element child : getChildren()) {
+            child.draw(graphics, x, y);
+            x += child.getSize().width;
+        }
     }
 
     @Override
