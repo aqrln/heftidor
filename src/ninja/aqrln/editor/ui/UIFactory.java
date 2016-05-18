@@ -6,8 +6,6 @@ import ninja.aqrln.editor.ui.menu.MenuBarBuilder;
 import ninja.aqrln.editor.ui.menu.MenuBuilder;
 import ninja.aqrln.editor.util.OperatingSystem;
 
-import javax.swing.JScrollPane;
-
 /**
  * @author Alexey Orlenko
  */
@@ -27,8 +25,6 @@ public abstract class UIFactory {
 
         return instance;
     }
-
-    public abstract JScrollPane createScrollPane();
 
     public abstract MenuBuilder createMenuBuilder();
 

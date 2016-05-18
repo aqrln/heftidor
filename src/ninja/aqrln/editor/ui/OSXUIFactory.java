@@ -1,13 +1,6 @@
 package ninja.aqrln.editor.ui;
 
-import ninja.aqrln.editor.ui.menu.ApplicationMenuDirector;
-import ninja.aqrln.editor.ui.menu.ApplicationMenuListener;
-import ninja.aqrln.editor.ui.menu.MenuBarBuilder;
-import ninja.aqrln.editor.ui.menu.MenuBuilder;
-import ninja.aqrln.editor.ui.menu.OSXApplicationMenuDirector;
-import ninja.aqrln.editor.ui.menu.OSXMnemonicAdditionStrategy;
-
-import javax.swing.JScrollPane;
+import ninja.aqrln.editor.ui.menu.*;
 
 /**
  * @author Alexey Orlenko
@@ -21,15 +14,6 @@ public class OSXUIFactory extends UIFactory {
         }
 
         return instance;
-    }
-
-    @Override
-    public JScrollPane createScrollPane() {
-        JScrollPane pane = new JScrollPane();
-        pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        pane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-
-        return pane;
     }
 
     @Override

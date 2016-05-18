@@ -1,13 +1,6 @@
 package ninja.aqrln.editor.ui;
 
-import ninja.aqrln.editor.ui.menu.ApplicationMenuDirector;
-import ninja.aqrln.editor.ui.menu.ApplicationMenuListener;
-import ninja.aqrln.editor.ui.menu.MenuBarBuilder;
-import ninja.aqrln.editor.ui.menu.MenuBuilder;
-import ninja.aqrln.editor.ui.menu.WindowsApplicationMenuDirector;
-import ninja.aqrln.editor.ui.menu.WindowsMnemonicAdditionStrategy;
-
-import javax.swing.JScrollPane;
+import ninja.aqrln.editor.ui.menu.*;
 
 /**
  * @author Alexey Orlenko
@@ -21,15 +14,6 @@ public class WindowsUIFactory extends UIFactory {
         }
 
         return instance;
-    }
-
-    @Override
-    public JScrollPane createScrollPane() {
-        JScrollPane pane = new JScrollPane();
-        pane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        pane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-        return pane;
     }
 
     @Override
