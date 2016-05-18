@@ -27,7 +27,7 @@ public class DocumentWindow extends JFrame {
 
         // If we are under OS X, the menu bar has to be set twice:
         // globally and for each window made invisible, since otherwise
-        // the Swing windows steals accelerators and none of them except
+        // the Swing windows steal accelerators and none of them except
         // Quit and About work
         if (OperatingSystem.getOS() == OperatingSystem.OS_X) {
             Dimension invisible = new Dimension(0, 0);
