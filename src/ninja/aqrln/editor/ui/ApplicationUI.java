@@ -9,9 +9,7 @@ import ninja.aqrln.editor.ui.platform.UIFactory;
 import ninja.aqrln.editor.util.OSXExtensions;
 import ninja.aqrln.editor.util.OperatingSystem;
 
-import javax.swing.JDialog;
-import javax.swing.JMenuBar;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -25,6 +23,9 @@ public class ApplicationUI implements ApplicationMenuListener {
     private DocumentWindow activeWindow;
 
     private SortedSet<DocumentWindow> windowsPool;
+
+    private JMenu windowMenu;
+    private JCheckBoxMenuItem checkedWindowMenuItem;
 
     public static ApplicationUI getInstance() {
         if (instance == null) {
@@ -67,6 +68,7 @@ public class ApplicationUI implements ApplicationMenuListener {
 
     public void notifyWindowOpen(DocumentWindow window) {
         windowsPool.add(window);
+        rebuildWindowMenu();
     }
 
     public void notifyWindowClose(DocumentWindow window) {
@@ -78,6 +80,30 @@ public class ApplicationUI implements ApplicationMenuListener {
             if (OperatingSystem.getOS() != OperatingSystem.OS_X) {
                 onQuit();
             }
+        }
+
+        rebuildWindowMenu();
+    }
+
+    public void rebuildWindowMenu() {
+        windowMenu.removeAll();
+
+        for (DocumentWindow window : windowsPool) {
+            String title = window.getDocument().getName();
+            JCheckBoxMenuItem menuItem = new JCheckBoxMenuItem(title);
+
+            menuItem.addActionListener(e -> {
+                checkedWindowMenuItem.setState(false);
+                checkedWindowMenuItem = menuItem;
+                window.toFront();
+            });
+
+            if (window == activeWindow) {
+                menuItem.setState(true);
+                checkedWindowMenuItem = menuItem;
+            }
+
+            windowMenu.add(menuItem);
         }
     }
 
@@ -196,5 +222,10 @@ public class ApplicationUI implements ApplicationMenuListener {
     @Override
     public void onToggleFirstLineIndent() {
 
+    }
+
+    @Override
+    public void notifyWindowMenuReference(JMenu windowMenu) {
+        this.windowMenu = windowMenu;
     }
 }

@@ -61,6 +61,7 @@ public class DocumentWindow extends JFrame implements WindowListener, Comparable
 
     public void updateTitle() {
         setTitle(document.getName() + " — Editor");
+        ApplicationUI.getInstance().rebuildWindowMenu();
     }
 
     public String getFilename() {

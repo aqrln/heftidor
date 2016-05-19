@@ -5,7 +5,6 @@ import ninja.aqrln.editor.ui.platform.UIFactory;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 
 /**
@@ -24,6 +23,7 @@ public abstract class ApplicationMenuDirector {
 
         builder.addSubMenu(buildFileMenu());
         builder.addSubMenu(buildEditMenu());
+        builder.addSubMenu(buildWindowMenu());
 
         buildAdditionalMenus(builder);
 
@@ -93,5 +93,15 @@ public abstract class ApplicationMenuDirector {
                 e -> listener.onToggleFirstLineIndent());
 
         return builder.getMenu();
+    }
+
+    private JMenu buildWindowMenu() {
+        MenuBuilder builder = UIFactory.getInstance().createMenuBuilder();
+        builder.buildMenu("Window", KeyEvent.VK_W);
+        JMenu windowMenu = builder.getMenu();
+
+        listener.notifyWindowMenuReference(windowMenu);
+
+        return windowMenu;
     }
 }

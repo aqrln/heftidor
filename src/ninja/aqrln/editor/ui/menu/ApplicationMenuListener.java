@@ -1,5 +1,7 @@
 package ninja.aqrln.editor.ui.menu;
 
+import javax.swing.JMenu;
+
 /**
  * @author Alexey Orlenko
  */
@@ -25,4 +27,6 @@ public interface ApplicationMenuListener {
     void onAbout();
 
     void onToggleFirstLineIndent();
+
+    void notifyWindowMenuReference(JMenu windowMenu);
 }
