@@ -1,6 +1,7 @@
 package ninja.aqrln.editor.ui;
 
 import ninja.aqrln.editor.dom.Document;
+import ninja.aqrln.editor.export.HTMLExporter;
 import ninja.aqrln.editor.io.DocumentSerializer;
 import ninja.aqrln.editor.net.cloud.EditorCloudAPI;
 import ninja.aqrln.editor.ui.frames.AboutDialog;
@@ -235,7 +236,11 @@ public class ApplicationUI implements ApplicationMenuListener {
 
     @Override
     public void onPublishToCloud() {
-        String html = "<html><head><title>Document</title></head><body><p>Example document</p></body></html>";
+        if (activeWindow == null) {
+            return;
+        }
+
+        String html = HTMLExporter.toHTML(activeWindow.getDocument());
 
         String url = EditorCloudAPI.publishDocument(html);
         if (url == null) {

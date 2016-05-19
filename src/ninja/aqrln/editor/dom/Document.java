@@ -80,4 +80,8 @@ public class Document implements Serializable {
         documentData.accept(compositor);
         return compositor.getResult();
     }
+
+    public RootElement getRootElement() {
+        return documentData;
+    }
 }
