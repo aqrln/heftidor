@@ -64,6 +64,7 @@ public class ApplicationUI implements ApplicationMenuListener {
 
     public void notifyWindowActivation(DocumentWindow window) {
         activeWindow = window;
+        rebuildWindowMenu();
     }
 
     public void notifyWindowOpen(DocumentWindow window) {
