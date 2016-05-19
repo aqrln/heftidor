@@ -30,7 +30,7 @@ public class Document implements Serializable {
                 "competitive sources mindshare economically. Superior systems robust synergy progressive " +
                 "multidisciplinary underwhelm best market interfaces total cooperative.";
 
-        String thirdParagrapText = "Repurpose morph disseminate revolutionize leadership highly multimedia syndicate " +
+        String thirdParagraphText = "Repurpose morph disseminate revolutionize leadership highly multimedia syndicate " +
                 "seamlessly compelling testing re-engineer. Technologies products professional and generate invested " +
                 "change enhance maintain extend future-proof skills. Competitive procrastinate excellent real-time " +
                 "recaptiualize quality user conceptualize parallel interoperable leading-edge resource-leveling based. " +
@@ -47,7 +47,7 @@ public class Document implements Serializable {
 
         documentData.getChildren().add(createParagraph(firstParagraphText, ParagraphAlignment.LEFT));
         documentData.getChildren().add(createParagraph(secondParagraphText, ParagraphAlignment.JUSTIFY));
-        documentData.getChildren().add(createParagraph(thirdParagrapText, ParagraphAlignment.RIGHT));
+        documentData.getChildren().add(createParagraph(thirdParagraphText, ParagraphAlignment.RIGHT));
         documentData.getChildren().add(createParagraph(fourthParagraphText, ParagraphAlignment.CENTER));
     }
 
