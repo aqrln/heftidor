@@ -20,7 +20,7 @@ public class DocumentWindow extends JFrame implements WindowListener, Comparable
 
     private String filename = null;
 
-    long timestamp = new Date().getTime();
+    private long timestamp = new Date().getTime();
 
     public DocumentWindow(Document document) {
         super();
