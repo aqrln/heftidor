@@ -1,10 +1,11 @@
-package ninja.aqrln.editor.ui.platform;
+package ninja.aqrln.editor.ui;
 
 import ninja.aqrln.editor.dom.Document;
 import ninja.aqrln.editor.io.DocumentSerializer;
 import ninja.aqrln.editor.ui.frames.AboutDialog;
 import ninja.aqrln.editor.ui.frames.DocumentWindow;
 import ninja.aqrln.editor.ui.menu.ApplicationMenuListener;
+import ninja.aqrln.editor.ui.platform.UIFactory;
 import ninja.aqrln.editor.util.OSXExtensions;
 import ninja.aqrln.editor.util.OperatingSystem;
 
