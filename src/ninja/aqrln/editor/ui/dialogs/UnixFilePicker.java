@@ -20,8 +20,8 @@ public class UnixFilePicker extends FilePicker {
     }
 
     @Override
-    protected void setFilter(FileDialog dialog) {
-        dialog.setFilenameFilter(((dir, name) -> name.endsWith(EXTENSION)));
+    protected void setFilter(FileDialog dialog, String extension) {
+        dialog.setFilenameFilter(((dir, name) -> name.endsWith(extension)));
     }
 
     @Override

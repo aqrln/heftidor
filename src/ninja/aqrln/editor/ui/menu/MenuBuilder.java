@@ -18,7 +18,7 @@ public class MenuBuilder extends AbstractMenuBuilder {
 
     @Override
     public void addSubMenu(JMenu menu) {
-        menu.add(menu);
+        this.menu.add(menu);
     }
 
     @Override

@@ -13,6 +13,7 @@ import ninja.aqrln.editor.util.OperatingSystem;
 
 import javax.swing.*;
 import java.awt.Desktop;
+import java.io.*;
 import java.net.URI;
 import java.util.Collections;
 import java.util.SortedSet;
@@ -185,7 +186,24 @@ public class ApplicationUI implements ApplicationMenuListener {
 
     @Override
     public void onExportToHTML() {
+        if (activeWindow == null) {
+            return;
+        }
 
+        Document document = activeWindow.getDocument();
+
+        String filename = UIFactory.getInstance().getFilePicker().showSaveHTMLDialog();
+        if (filename == null) {
+            return;
+        }
+
+        String html = HTMLExporter.toHTML(document);
+
+        try (FileWriter writer = new FileWriter(filename)) {
+            writer.write(html);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Could not write to file", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     @Override

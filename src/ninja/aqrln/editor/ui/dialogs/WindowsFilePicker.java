@@ -20,8 +20,8 @@ public class WindowsFilePicker extends FilePicker {
     }
 
     @Override
-    protected void setFilter(FileDialog dialog) {
-        dialog.setFile("*" + EXTENSION);
+    protected void setFilter(FileDialog dialog, String extension) {
+        dialog.setFile("*" + extension);
     }
 
     @Override
