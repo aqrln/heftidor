@@ -5,6 +5,7 @@ import ninja.aqrln.editor.ui.platform.UIFactory;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.KeyStroke;
 import java.awt.event.KeyEvent;
 
 /**
@@ -85,6 +86,11 @@ public abstract class ApplicationMenuDirector {
                 e -> listener.onCopy());
         builder.buildMenuItem("Paste", KeystrokeHelper.getMenuShortcut(KeyEvent.VK_V), KeyEvent.VK_P,
                 e -> listener.onPaste());
+
+        builder.buildSeparator();
+
+        builder.buildMenuItem("Toggle first line indent", KeystrokeHelper.getMenuShortcut(KeyEvent.VK_I), KeyEvent.VK_I,
+                e -> listener.onToggleFirstLineIndent());
 
         return builder.getMenu();
     }

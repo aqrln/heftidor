@@ -23,4 +23,6 @@ public interface ApplicationMenuListener {
     void onPaste();
 
     void onAbout();
+
+    void onToggleFirstLineIndent();
 }

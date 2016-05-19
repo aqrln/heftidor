@@ -188,4 +188,9 @@ public class ApplicationUI implements ApplicationMenuListener {
         JDialog about = new AboutDialog();
         about.setVisible(true);
     }
+
+    @Override
+    public void onToggleFirstLineIndent() {
+
+    }
 }
