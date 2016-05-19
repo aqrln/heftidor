@@ -6,10 +6,7 @@ import ninja.aqrln.editor.dom.viewmodel.PageElement;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 
 /**
  * @author Alexey Orlenko
@@ -22,6 +19,7 @@ public class EditorPane extends JPanel {
     public EditorPane(Document document) {
         this.document = document;
         setPreferredSize(new Dimension(800, 600));
+        setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
     }
 
     public void setScrollPane(JScrollPane scrollPane) {
