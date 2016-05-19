@@ -1,18 +1,18 @@
 package ninja.aqrln.editor.ui;
 
 import ninja.aqrln.editor.ui.dialogs.FilePicker;
-import ninja.aqrln.editor.ui.dialogs.WindowsFilePicker;
+import ninja.aqrln.editor.ui.dialogs.UnixFilePicker;
 import ninja.aqrln.editor.ui.menu.*;
 
 /**
  * @author Alexey Orlenko
  */
-public class WindowsUIFactory extends UIFactory {
-    private static WindowsUIFactory instance;
+public class LinuxUIFactory extends UIFactory {
+    private static LinuxUIFactory instance;
 
-    public static WindowsUIFactory getInstance() {
+    public static LinuxUIFactory getInstance() {
         if (instance == null) {
-            instance = new WindowsUIFactory();
+            instance = new LinuxUIFactory();
         }
 
         return instance;
@@ -41,9 +41,9 @@ public class WindowsUIFactory extends UIFactory {
 
     @Override
     public FilePicker getFilePicker() {
-        return WindowsFilePicker.getInstance();
+        return UnixFilePicker.getInstance();
     }
 
-    private WindowsUIFactory() {
+    private LinuxUIFactory() {
     }
 }

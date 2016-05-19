@@ -8,18 +8,22 @@ import ninja.aqrln.editor.util.OperatingSystem;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import java.awt.Dimension;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 
 /**
  * @author Alexey Orlenko
  */
-public class DocumentWindow extends JFrame {
+public class DocumentWindow extends JFrame implements WindowFocusListener {
     private Document document;
+
+    private String filename = null;
 
     public DocumentWindow(Document document) {
         super();
+        addWindowFocusListener(this);
 
         this.document = document;
-
         updateTitle();
 
         setPreferredSize(new Dimension(800, 600));
@@ -51,7 +55,29 @@ public class DocumentWindow extends JFrame {
         repaint();
     }
 
-    private void updateTitle() {
+    public void updateTitle() {
         setTitle(document.getName() + " — Editor");
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    @Override
+    public void windowGainedFocus(WindowEvent e) {
+        ApplicationUI.getInstance().notifyWindowActivation(this);
+    }
+
+    @Override
+    public void windowLostFocus(WindowEvent e) {
+
+    }
+
+    public Document getDocument() {
+        return document;
     }
 }

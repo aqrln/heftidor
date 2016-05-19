@@ -1,6 +1,7 @@
 package ninja.aqrln.editor.ui;
 
 import ninja.aqrln.editor.dom.Document;
+import ninja.aqrln.editor.io.DocumentSerializer;
 import ninja.aqrln.editor.ui.frames.AboutDialog;
 import ninja.aqrln.editor.ui.frames.DocumentWindow;
 import ninja.aqrln.editor.ui.menu.ApplicationMenuListener;
@@ -16,6 +17,8 @@ import javax.swing.SwingUtilities;
  */
 public class ApplicationUI implements ApplicationMenuListener {
     private static ApplicationUI instance;
+
+    private DocumentWindow activeWindow;
 
     public static ApplicationUI getInstance() {
         if (instance == null) {
@@ -43,27 +46,68 @@ public class ApplicationUI implements ApplicationMenuListener {
         return applicationMenu;
     }
 
-    @Override
-    public void onFileNew() {
+    private void newDocumentWindow(Document document, String filename) {
         SwingUtilities.invokeLater(() -> {
-            DocumentWindow window = new DocumentWindow(new Document());
+            DocumentWindow window = new DocumentWindow(document);
+            window.setFilename(filename);
             window.setVisible(true);
         });
     }
 
+    public void notifyWindowActivation(DocumentWindow window) {
+        activeWindow = window;
+    }
+
+    @Override
+    public void onFileNew() {
+        newDocumentWindow(new Document(), null);
+    }
+
     @Override
     public void onFileOpen() {
+        String filename = UIFactory.getInstance().getFilePicker().showLoadDialog();
+        if (filename == null) {
+            return;
+        }
 
+        Document document = DocumentSerializer.load(filename);
+        newDocumentWindow(document, filename);
     }
 
     @Override
     public void onFileSave() {
+        DocumentWindow window = activeWindow;
+        if (window == null) {
+            return;
+        }
 
+        String filename = window.getFilename();
+
+        if (filename == null) {
+            onFileSaveAs();
+        } else {
+            Document document = window.getDocument();
+            DocumentSerializer.save(document, filename);
+        }
     }
 
     @Override
     public void onFileSaveAs() {
+        DocumentWindow window = activeWindow;
+        if (window == null) {
+            return;
+        }
 
+        String filename = UIFactory.getInstance().getFilePicker().showSaveDialog();
+        if (filename == null) {
+            return;
+        }
+
+        Document document = window.getDocument();
+        DocumentSerializer.save(document, filename);
+
+        window.setFilename(filename);
+        window.updateTitle();
     }
 
     @Override

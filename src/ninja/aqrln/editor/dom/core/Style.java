@@ -2,11 +2,12 @@ package ninja.aqrln.editor.dom.core;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.Serializable;
 
 /**
  * @author Alexey Orlenko
  */
-public class Style {
+public class Style implements Serializable {
     private Font font;
     private Color backgroundColor;
     private Color foregroundColor;

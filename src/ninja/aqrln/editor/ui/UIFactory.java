@@ -1,5 +1,6 @@
 package ninja.aqrln.editor.ui;
 
+import ninja.aqrln.editor.ui.dialogs.FilePicker;
 import ninja.aqrln.editor.ui.menu.ApplicationMenuDirector;
 import ninja.aqrln.editor.ui.menu.ApplicationMenuListener;
 import ninja.aqrln.editor.ui.menu.MenuBarBuilder;
@@ -23,6 +24,19 @@ public abstract class UIFactory {
             instance = WindowsUIFactory.getInstance();
         }
 
+        switch (OperatingSystem.getOS()) {
+            case OS_X:
+                instance = OSXUIFactory.getInstance();
+                break;
+            case WINDOWS:
+                instance = WindowsUIFactory.getInstance();
+                break;
+            case LINUX:
+            case UNKNOWN:
+                instance = LinuxUIFactory.getInstance();
+                break;
+        }
+
         return instance;
     }
 
@@ -31,4 +45,6 @@ public abstract class UIFactory {
     public abstract MenuBarBuilder createMenuBarBuilder();
 
     public abstract ApplicationMenuDirector createApplicationMenuDirector(ApplicationMenuListener listener);
+
+    public abstract FilePicker getFilePicker();
 }

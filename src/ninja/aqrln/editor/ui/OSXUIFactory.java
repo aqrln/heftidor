@@ -1,5 +1,7 @@
 package ninja.aqrln.editor.ui;
 
+import ninja.aqrln.editor.ui.dialogs.FilePicker;
+import ninja.aqrln.editor.ui.dialogs.UnixFilePicker;
 import ninja.aqrln.editor.ui.menu.*;
 
 /**
@@ -35,6 +37,11 @@ public class OSXUIFactory extends UIFactory {
     @Override
     public ApplicationMenuDirector createApplicationMenuDirector(ApplicationMenuListener listener) {
         return new OSXApplicationMenuDirector(listener);
+    }
+
+    @Override
+    public FilePicker getFilePicker() {
+        return UnixFilePicker.getInstance();
     }
 
     private OSXUIFactory() {

@@ -7,10 +7,12 @@ import ninja.aqrln.editor.dom.model.RootElement;
 import ninja.aqrln.editor.dom.viewmodel.ComposedRootElement;
 import ninja.aqrln.editor.dom.viewmodel.ViewCompositor;
 
+import java.io.Serializable;
+
 /**
  * @author Alexey Orlenko
  */
-public class Document {
+public class Document implements Serializable {
     private RootElement documentData;
     private String name;
 
