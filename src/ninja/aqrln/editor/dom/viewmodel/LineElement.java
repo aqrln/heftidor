@@ -24,7 +24,7 @@ public class LineElement extends DocumentViewModelCompositeElement {
         int height = 0;
 
         for (Element element : children) {
-            Dimension elementSize = element.getSize();
+            Dimension elementSize = ((DocumentViewModelElement) element).getSize();
             int elementWidth = elementSize.width;
             int elementHeight = (int)(elementSize.height * 1.2);
 

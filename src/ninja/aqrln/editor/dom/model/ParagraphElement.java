@@ -1,7 +1,5 @@
 package ninja.aqrln.editor.dom.model;
 
-import java.awt.Dimension;
-
 /**
  * @author Alexey Orlenko
  */
@@ -14,11 +12,6 @@ public class ParagraphElement extends DocumentModelCompositeElement {
 
     public void setAlignment(ParagraphAlignment alignment) {
         this.alignment = alignment;
-    }
-
-    @Override
-    public Dimension getSize() {
-        return null;
     }
 
     @Override

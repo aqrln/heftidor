@@ -2,10 +2,6 @@ package ninja.aqrln.editor.dom.model;
 
 import ninja.aqrln.editor.dom.core.Style;
 
-import java.awt.Canvas;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
-
 /**
  * @author Alexey Orlenko
  */
@@ -20,17 +16,6 @@ public class CharacterElement extends DocumentModelChildlessElement {
 
     public CharacterElement(char character) {
         this(character, Style.DEFAULT_STYLE);
-    }
-
-    @Override
-    public Dimension getSize() {
-        Canvas canvas = new Canvas();
-        FontMetrics fontMetrics = canvas.getFontMetrics(style.getFont());
-
-        int width = fontMetrics.charWidth(character);
-        int height = fontMetrics.getHeight();
-
-        return new Dimension(width, height);
     }
 
     public char getCharacter() {

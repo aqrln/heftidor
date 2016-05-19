@@ -31,7 +31,7 @@ public class PageElement extends DocumentViewModelCompositeElement {
         int height = 0;
 
         for (Element child : this.getChildren()) {
-            height += child.getSize().height;
+            height += ((DocumentViewModelElement) child).getSize().height;
         }
 
         return height;

@@ -15,7 +15,7 @@ public class WordElement extends DocumentViewModelCompositeElement {
         int height = 0;
 
         for (Element child : getChildren()) {
-            Dimension size = child.getSize();
+            Dimension size = ((DocumentViewModelElement) child).getSize();
             width += size.width;
             if (size.height > height) {
                 height = size.height;

@@ -2,7 +2,6 @@ package ninja.aqrln.editor.component;
 
 import ninja.aqrln.editor.dom.core.Element;
 import ninja.aqrln.editor.dom.core.Style;
-import ninja.aqrln.editor.dom.model.RootElement;
 import ninja.aqrln.editor.dom.viewmodel.*;
 
 import java.awt.Color;
@@ -45,8 +44,9 @@ public class DocumentRenderer implements DocumentViewModelVisitor {
         int prevX = x;
 
         for (Element child : element.getChildren()) {
-            ((DocumentViewModelElement) child).accept(this);
-            x += child.getSize().width;
+            DocumentViewModelElement view = (DocumentViewModelElement) child;
+            view.accept(this);
+            x += view.getSize().width;
         }
 
         x = prevX;
@@ -67,8 +67,9 @@ public class DocumentRenderer implements DocumentViewModelVisitor {
         y += PageElement.PADDING_TOP;
 
         for (Element child : element.getChildren()) {
-            ((DocumentViewModelElement) child).accept(this);
-            y += child.getSize().height;
+            DocumentViewModelElement view = (DocumentViewModelElement) child;
+            view.accept(this);
+            y += view.getSize().height;
         }
 
         x = prevX;
@@ -78,9 +79,10 @@ public class DocumentRenderer implements DocumentViewModelVisitor {
     @Override
     public void visitRootElement(ComposedRootElement element) {
         for (Element child : element.getChildren()) {
-            y += RootElement.PAGE_SPACING;
-            ((DocumentViewModelElement) child).accept(this);
-            y += child.getSize().height + RootElement.PAGE_SPACING;
+            DocumentViewModelElement view = (DocumentViewModelElement) child;
+            y += ComposedRootElement.PAGE_SPACING;
+            view.accept(this);
+            y += view.getSize().height + ComposedRootElement.PAGE_SPACING;
         }
     }
 
@@ -89,8 +91,9 @@ public class DocumentRenderer implements DocumentViewModelVisitor {
         int prevX = x;
 
         for (Element child : element.getChildren()) {
-            ((DocumentViewModelElement) child).accept(this);
-            x += child.getSize().width;
+            DocumentViewModelElement view = (DocumentViewModelElement) child;
+            view.accept(this);
+            x += view.getSize().width;
         }
 
         x = prevX;
