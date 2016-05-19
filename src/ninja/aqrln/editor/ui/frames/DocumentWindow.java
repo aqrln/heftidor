@@ -10,14 +10,17 @@ import javax.swing.JScrollPane;
 import java.awt.Dimension;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.Date;
 
 /**
  * @author Alexey Orlenko
  */
-public class DocumentWindow extends JFrame implements WindowListener {
+public class DocumentWindow extends JFrame implements WindowListener, Comparable {
     private Document document;
 
     private String filename = null;
+
+    long timestamp = new Date().getTime();
 
     public DocumentWindow(Document document) {
         super();
@@ -73,12 +76,12 @@ public class DocumentWindow extends JFrame implements WindowListener {
 
     @Override
     public void windowOpened(WindowEvent e) {
-
+        ApplicationUI.getInstance().notifyWindowOpen(this);
     }
 
     @Override
     public void windowClosing(WindowEvent e) {
-
+        ApplicationUI.getInstance().notifyWindowClose(this);
     }
 
     @Override
@@ -104,5 +107,11 @@ public class DocumentWindow extends JFrame implements WindowListener {
     @Override
     public void windowDeactivated(WindowEvent e) {
 
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        DocumentWindow other = (DocumentWindow) o;
+        return Long.signum(this.timestamp - other.timestamp);
     }
 }

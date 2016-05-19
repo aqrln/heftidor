@@ -12,6 +12,9 @@ import ninja.aqrln.editor.util.OperatingSystem;
 import javax.swing.JDialog;
 import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
+import java.util.Collections;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * @author Alexey Orlenko
@@ -20,6 +23,8 @@ public class ApplicationUI implements ApplicationMenuListener {
     private static ApplicationUI instance;
 
     private DocumentWindow activeWindow;
+
+    private SortedSet<DocumentWindow> windowsPool;
 
     public static ApplicationUI getInstance() {
         if (instance == null) {
@@ -33,6 +38,7 @@ public class ApplicationUI implements ApplicationMenuListener {
 
     private ApplicationUI() {
         applicationMenu = UIFactory.getInstance().createApplicationMenuDirector(this).buildApplicationMenu();
+        windowsPool = Collections.synchronizedSortedSet(new TreeSet<>());
     }
 
     public void run() {
@@ -57,6 +63,22 @@ public class ApplicationUI implements ApplicationMenuListener {
 
     public void notifyWindowActivation(DocumentWindow window) {
         activeWindow = window;
+    }
+
+    public void notifyWindowOpen(DocumentWindow window) {
+        windowsPool.add(window);
+    }
+
+    public void notifyWindowClose(DocumentWindow window) {
+        windowsPool.remove(window);
+
+        if (windowsPool.size() == 0) {
+            activeWindow = null;
+
+            if (OperatingSystem.getOS() != OperatingSystem.OS_X) {
+                onQuit();
+            }
+        }
     }
 
     @Override
@@ -123,7 +145,6 @@ public class ApplicationUI implements ApplicationMenuListener {
 
     @Override
     public void onQuit() {
-        System.out.println("quit");
         System.exit(0);
     }
 
