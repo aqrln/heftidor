@@ -51,7 +51,7 @@ public class Document implements Serializable {
         documentData.getChildren().add(createParagraph(fourthParagraphText, ParagraphAlignment.CENTER));
 
         for (int i = 0; i < 100; i++) {
-            documentData.getChildren().add(createParagraph(secondParagraphText, ParagraphAlignment.LEFT));
+            documentData.getChildren().add(createParagraph(secondParagraphText, ParagraphAlignment.JUSTIFY));
         }
     }
 
@@ -65,10 +65,17 @@ public class Document implements Serializable {
 
     private ParagraphElement createParagraph(String text, ParagraphAlignment alignment) {
         ParagraphElement paragraph = new ParagraphElement();
+
         for (char c : text.toCharArray()) {
             paragraph.getChildren().add(new CharacterElement(c));
         }
+
         paragraph.setAlignment(alignment);
+
+        if (alignment != ParagraphAlignment.JUSTIFY) {
+            paragraph.setFirstLineIndent(false);
+        }
+
         return paragraph;
     }
 
