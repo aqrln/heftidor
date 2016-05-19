@@ -1,4 +1,4 @@
-package ninja.aqrln.editor.ui;
+package ninja.aqrln.editor.ui.helpers;
 
 import javax.swing.KeyStroke;
 import java.awt.Toolkit;
