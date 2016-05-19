@@ -16,9 +16,11 @@ public class DocumentWindow extends JFrame {
     private Document document;
 
     public DocumentWindow(Document document) {
-        super("Untitled — Editor");
+        super();
 
         this.document = document;
+
+        updateTitle();
 
         setPreferredSize(new Dimension(800, 600));
         setLocationRelativeTo(null);
@@ -47,5 +49,9 @@ public class DocumentWindow extends JFrame {
         getContentPane().add(scrollPane);
         pack();
         repaint();
+    }
+
+    private void updateTitle() {
+        setTitle(document.getName() + " — Editor");
     }
 }

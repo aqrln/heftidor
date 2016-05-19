@@ -12,8 +12,12 @@ import ninja.aqrln.editor.dom.viewmodel.ViewCompositor;
  */
 public class Document {
     private RootElement documentData;
+    private String name;
 
     public Document() {
+        name = "Untitled";
+        documentData = new RootElement();
+
         String firstParagraphText = "This is the first paragraph. It has a lot of freaking text that is used solely for " +
                 "testing purposes and to check out the document compositor.";
 
@@ -39,11 +43,18 @@ public class Document {
                 "maintain prospective access goal-oriented sticky. Mesh re-engineer to mesh collaboratively " +
                 "progressive strategic maintainable via backward-compatible open-source channels deliver ideas.";
 
-        documentData = new RootElement();
         documentData.getChildren().add(createParagraph(firstParagraphText, ParagraphAlignment.LEFT));
         documentData.getChildren().add(createParagraph(secondParagraphText, ParagraphAlignment.JUSTIFY));
         documentData.getChildren().add(createParagraph(thirdParagrapText, ParagraphAlignment.RIGHT));
         documentData.getChildren().add(createParagraph(fourthParagraphText, ParagraphAlignment.CENTER));
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     private ParagraphElement createParagraph(String text, ParagraphAlignment alignment) {
