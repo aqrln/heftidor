@@ -9,19 +9,19 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import java.awt.Dimension;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowListener;
 
 /**
  * @author Alexey Orlenko
  */
-public class DocumentWindow extends JFrame implements WindowFocusListener {
+public class DocumentWindow extends JFrame implements WindowListener {
     private Document document;
 
     private String filename = null;
 
     public DocumentWindow(Document document) {
         super();
-        addWindowFocusListener(this);
+        addWindowListener(this);
 
         this.document = document;
         updateTitle();
@@ -67,17 +67,42 @@ public class DocumentWindow extends JFrame implements WindowFocusListener {
         this.filename = filename;
     }
 
+    public Document getDocument() {
+        return document;
+    }
+
     @Override
-    public void windowGainedFocus(WindowEvent e) {
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
         ApplicationUI.getInstance().notifyWindowActivation(this);
     }
 
     @Override
-    public void windowLostFocus(WindowEvent e) {
+    public void windowDeactivated(WindowEvent e) {
 
-    }
-
-    public Document getDocument() {
-        return document;
     }
 }
