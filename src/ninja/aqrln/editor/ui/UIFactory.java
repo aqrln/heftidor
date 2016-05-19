@@ -18,12 +18,6 @@ public abstract class UIFactory {
             return instance;
         }
 
-        if (OperatingSystem.getOS() == OperatingSystem.OS_X) {
-            instance = OSXUIFactory.getInstance();
-        } else {
-            instance = WindowsUIFactory.getInstance();
-        }
-
         switch (OperatingSystem.getOS()) {
             case OS_X:
                 instance = OSXUIFactory.getInstance();
