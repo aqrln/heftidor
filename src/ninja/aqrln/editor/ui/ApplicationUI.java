@@ -238,6 +238,9 @@ public class ApplicationUI implements ApplicationMenuListener {
         String html = "<html><head><title>Document</title></head><body><p>Example document</p></body></html>";
 
         String url = EditorCloudAPI.publishDocument(html);
+        if (url == null) {
+            return;
+        }
 
         if (Desktop.isDesktopSupported()) {
             try {

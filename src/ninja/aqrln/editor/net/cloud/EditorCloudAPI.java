@@ -85,6 +85,7 @@ public class EditorCloudAPI {
 
         if (response.contains("error")) {
             JOptionPane.showMessageDialog(null, "Invalid access token", "Connection error", JOptionPane.ERROR_MESSAGE);
+            return null;
         }
 
         int initialPos = response.indexOf(':') + 2;
