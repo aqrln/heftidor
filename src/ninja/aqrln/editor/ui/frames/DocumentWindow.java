@@ -36,7 +36,7 @@ public class DocumentWindow extends JFrame implements WindowListener, Comparable
 
         // If we are under OS X, the menu bar has to be set twice:
         // globally and for each window made invisible, since otherwise
-        // the Swing windows steal accelerators and none of them except
+        // Swing windows steal accelerators and none of them except
         // Quit and About work
         if (OperatingSystem.getOS() == OperatingSystem.OS_X) {
             Dimension invisible = new Dimension(0, 0);
@@ -102,6 +102,7 @@ public class DocumentWindow extends JFrame implements WindowListener, Comparable
 
     @Override
     public void windowActivated(WindowEvent e) {
+        setJMenuBar(ApplicationUI.getInstance().getApplicationMenu());
         ApplicationUI.getInstance().notifyWindowActivation(this);
     }
 
