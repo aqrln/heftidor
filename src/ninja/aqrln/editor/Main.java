@@ -1,6 +1,6 @@
 package ninja.aqrln.editor;
 
-import ninja.aqrln.editor.ui.ApplicationUI;
+import ninja.aqrln.editor.ui.platform.ApplicationUI;
 
 /**
  * Main class of the application

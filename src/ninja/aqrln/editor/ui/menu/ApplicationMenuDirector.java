@@ -1,7 +1,7 @@
 package ninja.aqrln.editor.ui.menu;
 
 import ninja.aqrln.editor.ui.KeystrokeHelper;
-import ninja.aqrln.editor.ui.UIFactory;
+import ninja.aqrln.editor.ui.platform.UIFactory;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;

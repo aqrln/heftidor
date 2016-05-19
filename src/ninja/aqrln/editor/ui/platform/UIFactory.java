@@ -1,4 +1,4 @@
-package ninja.aqrln.editor.ui;
+package ninja.aqrln.editor.ui.platform;
 
 import ninja.aqrln.editor.ui.dialogs.FilePicker;
 import ninja.aqrln.editor.ui.menu.ApplicationMenuDirector;

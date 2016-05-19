@@ -1,4 +1,4 @@
-package ninja.aqrln.editor.ui;
+package ninja.aqrln.editor.ui.platform;
 
 import ninja.aqrln.editor.dom.Document;
 import ninja.aqrln.editor.io.DocumentSerializer;

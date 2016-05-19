@@ -1,4 +1,4 @@
-package ninja.aqrln.editor.ui;
+package ninja.aqrln.editor.ui.platform;
 
 import ninja.aqrln.editor.ui.dialogs.FilePicker;
 import ninja.aqrln.editor.ui.dialogs.UnixFilePicker;
@@ -7,12 +7,12 @@ import ninja.aqrln.editor.ui.menu.*;
 /**
  * @author Alexey Orlenko
  */
-public class OSXUIFactory extends UIFactory {
-    private static OSXUIFactory instance;
+public class LinuxUIFactory extends UIFactory {
+    private static LinuxUIFactory instance;
 
-    public static OSXUIFactory getInstance() {
+    public static LinuxUIFactory getInstance() {
         if (instance == null) {
-            instance = new OSXUIFactory();
+            instance = new LinuxUIFactory();
         }
 
         return instance;
@@ -21,7 +21,7 @@ public class OSXUIFactory extends UIFactory {
     @Override
     public MenuBuilder createMenuBuilder() {
         MenuBuilder builder = new MenuBuilder();
-        builder.setMnemonicAdditionStrategy(OSXMnemonicAdditionStrategy.getInstance());
+        builder.setMnemonicAdditionStrategy(WindowsMnemonicAdditionStrategy.getInstance());
 
         return builder;
     }
@@ -29,14 +29,14 @@ public class OSXUIFactory extends UIFactory {
     @Override
     public MenuBarBuilder createMenuBarBuilder() {
         MenuBarBuilder builder = new MenuBarBuilder();
-        builder.setMnemonicAdditionStrategy(OSXMnemonicAdditionStrategy.getInstance());
+        builder.setMnemonicAdditionStrategy(WindowsMnemonicAdditionStrategy.getInstance());
 
         return builder;
     }
 
     @Override
     public ApplicationMenuDirector createApplicationMenuDirector(ApplicationMenuListener listener) {
-        return new OSXApplicationMenuDirector(listener);
+        return new WindowsApplicationMenuDirector(listener);
     }
 
     @Override
@@ -44,6 +44,6 @@ public class OSXUIFactory extends UIFactory {
         return UnixFilePicker.getInstance();
     }
 
-    private OSXUIFactory() {
+    private LinuxUIFactory() {
     }
 }

@@ -2,7 +2,7 @@ package ninja.aqrln.editor.ui.frames;
 
 import ninja.aqrln.editor.component.EditorPane;
 import ninja.aqrln.editor.dom.Document;
-import ninja.aqrln.editor.ui.ApplicationUI;
+import ninja.aqrln.editor.ui.platform.ApplicationUI;
 import ninja.aqrln.editor.util.OperatingSystem;
 
 import javax.swing.JFrame;
