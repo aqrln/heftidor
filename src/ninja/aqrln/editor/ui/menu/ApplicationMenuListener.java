@@ -29,4 +29,6 @@ public interface ApplicationMenuListener {
     void onToggleFirstLineIndent();
 
     void notifyWindowMenuReference(JMenu windowMenu);
+
+    void onPublishToCloud();
 }

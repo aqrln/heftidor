@@ -2,6 +2,7 @@ package ninja.aqrln.editor.ui;
 
 import ninja.aqrln.editor.dom.Document;
 import ninja.aqrln.editor.io.DocumentSerializer;
+import ninja.aqrln.editor.net.cloud.EditorCloudAPI;
 import ninja.aqrln.editor.ui.frames.AboutDialog;
 import ninja.aqrln.editor.ui.frames.DocumentWindow;
 import ninja.aqrln.editor.ui.menu.ApplicationMenuListener;
@@ -10,6 +11,8 @@ import ninja.aqrln.editor.util.OSXExtensions;
 import ninja.aqrln.editor.util.OperatingSystem;
 
 import javax.swing.*;
+import java.awt.Desktop;
+import java.net.URI;
 import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -228,5 +231,24 @@ public class ApplicationUI implements ApplicationMenuListener {
     @Override
     public void notifyWindowMenuReference(JMenu windowMenu) {
         this.windowMenu = windowMenu;
+    }
+
+    @Override
+    public void onPublishToCloud() {
+        String html = "<html><head><title>Document</title></head><body><p>Example document</p></body></html>";
+
+        String url = EditorCloudAPI.publishDocument(html);
+
+        if (Desktop.isDesktopSupported()) {
+            try {
+                Desktop.getDesktop().browse(new URI(url));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, e.toString(), "Internal error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JTextArea textArea = new JTextArea(url);
+            textArea.setEditable(false);
+            JOptionPane.showMessageDialog(null, textArea, "URL", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 }

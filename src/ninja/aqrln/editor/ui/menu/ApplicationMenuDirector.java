@@ -51,6 +51,8 @@ public abstract class ApplicationMenuDirector {
 
         builder.buildSeparator();
         builder.addSubMenu(buildExportMenu());
+        builder.buildMenuItem("Publish to cloud", KeystrokeHelper.getAlternatedMenuShortcut(KeyEvent.VK_P),
+                KeyEvent.VK_C, e -> listener.onPublishToCloud());
 
         buildAdditionalFileMenuItems(builder);
 
