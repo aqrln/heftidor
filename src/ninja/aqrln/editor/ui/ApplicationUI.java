@@ -97,13 +97,7 @@ public class ApplicationUI implements ApplicationMenuListener {
         newDocumentWindow(document, filename);
     }
 
-    @Override
-    public void onFileSave() {
-        DocumentWindow window = activeWindow;
-        if (window == null) {
-            return;
-        }
-
+    private void saveDocumentWindow(DocumentWindow window) {
         String filename = window.getFilename();
 
         if (filename == null) {
@@ -112,6 +106,16 @@ public class ApplicationUI implements ApplicationMenuListener {
             Document document = window.getDocument();
             DocumentSerializer.save(document, filename);
         }
+    }
+
+    @Override
+    public void onFileSave() {
+        DocumentWindow window = activeWindow;
+        if (window == null) {
+            return;
+        }
+
+        saveDocumentWindow(window);
     }
 
     @Override
@@ -135,7 +139,7 @@ public class ApplicationUI implements ApplicationMenuListener {
 
     @Override
     public void onFileSaveAll() {
-
+        windowsPool.forEach(this::saveDocumentWindow);
     }
 
     @Override
