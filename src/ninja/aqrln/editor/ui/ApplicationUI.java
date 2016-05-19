@@ -13,6 +13,7 @@ import ninja.aqrln.editor.util.OperatingSystem;
 
 import javax.swing.*;
 import java.awt.Desktop;
+import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.URI;
 import java.util.Collections;
@@ -176,7 +177,11 @@ public class ApplicationUI implements ApplicationMenuListener {
 
     @Override
     public void onFileClose() {
+        if (activeWindow == null) {
+            return;
+        }
 
+        activeWindow.dispatchEvent(new WindowEvent(activeWindow, WindowEvent.WINDOW_CLOSING));
     }
 
     @Override
