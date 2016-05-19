@@ -42,6 +42,11 @@ public class SpaceElement extends DocumentViewModelChildlessElement {
     }
 
     @Override
+    public Dimension calculateSize() {
+        return getSize();
+    }
+
+    @Override
     public void setStyle(Style style) {
         this.style = style;
     }

@@ -17,11 +17,15 @@ public class DocumentRenderer implements DocumentViewModelVisitor {
     private Graphics2D graphics;
     private int x;
     private int y;
+    private int viewHeight;
+    private int scrolledValue;
 
-    public DocumentRenderer(Graphics2D graphics, int x, int y) {
+    public DocumentRenderer(Graphics2D graphics, int x, int y, int viewHeight, int scrolledValue) {
         this.graphics = graphics;
         this.x = x;
         this.y = y;
+        this.viewHeight = viewHeight;
+        this.scrolledValue = scrolledValue;
     }
 
     @Override
@@ -81,8 +85,16 @@ public class DocumentRenderer implements DocumentViewModelVisitor {
         for (Element child : element.getChildren()) {
             DocumentViewModelElement view = (DocumentViewModelElement) child;
             y += ComposedRootElement.PAGE_SPACING;
-            view.accept(this);
-            y += view.getSize().height + ComposedRootElement.PAGE_SPACING;
+            int pageHeight = view.getSize().height + ComposedRootElement.PAGE_SPACING;
+
+            if (y + pageHeight > scrolledValue) {
+                view.accept(this);
+            }
+            y += pageHeight;
+
+            if (y - scrolledValue > viewHeight) {
+                break;
+            }
         }
     }
 

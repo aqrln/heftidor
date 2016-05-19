@@ -23,6 +23,11 @@ public class PageElement extends DocumentViewModelCompositeElement {
     }
 
     @Override
+    public Dimension calculateSize() {
+        return PAGE_SIZE;
+    }
+
+    @Override
     public void accept(DocumentViewModelVisitor visitor) {
         visitor.visitPageElement(this);
     }

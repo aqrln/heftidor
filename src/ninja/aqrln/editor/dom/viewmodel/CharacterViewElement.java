@@ -23,7 +23,7 @@ public class CharacterViewElement extends DocumentViewModelChildlessElement {
     }
 
     @Override
-    public Dimension getSize() {
+    public Dimension calculateSize() {
         Canvas canvas = new Canvas();
         FontMetrics fontMetrics = canvas.getFontMetrics(characterElement.getStyle().getFont());
 

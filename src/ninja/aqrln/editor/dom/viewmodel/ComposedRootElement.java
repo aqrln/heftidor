@@ -10,13 +10,15 @@ import java.awt.Dimension;
 public class ComposedRootElement extends DocumentViewModelCompositeElement {
     public static final int PAGE_SPACING = 10;
 
+    private Dimension size;
+
     @Override
     public void accept(DocumentViewModelVisitor visitor) {
         visitor.visitRootElement(this);
     }
 
     @Override
-    public Dimension getSize() {
+    public Dimension calculateSize() {
         int width = 0;
         int height = 0;
 

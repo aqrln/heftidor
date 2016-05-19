@@ -19,7 +19,7 @@ public class LineElement extends DocumentViewModelCompositeElement {
     }
 
     @Override
-    public Dimension getSize() {
+    public Dimension calculateSize() {
         int width = 0;
         int height = 0;
 

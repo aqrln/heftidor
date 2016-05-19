@@ -10,7 +10,7 @@ import java.awt.Dimension;
 public class WordElement extends DocumentViewModelCompositeElement {
 
     @Override
-    public Dimension getSize() {
+    public Dimension calculateSize() {
         int width = 0;
         int height = 0;
 
