@@ -3,6 +3,7 @@ package ninja.aqrln.editor.ui;
 import ninja.aqrln.editor.dom.Document;
 import ninja.aqrln.editor.export.HTMLExporter;
 import ninja.aqrln.editor.export.LaTeXExporter;
+import ninja.aqrln.editor.export.latexrunner.LaTeXRunner;
 import ninja.aqrln.editor.io.DocumentSerializer;
 import ninja.aqrln.editor.net.cloud.EditorCloudAPI;
 import ninja.aqrln.editor.ui.frames.AboutDialog;
@@ -17,6 +18,8 @@ import java.awt.Desktop;
 import java.awt.event.WindowEvent;
 import java.io.*;
 import java.net.URI;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -231,6 +234,16 @@ public class ApplicationUI implements ApplicationMenuListener {
             writer.write(tex);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not export LaTeX", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int choice = JOptionPane.showConfirmDialog(null, "Generate PDF?", "Export to LaTeX", JOptionPane.YES_NO_OPTION);
+        if (choice == JOptionPane.YES_OPTION) {
+            Path path = Paths.get(filename);
+            String directory = path.getParent().toString();
+
+            LaTeXRunner compiler = LaTeXRunner.getRunner();
+            compiler.run(filename, directory);
         }
     }
 
