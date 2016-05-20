@@ -14,6 +14,7 @@ import java.awt.Font;
 public class HTMLExporter implements DocumentModelVisitor {
     private StringBuilder stringBuilder;
     private String title;
+    private Style prevStyle = null;
 
     public HTMLExporter(String title) {
         stringBuilder = new StringBuilder();
@@ -59,9 +60,7 @@ public class HTMLExporter implements DocumentModelVisitor {
         }
     }
 
-    @Override
-    public void visitCharacterElement(CharacterElement element) {
-        Style style = element.getStyle();
+    private void writeStyle(Style style) {
         stringBuilder.append("<span style=\"");
 
         stringBuilder.append("color:");
@@ -86,10 +85,26 @@ public class HTMLExporter implements DocumentModelVisitor {
         }
 
         stringBuilder.append("\">");
+    }
+
+    private void closeStyle() {
+        stringBuilder.append("</span>");
+    }
+
+    @Override
+    public void visitCharacterElement(CharacterElement element) {
+        Style style = element.getStyle();
+
+        if (style != prevStyle) {
+            if (prevStyle != null) {
+                closeStyle();
+            }
+
+            writeStyle(style);
+            prevStyle = style;
+        }
 
         stringBuilder.append(htmlEscape(element.getCharacter()));
-
-        stringBuilder.append("</span>");
     }
 
     @Override
@@ -117,6 +132,9 @@ public class HTMLExporter implements DocumentModelVisitor {
         for (Element character : element.getChildren()) {
             ((DocumentModelElement) character).accept(this);
         }
+
+        closeStyle();
+        prevStyle = null;
 
         stringBuilder.append("</p>");
     }
