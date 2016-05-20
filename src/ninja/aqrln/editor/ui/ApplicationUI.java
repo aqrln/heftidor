@@ -2,6 +2,7 @@ package ninja.aqrln.editor.ui;
 
 import ninja.aqrln.editor.dom.Document;
 import ninja.aqrln.editor.export.HTMLExporter;
+import ninja.aqrln.editor.export.LaTeXExporter;
 import ninja.aqrln.editor.io.DocumentSerializer;
 import ninja.aqrln.editor.net.cloud.EditorCloudAPI;
 import ninja.aqrln.editor.ui.frames.AboutDialog;
@@ -207,13 +208,30 @@ public class ApplicationUI implements ApplicationMenuListener {
         try (FileWriter writer = new FileWriter(filename)) {
             writer.write(html);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Could not write to file", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Could not export HTML", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     @Override
     public void onExportToLaTeX() {
+        if (activeWindow == null) {
+            return;
+        }
 
+        Document document = activeWindow.getDocument();
+
+        String filename = UIFactory.getInstance().getFilePicker().showSaveLaTeXDialog();
+        if (filename == null) {
+            return;
+        }
+
+        String tex = LaTeXExporter.toLaTeX(document);
+
+        try (FileWriter writer = new FileWriter(filename)) {
+            writer.write(tex);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Could not export LaTeX", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     @Override
