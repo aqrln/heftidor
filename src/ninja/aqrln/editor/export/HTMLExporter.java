@@ -2,7 +2,11 @@ package ninja.aqrln.editor.export;
 
 import ninja.aqrln.editor.dom.Document;
 import ninja.aqrln.editor.dom.core.Element;
+import ninja.aqrln.editor.dom.core.Style;
 import ninja.aqrln.editor.dom.model.*;
+
+import java.awt.Color;
+import java.awt.Font;
 
 /**
  * @author Alexey Orlenko
@@ -26,9 +30,66 @@ public class HTMLExporter implements DocumentModelVisitor {
         return exporter.getString();
     }
 
+    private void writeColorComponent(int colorComponent) {
+        String string = Integer.toHexString(colorComponent);
+        if (string.length() < 2) {
+            stringBuilder.append('0');
+        }
+        stringBuilder.append(string);
+    }
+
+    private void writeColor(Color color) {
+        stringBuilder.append('#');
+        writeColorComponent(color.getRed());
+        writeColorComponent(color.getGreen());
+        writeColorComponent(color.getBlue());
+    }
+
+    private void writeFontFamily(String family) {
+        switch (family) {
+            case "Serif":
+                stringBuilder.append("serif");
+                break;
+            case "Monospaced":
+                stringBuilder.append("monospace");
+                break;
+            default:
+                stringBuilder.append("sans-serif");
+                break;
+        }
+    }
+
     @Override
     public void visitCharacterElement(CharacterElement element) {
+        Style style = element.getStyle();
+        stringBuilder.append("<span style=\"");
+
+        stringBuilder.append("color:");
+        writeColor(style.getForegroundColor());
+        stringBuilder.append(";background-color:");
+        writeColor(style.getBackgroundColor());
+
+        Font font = style.getFont();
+
+        stringBuilder.append(";font-family:");
+        writeFontFamily(font.getFamily());
+        stringBuilder.append(";font-size:");
+        stringBuilder.append(font.getSize());
+        stringBuilder.append("px;");
+
+        if (font.isBold()) {
+            stringBuilder.append("font-weight:bold;");
+        }
+
+        if (font.isItalic()) {
+            stringBuilder.append("font-style:italic;");
+        }
+
+        stringBuilder.append("\">");
+
         stringBuilder.append(htmlEscape(element.getCharacter()));
+
+        stringBuilder.append("</span>");
     }
 
     @Override
