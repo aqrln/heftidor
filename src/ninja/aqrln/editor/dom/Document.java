@@ -14,6 +14,7 @@ import java.io.Serializable;
  */
 public class Document implements Serializable {
     private RootElement documentData;
+    private ComposedRootElement composedDocument;
     private String name;
 
     public Document() {
@@ -76,12 +77,20 @@ public class Document implements Serializable {
     }
 
     public ComposedRootElement getDocumentView() {
-        ViewCompositor compositor = new ViewCompositor();
-        documentData.accept(compositor);
-        return compositor.getResult();
+        if (composedDocument == null) {
+            compose();
+        }
+
+        return composedDocument;
     }
 
     public RootElement getRootElement() {
         return documentData;
+    }
+
+    public void compose() {
+        ViewCompositor compositor = new ViewCompositor();
+        documentData.accept(compositor);
+        composedDocument = compositor.getResult();
     }
 }
