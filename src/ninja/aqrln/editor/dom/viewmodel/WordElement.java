@@ -3,6 +3,7 @@ package ninja.aqrln.editor.dom.viewmodel;
 import ninja.aqrln.editor.dom.core.Element;
 
 import java.awt.Dimension;
+import java.util.ListIterator;
 
 /**
  * @author Alexey Orlenko
@@ -28,5 +29,10 @@ public class WordElement extends DocumentViewModelCompositeElement {
     @Override
     public void accept(DocumentViewModelVisitor visitor) {
         visitor.visitWordElement(this);
+    }
+
+    @Override
+    public ListIterator<Element> getFlatIterator() {
+        return getChildren().listIterator();
     }
 }

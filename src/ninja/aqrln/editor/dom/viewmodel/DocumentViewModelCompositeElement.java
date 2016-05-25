@@ -10,21 +10,25 @@ import java.util.List;
  * @author Alexey Orlenko
  */
 public abstract class DocumentViewModelCompositeElement extends CompositeElement implements DocumentViewModelElement {
-    private Dimension size;
+    private ViewContext context = new ViewContext();
 
     @Override
     public Dimension getSize() {
-        if (size == null) {
-            size = calculateSize();
+        if (context.getSize() == null) {
+            context.setSize(calculateSize());
         }
 
-        return size;
+        return context.getSize();
+    }
+
+    public ViewContext getViewContext() {
+        return context;
     }
 
     @Override
     public List<Element> getChildren() {
         List<Element> children = super.getChildren();
-        size = null;
+        context.setSize(null);
         return children;
     }
 

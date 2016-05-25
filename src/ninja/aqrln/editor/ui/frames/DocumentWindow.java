@@ -53,6 +53,7 @@ public class DocumentWindow extends JFrame implements WindowListener, Comparable
         JScrollPane scrollPane = new JScrollPane(editor);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
         editor.setScrollPane(scrollPane);
+        addKeyListener(editor);
 
         getContentPane().add(scrollPane);
         pack();

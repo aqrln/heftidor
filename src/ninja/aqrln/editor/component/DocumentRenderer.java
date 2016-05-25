@@ -4,9 +4,7 @@ import ninja.aqrln.editor.dom.core.Element;
 import ninja.aqrln.editor.dom.core.Style;
 import ninja.aqrln.editor.dom.viewmodel.*;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
+import java.awt.*;
 
 import static ninja.aqrln.editor.dom.viewmodel.PageElement.PAGE_SIZE;
 
@@ -14,6 +12,8 @@ import static ninja.aqrln.editor.dom.viewmodel.PageElement.PAGE_SIZE;
  * @author Alexey Orlenko
  */
 public class DocumentRenderer implements DocumentViewModelVisitor {
+    private static final Stroke PAGE_STROKE = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
+
     private Graphics2D graphics;
     private int x;
     private int y;
@@ -26,6 +26,10 @@ public class DocumentRenderer implements DocumentViewModelVisitor {
         this.y = y;
         this.viewHeight = viewHeight;
         this.scrolledValue = scrolledValue;
+    }
+
+    private void updatePosition(DocumentViewModelElement element) {
+        element.getViewContext().setPosition(new Point(x, y));
     }
 
     @Override
@@ -41,11 +45,15 @@ public class DocumentRenderer implements DocumentViewModelVisitor {
         graphics.setFont(style.getFont());
         graphics.setColor(style.getForegroundColor());
         graphics.drawString("" + element.getCharacter(), x, y + height);
+
+        updatePosition(element);
     }
 
     @Override
     public void visitLineElement(LineElement element) {
         int prevX = x;
+
+        updatePosition(element);
 
         for (Element child : element.getChildren()) {
             DocumentViewModelElement view = (DocumentViewModelElement) child;
@@ -58,6 +66,8 @@ public class DocumentRenderer implements DocumentViewModelVisitor {
 
     @Override
     public void visitPageElement(PageElement element) {
+        graphics.setStroke(PAGE_STROKE);
+
         graphics.setColor(Color.WHITE);
         graphics.fillRect(x, y, PAGE_SIZE.width, PAGE_SIZE.height);
 
@@ -69,6 +79,8 @@ public class DocumentRenderer implements DocumentViewModelVisitor {
 
         x += PageElement.PADDING_LEFT;
         y += PageElement.PADDING_TOP;
+
+        updatePosition(element);
 
         for (Element child : element.getChildren()) {
             DocumentViewModelElement view = (DocumentViewModelElement) child;
@@ -82,6 +94,8 @@ public class DocumentRenderer implements DocumentViewModelVisitor {
 
     @Override
     public void visitRootElement(ComposedRootElement element) {
+        updatePosition(element);
+
         for (Element child : element.getChildren()) {
             DocumentViewModelElement view = (DocumentViewModelElement) child;
             y += ComposedRootElement.PAGE_SPACING;
@@ -102,6 +116,8 @@ public class DocumentRenderer implements DocumentViewModelVisitor {
     public void visitWordElement(WordElement element) {
         int prevX = x;
 
+        updatePosition(element);
+
         for (Element child : element.getChildren()) {
             DocumentViewModelElement view = (DocumentViewModelElement) child;
             view.accept(this);
@@ -113,6 +129,8 @@ public class DocumentRenderer implements DocumentViewModelVisitor {
 
     @Override
     public void visitSpaceElement(SpaceElement element) {
+        updatePosition(element);
+
         Dimension size = element.getSize();
         graphics.setColor(element.getStyle().getBackgroundColor());
         graphics.fillRect(x, y, size.width, size.height);

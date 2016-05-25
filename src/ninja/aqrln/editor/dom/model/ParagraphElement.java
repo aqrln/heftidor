@@ -1,5 +1,9 @@
 package ninja.aqrln.editor.dom.model;
 
+import ninja.aqrln.editor.dom.core.Element;
+
+import java.util.ListIterator;
+
 /**
  * @author Alexey Orlenko
  */
@@ -27,5 +31,10 @@ public class ParagraphElement extends DocumentModelCompositeElement {
     @Override
     public void accept(DocumentModelVisitor visitor) {
         visitor.visitParagraphElement(this);
+    }
+
+    @Override
+    public ListIterator<Element> getFlatIterator() {
+        return children.listIterator();
     }
 }

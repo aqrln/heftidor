@@ -8,15 +8,19 @@ import java.awt.Dimension;
  * @author Alexey Orlenko
  */
 public abstract class DocumentViewModelChildlessElement extends ChildlessElement implements DocumentViewModelElement {
-    private Dimension size;
+    private ViewContext context = new ViewContext();
 
     @Override
     public Dimension getSize() {
-        if (size == null) {
-            size = calculateSize();
+        if (context.getSize() == null) {
+            context.setSize(calculateSize());
         }
 
-        return size;
+        return context.getSize();
+    }
+
+    public ViewContext getViewContext() {
+        return context;
     }
 
     protected abstract Dimension calculateSize();

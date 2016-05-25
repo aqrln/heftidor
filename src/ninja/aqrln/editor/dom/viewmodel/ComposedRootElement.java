@@ -1,8 +1,10 @@
 package ninja.aqrln.editor.dom.viewmodel;
 
 import ninja.aqrln.editor.dom.core.Element;
+import ninja.aqrln.editor.dom.core.FlatIterator;
 
 import java.awt.Dimension;
+import java.util.ListIterator;
 
 /**
  * @author Alexey Orlenko
@@ -35,5 +37,10 @@ public class ComposedRootElement extends DocumentViewModelCompositeElement {
         }
 
         return new Dimension(width, height);
+    }
+
+    @Override
+    public ListIterator<Element> getFlatIterator() {
+        return new FlatIterator(this);
     }
 }

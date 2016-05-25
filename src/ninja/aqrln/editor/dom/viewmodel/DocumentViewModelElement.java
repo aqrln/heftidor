@@ -8,4 +8,5 @@ import java.awt.Dimension;
 public interface DocumentViewModelElement {
     void accept(DocumentViewModelVisitor visitor);
     Dimension getSize();
+    ViewContext getViewContext();
 }
