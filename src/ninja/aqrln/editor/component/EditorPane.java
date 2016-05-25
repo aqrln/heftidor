@@ -24,14 +24,8 @@ public class EditorPane extends JPanel implements KeyListener {
 
     private boolean cursorVisible;
 
-    private PageElement currentPage;
-    private LineElement currentLine;
-    private WordElement currentWord;
     private DocumentViewModelChildlessElement currentElement;
-
-    private ListIterator<Element> pageIterator;
-    private ListIterator<Element> lineIterator;
-    private ListIterator<Element> wordIterator;
+    private ListIterator<Element> elementsIterator;
 
     private static final Stroke CURSOR_STROKE = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
 
@@ -41,14 +35,8 @@ public class EditorPane extends JPanel implements KeyListener {
         setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 
         document.compose();
-        currentPage = (PageElement) document.getDocumentView().getChildren().get(0);
-        currentLine = (LineElement) currentPage.getChildren().get(0);
-        currentWord = (WordElement) currentLine.getChildren().get(0);
         currentElement = null;
-
-        pageIterator = currentPage.getChildren().listIterator();
-        lineIterator = currentLine.getChildren().listIterator();
-        wordIterator = currentWord.getChildren().listIterator();
+        elementsIterator = document.getDocumentView().getFlatIterator();
 
         cursorVisible = false;
         setupCursorTimer();
@@ -117,15 +105,16 @@ public class EditorPane extends JPanel implements KeyListener {
         Dimension size;
         Point position;
 
-        if (currentWord.getChildren().size() != 0) {
-            ViewContext nextElementContext =
-                    ((DocumentViewModelElement) currentWord.getChildren().get(0)).getViewContext();
+        if (elementsIterator.hasNext()) {
+            DocumentViewModelElement nextElement = (DocumentViewModelElement) elementsIterator.next();
+            ViewContext nextElementContext = nextElement.getViewContext();
             size = nextElementContext.getSize();
             Point nextPosition = nextElementContext.getPosition();
             position = new Point(nextPosition.x - size.width, nextPosition.y);
+            elementsIterator.previous();
         } else {
             size = new Dimension(0, Style.DEFAULT_FONT.getSize());
-            position = currentWord.getViewContext().getPosition();
+            position = new Point(0, 0); // TODO
         }
 
         return new ViewContext(size, position);
@@ -160,21 +149,16 @@ public class EditorPane extends JPanel implements KeyListener {
     }
 
     public void moveLeft() {
-        if (currentElement == null) {
-            moveUp();
-            while (wordIterator.hasNext()) {
-                wordIterator.next();
-            }
-        } else if (wordIterator.hasPrevious()) {
-            currentElement = (DocumentViewModelChildlessElement) wordIterator.previous();
+        if (elementsIterator.hasPrevious()) {
+            currentElement = (DocumentViewModelChildlessElement) elementsIterator.previous();
         } else {
             currentElement = null;
         }
     }
 
     public void moveRight() {
-        if (wordIterator.hasNext()) {
-
+        if (elementsIterator.hasNext()) {
+            currentElement = (DocumentViewModelChildlessElement) elementsIterator.next();
         }
     }
 

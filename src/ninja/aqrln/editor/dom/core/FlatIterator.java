@@ -70,12 +70,12 @@ public class FlatIterator implements ListIterator<Element> {
 
     @Override
     public int nextIndex() {
-        return -1;
+        return iterators.get(currentIteratorIndex).nextIndex();
     }
 
     @Override
     public int previousIndex() {
-        return -1;
+        return iterators.get(currentIteratorIndex).previousIndex();
     }
 
     @Override
