@@ -25,6 +25,10 @@ public class FlatIterator implements ListIterator<Element> {
 
     @Override
     public boolean hasNext() {
+        if (currentIteratorIndex == -1) {
+            currentIteratorIndex++;
+        }
+
         while (currentIteratorIndex < iterators.size() && !iterators.get(currentIteratorIndex).hasNext()) {
             currentIteratorIndex++;
         }
@@ -66,26 +70,26 @@ public class FlatIterator implements ListIterator<Element> {
 
     @Override
     public int nextIndex() {
-        return 0;
+        return -1;
     }
 
     @Override
     public int previousIndex() {
-        return 0;
+        return -1;
     }
 
     @Override
     public void remove() {
-
+        iterators.get(currentIteratorIndex).remove();
     }
 
     @Override
     public void set(Element element) {
-
+        iterators.get(currentIteratorIndex).set(element);
     }
 
     @Override
     public void add(Element element) {
-
+        iterators.get(currentIteratorIndex).add(element);
     }
 }
