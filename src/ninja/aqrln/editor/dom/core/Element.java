@@ -12,4 +12,6 @@ public interface Element extends Serializable {
     void setStyle(Style style);
     Style getStyle();
     ListIterator<Element> getFlatIterator();
+    CompositeElement getParent();
+    void setParent(CompositeElement parent);
 }

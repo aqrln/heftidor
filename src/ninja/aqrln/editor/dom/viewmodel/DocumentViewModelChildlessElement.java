@@ -1,6 +1,7 @@
 package ninja.aqrln.editor.dom.viewmodel;
 
 import ninja.aqrln.editor.dom.core.ChildlessElement;
+import ninja.aqrln.editor.dom.model.DocumentModelChildlessElement;
 
 import java.awt.Dimension;
 
@@ -9,6 +10,16 @@ import java.awt.Dimension;
  */
 public abstract class DocumentViewModelChildlessElement extends ChildlessElement implements DocumentViewModelElement {
     private ViewContext context = new ViewContext();
+
+    private DocumentModelChildlessElement origin;
+
+    public DocumentModelChildlessElement getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(DocumentModelChildlessElement origin) {
+        this.origin = origin;
+    }
 
     @Override
     public Dimension getSize() {

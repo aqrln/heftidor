@@ -64,7 +64,7 @@ public class Document implements Serializable {
         ParagraphElement paragraph = new ParagraphElement();
 
         for (char c : text.toCharArray()) {
-            paragraph.getChildren().add(new CharacterElement(c));
+            paragraph.addChild(new CharacterElement(c));
         }
 
         paragraph.setAlignment(alignment);

@@ -1,6 +1,7 @@
 package ninja.aqrln.editor.component;
 
 import ninja.aqrln.editor.dom.Document;
+import ninja.aqrln.editor.dom.core.CompositeElement;
 import ninja.aqrln.editor.dom.core.Element;
 import ninja.aqrln.editor.dom.core.Style;
 import ninja.aqrln.editor.dom.viewmodel.*;
@@ -108,18 +109,23 @@ public class EditorPane extends JPanel implements KeyListener {
         Point position;
 
         if (elementsIterator.hasNext()) {
-            DocumentViewModelElement nextElement = (DocumentViewModelElement) elementsIterator.next();
+            DocumentViewModelElement nextElement = getNextElement();
             ViewContext nextElementContext = nextElement.getViewContext();
             size = nextElementContext.getSize();
             Point nextPosition = nextElementContext.getPosition();
             position = new Point(nextPosition.x - size.width, nextPosition.y);
-            elementsIterator.previous();
         } else {
             size = new Dimension(0, Style.DEFAULT_FONT.getSize());
             position = new Point(0, 0); // TODO
         }
 
         return new ViewContext(size, position);
+    }
+
+    private DocumentViewModelChildlessElement getNextElement() {
+        DocumentViewModelChildlessElement element = (DocumentViewModelChildlessElement) elementsIterator.next();
+        elementsIterator.previous();
+        return element;
     }
 
     @Override
@@ -136,10 +142,22 @@ public class EditorPane extends JPanel implements KeyListener {
                 moveLeft();
                 repaint();
                 break;
+
             case KeyEvent.VK_RIGHT:
                 moveRight();
                 repaint();
                 break;
+
+            case KeyEvent.VK_UP:
+                moveUp();
+                repaint();
+                break;
+
+            case KeyEvent.VK_DOWN:
+                moveDown();
+                repaint();
+                break;
+
             default:
                 break;
         }
@@ -178,10 +196,27 @@ public class EditorPane extends JPanel implements KeyListener {
     }
 
     public void moveUp() {
+        if (currentElement == null) {
+            return;
+        }
 
+        CompositeElement currentLine = currentElement.getParent().getParent();
+        int currentIndex = elementsIterator.previousIndex();
+
+        while (currentElement.getParent().getParent() == currentLine ||
+                (elementsIterator.previousIndex() >= 0 && elementsIterator.previousIndex() <= currentIndex)) {
+            moveLeft();
+        }
     }
 
     public void moveDown() {
+        DocumentViewModelChildlessElement element = currentElement != null ? currentElement : getNextElement();
 
+        CompositeElement currentLine = element.getParent().getParent();
+
+        while (element.getParent().getParent() == currentLine) {
+            moveRight();
+            element = currentElement;
+        }
     }
 }

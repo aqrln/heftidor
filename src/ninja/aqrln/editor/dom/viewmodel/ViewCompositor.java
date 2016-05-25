@@ -25,12 +25,12 @@ public class ViewCompositor implements DocumentModelVisitor {
         if (Character.isSpaceChar(element.getCharacter())) {
             closeWord(true);
         } else {
-            currentWord.getChildren().add(new CharacterViewElement(element));
+            currentWord.addChild(new CharacterViewElement(element));
         }
     }
 
     private void closeWord(boolean addSpace) {
-        int maxLineWidth = currentPage.CONTENT_WIDTH;
+        int maxLineWidth = PageElement.CONTENT_WIDTH;
         int lineWidth = currentLine.getSize().width;
         int newLineWidth = lineWidth + currentWord.getSize().width;
 
@@ -39,7 +39,7 @@ public class ViewCompositor implements DocumentModelVisitor {
             currentLine = new LineElement();
         }
 
-        currentLine.getChildren().add(currentWord);
+        currentLine.addChild(currentWord);
         currentWord = new WordElement();
 
         if (addSpace) {
@@ -48,7 +48,7 @@ public class ViewCompositor implements DocumentModelVisitor {
             lineWidth = currentLine.getSize().width;
             int maxSpaceWidth = maxLineWidth - lineWidth;
             space.setWidth(Integer.min(spaceWidth, maxSpaceWidth));
-            currentLine.getChildren().add(space);
+            currentLine.addChild(space);
         }
     }
 
@@ -59,7 +59,7 @@ public class ViewCompositor implements DocumentModelVisitor {
         currentLine = new LineElement();
 
         if (element.hasFirstLineIndent()) {
-            currentLine.getChildren().add(new IndentElement());
+            currentLine.addChild(new IndentElement());
         }
 
         for (Element child : element.getChildren()) {
@@ -72,18 +72,18 @@ public class ViewCompositor implements DocumentModelVisitor {
     }
 
     private void addLineToPage() {
-        int maxContentHeight = currentPage.CONTENT_HEIGHT;
+        int maxContentHeight = PageElement.CONTENT_HEIGHT;
         int contentHeight = currentPage.getContentHeight();
         int newContentHeight = contentHeight + currentLine.getSize().height;
 
         if (newContentHeight > maxContentHeight) {
-            result.getChildren().add(currentPage);
+            result.addChild(currentPage);
             currentPage = new PageElement();
         }
 
         TextAligner.getAligner(currentAlignment).align(currentLine);
 
-        currentPage.getChildren().add(currentLine);
+        currentPage.addChild(currentLine);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class ViewCompositor implements DocumentModelVisitor {
             ((DocumentModelElement) child).accept(this);
         }
 
-        result.getChildren().add(currentPage);
+        result.addChild(currentPage);
     }
 
     public ComposedRootElement getResult() {

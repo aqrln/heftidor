@@ -9,6 +9,16 @@ import java.util.List;
 public abstract class CompositeElement implements Element {
     protected List<Element> children;
 
+    private CompositeElement parent;
+
+    public CompositeElement getParent() {
+        return parent;
+    }
+
+    public void setParent(CompositeElement parent) {
+        this.parent = parent;
+    }
+
     @Override
     public List<Element> getChildren() {
         return children;
@@ -32,5 +42,10 @@ public abstract class CompositeElement implements Element {
         }
 
         return children.get(children.size() - 1).getStyle();
+    }
+
+    public void addChild(Element element) {
+        element.setParent(this);
+        getChildren().add(element);
     }
 }

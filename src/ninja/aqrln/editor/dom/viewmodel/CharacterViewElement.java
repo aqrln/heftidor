@@ -11,10 +11,8 @@ import java.awt.FontMetrics;
  * @author Alexey Orlenko
  */
 public class CharacterViewElement extends DocumentViewModelChildlessElement {
-    private CharacterElement characterElement;
-
     public CharacterViewElement(CharacterElement element) {
-        this.characterElement = element;
+        setOrigin(element);
     }
 
     @Override
@@ -25,9 +23,9 @@ public class CharacterViewElement extends DocumentViewModelChildlessElement {
     @Override
     public Dimension calculateSize() {
         Canvas canvas = new Canvas();
-        FontMetrics fontMetrics = canvas.getFontMetrics(characterElement.getStyle().getFont());
+        FontMetrics fontMetrics = canvas.getFontMetrics(getOrigin().getStyle().getFont());
 
-        int width = fontMetrics.charWidth(characterElement.getCharacter());
+        int width = fontMetrics.charWidth(((CharacterElement) getOrigin()).getCharacter());
         int height = fontMetrics.getHeight();
 
         return new Dimension(width, height);
@@ -35,15 +33,15 @@ public class CharacterViewElement extends DocumentViewModelChildlessElement {
 
     @Override
     public void setStyle(Style style) {
-        characterElement.setStyle(style);
+        getOrigin().setStyle(style);
     }
 
     @Override
     public Style getStyle() {
-        return characterElement.getStyle();
+        return getOrigin().getStyle();
     }
 
     public char getCharacter() {
-        return characterElement.getCharacter();
+        return ((CharacterElement) getOrigin()).getCharacter();
     }
 }
