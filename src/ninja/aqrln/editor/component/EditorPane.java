@@ -29,6 +29,8 @@ public class EditorPane extends JPanel implements KeyListener {
 
     private static final Stroke CURSOR_STROKE = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
 
+    private boolean movingForward = true;
+
     public EditorPane(Document document) {
         this.document = document;
         setPreferredSize(new Dimension(800, 600));
@@ -149,16 +151,29 @@ public class EditorPane extends JPanel implements KeyListener {
     }
 
     public void moveLeft() {
-        if (elementsIterator.hasPrevious()) {
-            currentElement = (DocumentViewModelChildlessElement) elementsIterator.previous();
-        } else {
+        if (!elementsIterator.hasPrevious()) {
             currentElement = null;
+            return;
+        }
+
+        currentElement = (DocumentViewModelChildlessElement) elementsIterator.previous();
+
+        if (movingForward) {
+            movingForward = false;
+            moveLeft();
         }
     }
 
     public void moveRight() {
-        if (elementsIterator.hasNext()) {
-            currentElement = (DocumentViewModelChildlessElement) elementsIterator.next();
+        if (!elementsIterator.hasNext()) {
+            return;
+        }
+
+        currentElement = (DocumentViewModelChildlessElement) elementsIterator.next();
+
+        if (!movingForward) {
+            movingForward = true;
+            moveRight();
         }
     }
 
