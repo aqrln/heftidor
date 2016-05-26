@@ -141,7 +141,10 @@ public class EditorPane extends JPanel implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-
+        char c = e.getKeyChar();
+        if (isPrintableChar(c)) {
+            addChar(c);
+        }
     }
 
     @Override
@@ -170,10 +173,6 @@ public class EditorPane extends JPanel implements KeyListener {
                 break;
 
             default:
-                char c = e.getKeyChar();
-                if (isPrintableChar(c)) {
-                    addChar(c);
-                }
                 break;
         }
     }
