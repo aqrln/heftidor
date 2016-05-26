@@ -1,9 +1,9 @@
 package ninja.aqrln.editor.component;
 
 import ninja.aqrln.editor.dom.Document;
-import ninja.aqrln.editor.dom.core.CompositeElement;
 import ninja.aqrln.editor.dom.core.Element;
 import ninja.aqrln.editor.dom.core.Style;
+import ninja.aqrln.editor.dom.model.DocumentModelChildlessElement;
 import ninja.aqrln.editor.dom.viewmodel.*;
 
 import javax.swing.JPanel;
@@ -25,7 +25,7 @@ public class EditorPane extends JPanel implements KeyListener {
 
     private boolean cursorVisible;
 
-    private DocumentViewModelChildlessElement currentElement;
+    private DocumentModelChildlessElement currentElement;
     private ListIterator<Element> elementsIterator;
 
     private static final Stroke CURSOR_STROKE = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
@@ -39,7 +39,7 @@ public class EditorPane extends JPanel implements KeyListener {
 
         document.compose();
         currentElement = null;
-        elementsIterator = document.getDocumentView().getFlatIterator();
+        elementsIterator = document.getRootElement().getFlatIterator();
 
         cursorVisible = false;
         setupCursorTimer();
@@ -102,14 +102,16 @@ public class EditorPane extends JPanel implements KeyListener {
 
     private ViewContext getCurrentElementViewContext() {
         if (currentElement != null) {
-            return currentElement.getViewContext();
+            DocumentViewModelChildlessElement view = getCurrentElementView();
+            view.getSize();
+            return view.getViewContext();
         }
 
         Dimension size;
         Point position;
 
         if (elementsIterator.hasNext()) {
-            DocumentViewModelElement nextElement = getNextElement();
+            DocumentViewModelElement nextElement = getElementView(getNextElement());
             ViewContext nextElementContext = nextElement.getViewContext();
             size = nextElementContext.getSize();
             Point nextPosition = nextElementContext.getPosition();
@@ -122,10 +124,18 @@ public class EditorPane extends JPanel implements KeyListener {
         return new ViewContext(size, position);
     }
 
-    private DocumentViewModelChildlessElement getNextElement() {
-        DocumentViewModelChildlessElement element = (DocumentViewModelChildlessElement) elementsIterator.next();
+    private DocumentModelChildlessElement getNextElement() {
+        DocumentModelChildlessElement element = (DocumentModelChildlessElement) elementsIterator.next();
         elementsIterator.previous();
         return element;
+    }
+
+    private DocumentViewModelChildlessElement getElementView(DocumentModelChildlessElement element) {
+        return document.getDocumentView().getElementRegistry().getElementView(element);
+    }
+
+    private DocumentViewModelChildlessElement getCurrentElementView() {
+        return getElementView(currentElement);
     }
 
     @Override
@@ -174,7 +184,7 @@ public class EditorPane extends JPanel implements KeyListener {
             return;
         }
 
-        currentElement = (DocumentViewModelChildlessElement) elementsIterator.previous();
+        currentElement = (DocumentModelChildlessElement) elementsIterator.previous();
 
         if (movingForward) {
             movingForward = false;
@@ -187,7 +197,7 @@ public class EditorPane extends JPanel implements KeyListener {
             return;
         }
 
-        currentElement = (DocumentViewModelChildlessElement) elementsIterator.next();
+        currentElement = (DocumentModelChildlessElement) elementsIterator.next();
 
         if (!movingForward) {
             movingForward = true;
@@ -200,21 +210,20 @@ public class EditorPane extends JPanel implements KeyListener {
             return;
         }
 
-        CompositeElement currentLine = currentElement.getParent().getParent();
-        int currentIndex = elementsIterator.previousIndex();
+        ElementRegistry registry = document.getDocumentView().getElementRegistry();
+        LineElement currentLine = registry.getLine(currentElement);
 
-        while (currentElement.getParent().getParent() == currentLine ||
-                (elementsIterator.previousIndex() >= 0 && elementsIterator.previousIndex() <= currentIndex)) {
+        while (registry.getLine(currentElement) == currentLine) {
             moveLeft();
         }
     }
 
     public void moveDown() {
-        DocumentViewModelChildlessElement element = currentElement != null ? currentElement : getNextElement();
+        DocumentModelChildlessElement element = currentElement != null ? currentElement : getNextElement();
+        ElementRegistry registry = document.getDocumentView().getElementRegistry();
+        LineElement currentLine = registry.getLine(element);
 
-        CompositeElement currentLine = element.getParent().getParent();
-
-        while (element.getParent().getParent() == currentLine) {
+        while (registry.getLine(element) == currentLine) {
             moveRight();
             element = currentElement;
         }

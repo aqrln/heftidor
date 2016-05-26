@@ -14,6 +14,17 @@ public class ComposedRootElement extends DocumentViewModelCompositeElement {
 
     private Dimension size;
 
+    private ElementRegistry elementRegistry;
+
+    public ComposedRootElement() {
+        super();
+        elementRegistry = new ElementRegistry();
+    }
+
+    public ElementRegistry getElementRegistry() {
+        return elementRegistry;
+    }
+
     @Override
     public void accept(DocumentViewModelVisitor visitor) {
         visitor.visitRootElement(this);

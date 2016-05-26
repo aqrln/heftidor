@@ -23,13 +23,15 @@ public class ViewCompositor implements DocumentModelVisitor {
     @Override
     public void visitCharacterElement(CharacterElement element) {
         if (Character.isSpaceChar(element.getCharacter())) {
-            closeWord(true);
+            closeWord(element);
         } else {
-            currentWord.addChild(new CharacterViewElement(element));
+            CharacterViewElement view = new CharacterViewElement(element);
+            currentWord.addChild(view);
+            result.getElementRegistry().setElementView(element, view);
         }
     }
 
-    private void closeWord(boolean addSpace) {
+    private void closeWord(CharacterElement spaceElement) {
         int maxLineWidth = PageElement.CONTENT_WIDTH;
         int lineWidth = currentLine.getSize().width;
         int newLineWidth = lineWidth + currentWord.getSize().width;
@@ -42,13 +44,17 @@ public class ViewCompositor implements DocumentModelVisitor {
         currentLine.addChild(currentWord);
         currentWord = new WordElement();
 
-        if (addSpace) {
+        if (spaceElement != null) {
             SpaceElement space = new SpaceElement();
+            space.setOrigin(spaceElement);
+
             int spaceWidth = space.getWidth();
             lineWidth = currentLine.getSize().width;
             int maxSpaceWidth = maxLineWidth - lineWidth;
             space.setWidth(Integer.min(spaceWidth, maxSpaceWidth));
+
             currentLine.addChild(space);
+            result.getElementRegistry().setElementView(spaceElement, space);
         }
     }
 
@@ -66,7 +72,7 @@ public class ViewCompositor implements DocumentModelVisitor {
             ((DocumentModelElement) child).accept(this);
         }
 
-        closeWord(false);
+        closeWord(null);
         currentLine.setLastLine(true);
         addLineToPage();
     }

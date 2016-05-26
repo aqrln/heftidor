@@ -37,13 +37,8 @@ public class SpaceElement extends DocumentViewModelChildlessElement {
     }
 
     @Override
-    public Dimension getSize() {
-        return new Dimension(width, style.getFont().getSize());
-    }
-
-    @Override
     public Dimension calculateSize() {
-        return getSize();
+        return new Dimension(width, style.getFont().getSize());
     }
 
     @Override
