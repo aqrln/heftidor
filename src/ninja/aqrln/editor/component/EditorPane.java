@@ -3,6 +3,7 @@ package ninja.aqrln.editor.component;
 import ninja.aqrln.editor.dom.Document;
 import ninja.aqrln.editor.dom.core.Element;
 import ninja.aqrln.editor.dom.core.Style;
+import ninja.aqrln.editor.dom.model.CharacterElement;
 import ninja.aqrln.editor.dom.model.DocumentModelChildlessElement;
 import ninja.aqrln.editor.dom.viewmodel.*;
 
@@ -169,8 +170,34 @@ public class EditorPane extends JPanel implements KeyListener {
                 break;
 
             default:
+                char c = e.getKeyChar();
+                if (isPrintableChar(c)) {
+                    addChar(c);
+                }
                 break;
         }
+    }
+
+    private boolean isPrintableChar(char character) {
+        Character.UnicodeBlock block = Character.UnicodeBlock.of(character);
+        return !Character.isISOControl(character) &&
+                character != KeyEvent.CHAR_UNDEFINED &&
+                block != null &&
+                block != Character.UnicodeBlock.SPECIALS;
+    }
+
+    private void addChar(char character) {
+        DocumentModelChildlessElement element = currentElement != null ? currentElement : getNextElement();
+
+        Style style = element.getStyle();
+        CharacterElement characterElement = new CharacterElement(character, style);
+
+        characterElement.setParent(element.getParent());
+        elementsIterator.add(characterElement);
+        currentElement = characterElement;
+
+        document.compose();
+        repaint();
     }
 
     @Override
