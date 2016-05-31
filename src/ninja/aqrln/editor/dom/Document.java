@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 public class Document implements Serializable {
     private RootElement documentData;
-    private ComposedRootElement composedDocument;
+    private transient ComposedRootElement composedDocument;
     private String name;
 
     public Document() {
