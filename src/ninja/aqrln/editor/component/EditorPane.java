@@ -172,6 +172,14 @@ public class EditorPane extends JPanel implements KeyListener {
                 repaint();
                 break;
 
+            case KeyEvent.VK_BACK_SPACE:
+                deleteLeft();
+                break;
+
+            case KeyEvent.VK_DELETE:
+                deleteRight();
+                break;
+
             default:
                 break;
         }
@@ -204,7 +212,7 @@ public class EditorPane extends JPanel implements KeyListener {
 
     }
 
-    public void moveLeft() {
+    private void moveLeft() {
         if (!elementsIterator.hasPrevious()) {
             currentElement = null;
             return;
@@ -218,7 +226,7 @@ public class EditorPane extends JPanel implements KeyListener {
         }
     }
 
-    public void moveRight() {
+    private void moveRight() {
         if (!elementsIterator.hasNext()) {
             return;
         }
@@ -231,7 +239,7 @@ public class EditorPane extends JPanel implements KeyListener {
         }
     }
 
-    public void moveUp() {
+    private void moveUp() {
         if (currentElement == null) {
             return;
         }
@@ -244,7 +252,7 @@ public class EditorPane extends JPanel implements KeyListener {
         }
     }
 
-    public void moveDown() {
+    private void moveDown() {
         DocumentModelChildlessElement element = currentElement != null ? currentElement : getNextElement();
         ElementRegistry registry = document.getDocumentView().getElementRegistry();
         LineElement currentLine = registry.getLine(element);
@@ -253,5 +261,42 @@ public class EditorPane extends JPanel implements KeyListener {
             moveRight();
             element = currentElement;
         }
+    }
+
+    private void deleteLeft() {
+        if (!elementsIterator.hasPrevious()) {
+            return;
+        }
+
+        elementsIterator.remove();
+
+        if (elementsIterator.hasPrevious()) {
+            elementsIterator.previous();
+            currentElement = (DocumentModelChildlessElement) elementsIterator.next();
+        } else {
+            currentElement = null;
+        }
+
+        document.compose();
+        repaint();
+    }
+
+    private void deleteRight() {
+        if (!elementsIterator.hasNext()) {
+            return;
+        }
+
+        elementsIterator.next();
+        elementsIterator.remove();
+
+        if (elementsIterator.hasPrevious()) {
+            elementsIterator.previous();
+            currentElement = (DocumentModelChildlessElement) elementsIterator.next();
+        } else {
+            currentElement = null;
+        }
+
+        document.compose();
+        repaint();
     }
 }
