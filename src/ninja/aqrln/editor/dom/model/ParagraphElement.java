@@ -37,4 +37,8 @@ public class ParagraphElement extends DocumentModelCompositeElement {
     public ListIterator<Element> getFlatIterator() {
         return children.listIterator();
     }
+
+    public boolean getFirstLineIndent() {
+        return firstLineIndent;
+    }
 }

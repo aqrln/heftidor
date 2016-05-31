@@ -280,7 +280,7 @@ public class ApplicationUI implements ApplicationMenuListener {
 
     @Override
     public void onToggleFirstLineIndent() {
-
+        activeWindow.getEditorPane().toggleCurrentParagraphIndent();
     }
 
     @Override

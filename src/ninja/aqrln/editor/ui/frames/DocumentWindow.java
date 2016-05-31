@@ -21,6 +21,7 @@ public class DocumentWindow extends JFrame implements WindowListener, Comparable
     private String filename = null;
 
     private long timestamp = new Date().getTime();
+    private EditorPane editorPane;
 
     public DocumentWindow(Document document) {
         super();
@@ -49,11 +50,11 @@ public class DocumentWindow extends JFrame implements WindowListener, Comparable
     }
 
     private void initializeComponents() {
-        EditorPane editor = new EditorPane(document);
-        JScrollPane scrollPane = new JScrollPane(editor);
+        editorPane = new EditorPane(document);
+        JScrollPane scrollPane = new JScrollPane(editorPane);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
-        editor.setScrollPane(scrollPane);
-        addKeyListener(editor);
+        editorPane.setScrollPane(scrollPane);
+        addKeyListener(editorPane);
 
         getContentPane().add(scrollPane);
         pack();
@@ -117,5 +118,9 @@ public class DocumentWindow extends JFrame implements WindowListener, Comparable
     public int compareTo(Object o) {
         DocumentWindow other = (DocumentWindow) o;
         return Long.signum(this.timestamp - other.timestamp);
+    }
+
+    public EditorPane getEditorPane() {
+        return editorPane;
     }
 }

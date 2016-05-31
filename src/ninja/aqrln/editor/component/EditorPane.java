@@ -5,6 +5,7 @@ import ninja.aqrln.editor.dom.core.Element;
 import ninja.aqrln.editor.dom.core.Style;
 import ninja.aqrln.editor.dom.model.CharacterElement;
 import ninja.aqrln.editor.dom.model.DocumentModelChildlessElement;
+import ninja.aqrln.editor.dom.model.ParagraphElement;
 import ninja.aqrln.editor.dom.viewmodel.*;
 
 import javax.swing.JPanel;
@@ -295,6 +296,14 @@ public class EditorPane extends JPanel implements KeyListener {
         } else {
             currentElement = null;
         }
+
+        document.compose();
+        repaint();
+    }
+
+    public void toggleCurrentParagraphIndent() {
+        ParagraphElement paragraph = (ParagraphElement) currentElement.getParent();
+        paragraph.setFirstLineIndent(!paragraph.getFirstLineIndent());
 
         document.compose();
         repaint();
