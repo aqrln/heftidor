@@ -1,6 +1,7 @@
 package ninja.aqrln.editor.component;
 
 import ninja.aqrln.editor.dom.Document;
+import ninja.aqrln.editor.dom.core.CompositeElement;
 import ninja.aqrln.editor.dom.core.Element;
 import ninja.aqrln.editor.dom.core.Style;
 import ninja.aqrln.editor.dom.model.CharacterElement;
@@ -248,27 +249,37 @@ public class EditorPane extends JPanel implements KeyListener {
     }
 
     private void moveUp() {
-//        if (currentElement == null) {
-//            return;
-//        }
-//
-//        ElementRegistry registry = document.getDocumentView().getElementRegistry();
-//        LineElement currentLine = registry.getLine(currentElement);
-//
-//        while (registry.getLine(currentElement) == currentLine) {
-//            moveLeft();
-//        }
+        verticalMove(this::moveLeft);
     }
 
     private void moveDown() {
-//        DocumentModelChildlessElement element = currentElement != null ? currentElement : getNextElement();
-//        ElementRegistry registry = document.getDocumentView().getElementRegistry();
-//        LineElement currentLine = registry.getLine(element);
-//
-//        while (registry.getLine(element) == currentLine) {
-//            moveRight();
-//            element = currentElement;
-//        }
+        verticalMove(this::moveRight);
+    }
+
+    private void verticalMove(Runnable action) {
+        ElementRegistry registry = document.getDocumentView().getElementRegistry();
+
+        int index = nextElementIndex;
+        if (index > 0) {
+            index--;
+        }
+
+        DocumentModelChildlessElement currentElement =
+                (DocumentModelChildlessElement) getParagraph().getChildren().get(index);
+        LineElement currentLine = registry.getLine(currentElement);
+
+        for (Element element : currentLine.getChildren()) {
+            int moveLength;
+            if (element instanceof CompositeElement) {
+                moveLength = element.getChildren().size();
+            } else {
+                moveLength = 1;
+            }
+
+            for (int i = 0; i < moveLength; i++) {
+                action.run();
+            }
+        }
     }
 
     private void deleteLeft() {
