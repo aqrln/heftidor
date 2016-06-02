@@ -309,19 +309,11 @@ public class EditorPane extends JPanel implements KeyListener {
     }
 
     private void deleteRight() {
-//        if (!elementsIterator.hasNext()) {
-//            return;
-//        }
-//
-//        elementsIterator.next();
-//        elementsIterator.remove();
-//
-//        if (elementsIterator.hasPrevious()) {
-//            elementsIterator.previous();
-//            currentElement = (DocumentModelChildlessElement) elementsIterator.next();
-//        } else {
-//            currentElement = null;
-//        }
+        if (nextElementIndex < getParagraph().getChildren().size()) {
+            getParagraph().getChildren().remove(nextElementIndex);
+        } else if (paragraphIndex < document.getRootElement().getChildren().size() - 1) {
+            joinParagraphs(paragraphIndex, paragraphIndex + 1);
+        }
 
         document.compose();
         repaint();
