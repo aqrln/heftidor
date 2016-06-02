@@ -13,9 +13,8 @@ import javax.swing.JScrollPane;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ListIterator;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
+import java.util.List;
 
 /**
  * @author Alexey Orlenko
@@ -27,8 +26,8 @@ public class EditorPane extends JPanel implements KeyListener {
 
     private boolean cursorVisible;
 
-    private DocumentModelChildlessElement currentElement;
-    private ListIterator<Element> elementsIterator;
+    private int paragraphIndex;
+    private int nextElementIndex;
 
     private static final Stroke CURSOR_STROKE = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
 
@@ -40,8 +39,8 @@ public class EditorPane extends JPanel implements KeyListener {
         setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 
         document.compose();
-        currentElement = null;
-        elementsIterator = document.getRootElement().getFlatIterator();
+        paragraphIndex = 0;
+        nextElementIndex = 0;
 
         cursorVisible = false;
         setupCursorTimer();
@@ -103,41 +102,46 @@ public class EditorPane extends JPanel implements KeyListener {
     }
 
     private ViewContext getCurrentElementViewContext() {
-        if (currentElement != null) {
-            DocumentViewModelChildlessElement view = getCurrentElementView();
-            view.getSize();
-            return view.getViewContext();
-        }
-
         Dimension size;
         Point position;
 
-        if (elementsIterator.hasNext()) {
-            DocumentViewModelElement nextElement = getElementView(getNextElement());
-            ViewContext nextElementContext = nextElement.getViewContext();
-            size = nextElementContext.getSize();
-            Point nextPosition = nextElementContext.getPosition();
-            position = new Point(nextPosition.x - size.width, nextPosition.y);
-        } else {
+        ParagraphElement paragraph = getParagraph();
+
+        if (paragraph.getChildren().size() == 0) {
             size = new Dimension(0, Style.DEFAULT_FONT.getSize());
             position = new Point(0, 0); // TODO
+        } else {
+            int index = nextElementIndex;
+            boolean cursorRight = false;
+
+            if (index > 0) {
+                index--;
+                cursorRight = true;
+            }
+
+            DocumentViewModelElement view =
+                    getElementView((DocumentModelChildlessElement) paragraph.getChildren().get(index));
+            ViewContext context = view.getViewContext();
+
+            size = context.getSize();
+            Point elementPosition = context.getPosition();
+
+            if (cursorRight) {
+                position = elementPosition;
+            } else {
+                position = new Point(elementPosition.x - size.width, elementPosition.y);
+            }
         }
 
         return new ViewContext(size, position);
     }
 
-    private DocumentModelChildlessElement getNextElement() {
-        DocumentModelChildlessElement element = (DocumentModelChildlessElement) elementsIterator.next();
-        elementsIterator.previous();
-        return element;
+    private ParagraphElement getParagraph() {
+        return (ParagraphElement) document.getRootElement().getChildren().get(paragraphIndex);
     }
 
     private DocumentViewModelChildlessElement getElementView(DocumentModelChildlessElement element) {
         return document.getDocumentView().getElementRegistry().getElementView(element);
-    }
-
-    private DocumentViewModelChildlessElement getCurrentElementView() {
-        return getElementView(currentElement);
     }
 
     @Override
@@ -195,14 +199,26 @@ public class EditorPane extends JPanel implements KeyListener {
     }
 
     private void addChar(char character) {
-        DocumentModelChildlessElement element = currentElement != null ? currentElement : getNextElement();
+        Style style;
 
-        Style style = element.getStyle();
+        List<Element> paragraphChildren = getParagraph().getChildren();
+
+        if (paragraphChildren.size() > 0) {
+            int index = nextElementIndex;
+            if (index > 0) {
+                index--;
+            }
+
+            DocumentModelChildlessElement element = (DocumentModelChildlessElement) getParagraph().getChildren().get(index);
+            style = element.getStyle();
+        } else {
+            style = Style.DEFAULT_STYLE;
+        }
+
         CharacterElement characterElement = new CharacterElement(character, style);
 
-        characterElement.setParent(element.getParent());
-        elementsIterator.add(characterElement);
-        currentElement = characterElement;
+        paragraphChildren.add(nextElementIndex, characterElement);
+        nextElementIndex++;
 
         document.compose();
         repaint();
@@ -214,95 +230,86 @@ public class EditorPane extends JPanel implements KeyListener {
     }
 
     private void moveLeft() {
-        if (!elementsIterator.hasPrevious()) {
-            currentElement = null;
-            return;
-        }
-
-        currentElement = (DocumentModelChildlessElement) elementsIterator.previous();
-
-        if (movingForward) {
-            movingForward = false;
-            moveLeft();
+        if (nextElementIndex > 0) {
+            nextElementIndex--;
+        } else if (paragraphIndex > 0) {
+            paragraphIndex--;
+            nextElementIndex = getParagraph().getChildren().size();
         }
     }
 
     private void moveRight() {
-        if (!elementsIterator.hasNext()) {
-            return;
-        }
-
-        currentElement = (DocumentModelChildlessElement) elementsIterator.next();
-
-        if (!movingForward) {
-            movingForward = true;
-            moveRight();
+        if (nextElementIndex < getParagraph().getChildren().size()) {
+            nextElementIndex++;
+        } else if (paragraphIndex < document.getRootElement().getChildren().size() - 1) {
+            paragraphIndex++;
+            nextElementIndex = 0;
         }
     }
 
     private void moveUp() {
-        if (currentElement == null) {
-            return;
-        }
-
-        ElementRegistry registry = document.getDocumentView().getElementRegistry();
-        LineElement currentLine = registry.getLine(currentElement);
-
-        while (registry.getLine(currentElement) == currentLine) {
-            moveLeft();
-        }
+//        if (currentElement == null) {
+//            return;
+//        }
+//
+//        ElementRegistry registry = document.getDocumentView().getElementRegistry();
+//        LineElement currentLine = registry.getLine(currentElement);
+//
+//        while (registry.getLine(currentElement) == currentLine) {
+//            moveLeft();
+//        }
     }
 
     private void moveDown() {
-        DocumentModelChildlessElement element = currentElement != null ? currentElement : getNextElement();
-        ElementRegistry registry = document.getDocumentView().getElementRegistry();
-        LineElement currentLine = registry.getLine(element);
-
-        while (registry.getLine(element) == currentLine) {
-            moveRight();
-            element = currentElement;
-        }
+//        DocumentModelChildlessElement element = currentElement != null ? currentElement : getNextElement();
+//        ElementRegistry registry = document.getDocumentView().getElementRegistry();
+//        LineElement currentLine = registry.getLine(element);
+//
+//        while (registry.getLine(element) == currentLine) {
+//            moveRight();
+//            element = currentElement;
+//        }
     }
 
     private void deleteLeft() {
-        if (!elementsIterator.hasPrevious()) {
-            return;
-        }
-
-        elementsIterator.remove();
-
-        if (elementsIterator.hasPrevious()) {
-            elementsIterator.previous();
-            currentElement = (DocumentModelChildlessElement) elementsIterator.next();
-        } else {
-            currentElement = null;
-        }
+//        if (!elementsIterator.hasPrevious()) {
+//            return;
+//        }
+//
+//        elementsIterator.remove();
+//
+//        if (elementsIterator.hasPrevious()) {
+//            elementsIterator.previous();
+//            currentElement = (DocumentModelChildlessElement) elementsIterator.next();
+//        } else {
+//            currentElement = null;
+//        }
 
         document.compose();
         repaint();
     }
 
     private void deleteRight() {
-        if (!elementsIterator.hasNext()) {
-            return;
-        }
-
-        elementsIterator.next();
-        elementsIterator.remove();
-
-        if (elementsIterator.hasPrevious()) {
-            elementsIterator.previous();
-            currentElement = (DocumentModelChildlessElement) elementsIterator.next();
-        } else {
-            currentElement = null;
-        }
+//        if (!elementsIterator.hasNext()) {
+//            return;
+//        }
+//
+//        elementsIterator.next();
+//        elementsIterator.remove();
+//
+//        if (elementsIterator.hasPrevious()) {
+//            elementsIterator.previous();
+//            currentElement = (DocumentModelChildlessElement) elementsIterator.next();
+//        } else {
+//            currentElement = null;
+//        }
 
         document.compose();
         repaint();
     }
 
     public void toggleCurrentParagraphIndent() {
-        ParagraphElement paragraph = (ParagraphElement) currentElement.getParent();
+        ParagraphElement paragraph = getParagraph();
         paragraph.setFirstLineIndent(!paragraph.getFirstLineIndent());
 
         document.compose();
