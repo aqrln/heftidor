@@ -6,6 +6,7 @@ import ninja.aqrln.editor.dom.core.Element;
 import ninja.aqrln.editor.dom.core.Style;
 import ninja.aqrln.editor.dom.model.CharacterElement;
 import ninja.aqrln.editor.dom.model.DocumentModelChildlessElement;
+import ninja.aqrln.editor.dom.model.ParagraphAlignment;
 import ninja.aqrln.editor.dom.model.ParagraphElement;
 import ninja.aqrln.editor.dom.viewmodel.*;
 
@@ -323,6 +324,30 @@ public class EditorPane extends JPanel implements KeyListener {
         ParagraphElement paragraph = getParagraph();
         paragraph.setFirstLineIndent(!paragraph.getFirstLineIndent());
 
+        document.compose();
+        repaint();
+    }
+
+    public void centerCurrentParagraph() {
+        getParagraph().setAlignment(ParagraphAlignment.CENTER);
+        document.compose();
+        repaint();
+    }
+
+    public void leftAlignCurrentParagraph() {
+        getParagraph().setAlignment(ParagraphAlignment.LEFT);
+        document.compose();
+        repaint();
+    }
+
+    public void rightAlignCurrentParagraph() {
+        getParagraph().setAlignment(ParagraphAlignment.RIGHT);
+        document.compose();
+        repaint();
+    }
+
+    public void justifyCurrentParagraph() {
+        getParagraph().setAlignment(ParagraphAlignment.JUSTIFY);
         document.compose();
         repaint();
     }

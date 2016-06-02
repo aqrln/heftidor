@@ -23,6 +23,7 @@ public abstract class ApplicationMenuDirector {
 
         builder.addSubMenu(buildFileMenu());
         builder.addSubMenu(buildEditMenu());
+        builder.addSubMenu(buildFormatMenu());
         builder.addSubMenu(buildWindowMenu());
 
         buildAdditionalMenus(builder);
@@ -89,10 +90,26 @@ public abstract class ApplicationMenuDirector {
         builder.buildMenuItem("Paste", KeystrokeHelper.getMenuShortcut(KeyEvent.VK_V), KeyEvent.VK_P,
                 e -> listener.onPaste());
 
-        builder.buildSeparator();
+        return builder.getMenu();
+    }
+
+    private JMenu buildFormatMenu() {
+        MenuBuilder builder = UIFactory.getInstance().createMenuBuilder();
+        builder.buildMenu("Format", KeyEvent.VK_T);
 
         builder.buildMenuItem("Toggle first line indent", KeystrokeHelper.getMenuShortcut(KeyEvent.VK_I), KeyEvent.VK_I,
                 e -> listener.onToggleFirstLineIndent());
+
+        builder.buildSeparator();
+
+        builder.buildMenuItem("Left align paragraph", KeystrokeHelper.getMenuShortcut(KeyEvent.VK_L), KeyEvent.VK_L,
+                e -> listener.onLeftAlignParagraph());
+        builder.buildMenuItem("Right align paragraph", KeystrokeHelper.getMenuShortcut(KeyEvent.VK_R), KeyEvent.VK_R,
+                e -> listener.onRightAlignParagraph());
+        builder.buildMenuItem("Center paragraph", KeystrokeHelper.getMenuShortcut(KeyEvent.VK_E), KeyEvent.VK_C,
+                e -> listener.onCenterParagraph());
+        builder.buildMenuItem("Justify paragraph", KeystrokeHelper.getMenuShortcut(KeyEvent.VK_J), KeyEvent.VK_J,
+                e -> listener.onJustifyParagraph());
 
         return builder.getMenu();
     }

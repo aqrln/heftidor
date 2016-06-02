@@ -31,4 +31,9 @@ public interface ApplicationMenuListener {
     void notifyWindowMenuReference(JMenu windowMenu);
 
     void onPublishToCloud();
+
+    void onLeftAlignParagraph();
+    void onRightAlignParagraph();
+    void onCenterParagraph();
+    void onJustifyParagraph();
 }

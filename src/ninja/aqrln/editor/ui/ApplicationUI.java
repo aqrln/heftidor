@@ -280,6 +280,10 @@ public class ApplicationUI implements ApplicationMenuListener {
 
     @Override
     public void onToggleFirstLineIndent() {
+        if (activeWindow == null) {
+            return;
+        }
+
         activeWindow.getEditorPane().toggleCurrentParagraphIndent();
     }
 
@@ -312,5 +316,41 @@ public class ApplicationUI implements ApplicationMenuListener {
             textArea.setEditable(false);
             JOptionPane.showMessageDialog(null, textArea, "URL", JOptionPane.INFORMATION_MESSAGE);
         }
+    }
+
+    @Override
+    public void onLeftAlignParagraph() {
+        if (activeWindow == null) {
+            return;
+        }
+
+        activeWindow.getEditorPane().leftAlignCurrentParagraph();
+    }
+
+    @Override
+    public void onRightAlignParagraph() {
+        if (activeWindow == null) {
+            return;
+        }
+
+        activeWindow.getEditorPane().rightAlignCurrentParagraph();
+    }
+
+    @Override
+    public void onCenterParagraph() {
+        if (activeWindow == null) {
+            return;
+        }
+
+        activeWindow.getEditorPane().centerCurrentParagraph();
+    }
+
+    @Override
+    public void onJustifyParagraph() {
+        if (activeWindow == null) {
+            return;
+        }
+
+        activeWindow.getEditorPane().justifyCurrentParagraph();
     }
 }
