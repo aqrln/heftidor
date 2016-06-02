@@ -34,6 +34,7 @@ public class SpaceElement extends DocumentViewModelChildlessElement {
 
     public void setWidth(int width) {
         this.width = width;
+        getViewContext().setSize(null);
     }
 
     @Override
