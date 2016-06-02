@@ -46,12 +46,13 @@ public class Document implements Serializable {
                 "maintain prospective access goal-oriented sticky. Mesh re-engineer to mesh collaboratively " +
                 "progressive strategic maintainable via backward-compatible open-source channels deliver ideas.";
 
-//        documentData.addChild(createParagraph(firstParagraphText, ParagraphAlignment.LEFT));
+        documentData.addChild(createParagraph(firstParagraphText, ParagraphAlignment.LEFT));
+        documentData.addChild(createParagraph(firstParagraphText, ParagraphAlignment.LEFT));
 //        documentData.addChild(createParagraph(secondParagraphText, ParagraphAlignment.JUSTIFY));
 //        documentData.addChild(createParagraph(thirdParagraphText, ParagraphAlignment.RIGHT));
 //        documentData.addChild(createParagraph(fourthParagraphText, ParagraphAlignment.CENTER));
 
-        documentData.addChild(createParagraph(" ", ParagraphAlignment.JUSTIFY));
+//        documentData.addChild(createParagraph(" ", ParagraphAlignment.JUSTIFY));
     }
 
     public String getName() {

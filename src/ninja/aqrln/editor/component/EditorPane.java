@@ -283,21 +283,29 @@ public class EditorPane extends JPanel implements KeyListener {
     }
 
     private void deleteLeft() {
-//        if (!elementsIterator.hasPrevious()) {
-//            return;
-//        }
-//
-//        elementsIterator.remove();
-//
-//        if (elementsIterator.hasPrevious()) {
-//            elementsIterator.previous();
-//            currentElement = (DocumentModelChildlessElement) elementsIterator.next();
-//        } else {
-//            currentElement = null;
-//        }
+        if (nextElementIndex > 0) {
+            nextElementIndex--;
+            getParagraph().getChildren().remove(nextElementIndex);
+        } else if (paragraphIndex > 0) {
+            nextElementIndex = joinParagraphs(paragraphIndex - 1, paragraphIndex);
+            paragraphIndex--;
+        }
 
         document.compose();
         repaint();
+    }
+
+    private int joinParagraphs(int firstIndex, int secondIndex) {
+        List<Element> paragraphs = document.getRootElement().getChildren();
+        ParagraphElement firstParagraph = (ParagraphElement) paragraphs.get(firstIndex);
+        ParagraphElement secondParagraph = (ParagraphElement) paragraphs.get(secondIndex);
+
+        int displacement = firstParagraph.getChildren().size();
+
+        secondParagraph.getChildren().forEach(firstParagraph::addChild);
+        paragraphs.remove(secondIndex);
+
+        return displacement;
     }
 
     private void deleteRight() {
