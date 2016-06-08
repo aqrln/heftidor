@@ -187,6 +187,10 @@ public class EditorPane extends JPanel implements KeyListener {
                 deleteRight();
                 break;
 
+            case KeyEvent.VK_ENTER:
+                splitParagraphAtInsertionPoint();
+                break;
+
             default:
                 break;
         }
@@ -221,6 +225,28 @@ public class EditorPane extends JPanel implements KeyListener {
 
         paragraphChildren.add(nextElementIndex, characterElement);
         nextElementIndex++;
+
+        document.compose();
+        repaint();
+    }
+
+    private void splitParagraphAtInsertionPoint() {
+        ParagraphElement paragraph = getParagraph();
+        List<Element> children = paragraph.getChildren();
+
+        List<Element> tail = children.subList(nextElementIndex, children.size());
+
+        ParagraphElement newParagraph = new ParagraphElement();
+        newParagraph.setAlignment(paragraph.getAlignment());
+        newParagraph.setFirstLineIndent(paragraph.getFirstLineIndent());
+
+        tail.forEach(newParagraph::addChild);
+        tail.clear();
+
+        paragraphIndex++;
+        nextElementIndex = 0;
+
+        document.getRootElement().getChildren().add(paragraphIndex, newParagraph);
 
         document.compose();
         repaint();
