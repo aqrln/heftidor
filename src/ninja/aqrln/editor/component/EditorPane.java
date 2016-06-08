@@ -109,30 +109,33 @@ public class EditorPane extends JPanel implements KeyListener {
 
         ParagraphElement paragraph = getParagraph();
 
+
+        boolean cursorRight = false;
+        int index = nextElementIndex;
+
+        if (index > 0) {
+            index--;
+            cursorRight = true;
+        }
+
+        DocumentModelChildlessElement element;
+
         if (paragraph.getChildren().size() == 0) {
-            size = new Dimension(0, Style.DEFAULT_FONT.getSize());
-            position = new Point(0, 0); // TODO
+            element = (DocumentModelChildlessElement) paragraph.getDummyElement();
         } else {
-            int index = nextElementIndex;
-            boolean cursorRight = false;
+            element = (DocumentModelChildlessElement) paragraph.getChildren().get(index);
+        }
 
-            if (index > 0) {
-                index--;
-                cursorRight = true;
-            }
+        DocumentViewModelElement view = getElementView(element);
+        ViewContext context = view.getViewContext();
 
-            DocumentViewModelElement view =
-                    getElementView((DocumentModelChildlessElement) paragraph.getChildren().get(index));
-            ViewContext context = view.getViewContext();
+        size = context.getSize();
+        Point elementPosition = context.getPosition();
 
-            size = context.getSize();
-            Point elementPosition = context.getPosition();
-
-            if (cursorRight) {
-                position = elementPosition;
-            } else {
-                position = new Point(elementPosition.x - size.width, elementPosition.y);
-            }
+        if (cursorRight) {
+            position = elementPosition;
+        } else {
+            position = new Point(elementPosition.x - size.width, elementPosition.y);
         }
 
         return new ViewContext(size, position);

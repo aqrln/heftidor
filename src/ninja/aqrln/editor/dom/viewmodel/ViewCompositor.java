@@ -4,6 +4,8 @@ import ninja.aqrln.editor.dom.core.Element;
 import ninja.aqrln.editor.dom.model.*;
 import ninja.aqrln.editor.dom.viewmodel.alignment.TextAligner;
 
+import java.util.List;
+
 /**
  * @author Alexey Orlenko
  */
@@ -68,8 +70,14 @@ public class ViewCompositor implements DocumentModelVisitor {
             currentLine.addChild(new IndentElement());
         }
 
-        for (Element child : element.getChildren()) {
+        List<Element> children = element.getChildren();
+
+        for (Element child : children) {
             ((DocumentModelElement) child).accept(this);
+        }
+
+        if (children.size() == 0) {
+            element.getDummyElement().accept(this);
         }
 
         closeWord(null);
