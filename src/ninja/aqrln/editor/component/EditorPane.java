@@ -1,7 +1,6 @@
 package ninja.aqrln.editor.component;
 
 import ninja.aqrln.editor.dom.Document;
-import ninja.aqrln.editor.dom.core.CompositeElement;
 import ninja.aqrln.editor.dom.core.Element;
 import ninja.aqrln.editor.dom.core.Style;
 import ninja.aqrln.editor.dom.model.CharacterElement;
@@ -15,8 +14,9 @@ import javax.swing.JScrollPane;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.*;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * @author Alexey Orlenko
@@ -109,20 +109,11 @@ public class EditorPane extends JPanel implements KeyListener {
 
 
         boolean cursorRight = false;
-        int index = nextElementIndex;
-
-        if (index > 0) {
-            index--;
+        if (nextElementIndex > 0) {
             cursorRight = true;
         }
 
-        DocumentModelChildlessElement element;
-
-        if (paragraph.getChildren().size() == 0) {
-            element = (DocumentModelChildlessElement) paragraph.getDummyElement();
-        } else {
-            element = (DocumentModelChildlessElement) paragraph.getChildren().get(index);
-        }
+        DocumentModelChildlessElement element = getCurrentElement();
 
         DocumentViewModelElement view = getElementView(element);
         ViewContext context = view.getViewContext();
@@ -206,22 +197,8 @@ public class EditorPane extends JPanel implements KeyListener {
     }
 
     private void addChar(char character) {
-        Style style;
-
+        Style style = getCurrentElement().getStyle();
         List<Element> paragraphChildren = getParagraph().getChildren();
-
-        if (paragraphChildren.size() > 0) {
-            int index = nextElementIndex;
-            if (index > 0) {
-                index--;
-            }
-
-            DocumentModelChildlessElement element = (DocumentModelChildlessElement) getParagraph().getChildren().get(index);
-            style = element.getStyle();
-        } else {
-            style = Style.DEFAULT_STYLE;
-        }
-
         CharacterElement characterElement = new CharacterElement(character, style);
 
         paragraphChildren.add(nextElementIndex, characterElement);
@@ -277,36 +254,44 @@ public class EditorPane extends JPanel implements KeyListener {
     }
 
     private void moveUp() {
-        verticalMove(this::moveLeft);
+        LineElement currentLine = getCurrentLine();
+        LineElement newLine = currentLine;
+
+        while (currentLine == newLine && !(paragraphIndex == 0 && newLine.isFirstLine())) {
+            moveLeft();
+            newLine = getCurrentLine();
+        }
     }
 
     private void moveDown() {
-        verticalMove(this::moveRight);
+        LineElement currentLine = getCurrentLine();
+        LineElement newLine = currentLine;
+
+        while (currentLine == newLine &&
+                !(paragraphIndex == document.getRootElement().getChildren().size() - 1 && newLine.isLastLine())) {
+            moveRight();
+            newLine = getCurrentLine();
+        }
     }
 
-    private void verticalMove(Runnable action) {
+    private LineElement getCurrentLine() {
         ElementRegistry registry = document.getDocumentView().getElementRegistry();
+        DocumentModelChildlessElement currentElement = getCurrentElement();
+        return registry.getLine(currentElement);
+    }
 
+    private DocumentModelChildlessElement getCurrentElement() {
         int index = nextElementIndex;
         if (index > 0) {
             index--;
         }
 
-        DocumentModelChildlessElement currentElement =
-                (DocumentModelChildlessElement) getParagraph().getChildren().get(index);
-        LineElement currentLine = registry.getLine(currentElement);
+        ParagraphElement paragraph = getParagraph();
 
-        for (Element element : currentLine.getChildren()) {
-            int moveLength;
-            if (element instanceof CompositeElement) {
-                moveLength = element.getChildren().size();
-            } else {
-                moveLength = 1;
-            }
-
-            for (int i = 0; i < moveLength; i++) {
-                action.run();
-            }
+        if (paragraph.getChildren().size() > 0) {
+            return (DocumentModelChildlessElement) getParagraph().getChildren().get(index);
+        } else {
+            return paragraph.getDummyElement();
         }
     }
 

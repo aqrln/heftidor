@@ -10,6 +10,7 @@ import java.util.ListIterator;
  * @author Alexey Orlenko
  */
 public class LineElement extends DocumentViewModelCompositeElement {
+    private boolean firstLineInParagraph = false;
     private boolean lastLineInParagraph = false;
 
     public boolean isLastLine() {
@@ -18,6 +19,14 @@ public class LineElement extends DocumentViewModelCompositeElement {
 
     public void setLastLine(boolean isLastLine) {
         lastLineInParagraph = isLastLine;
+    }
+
+    public boolean isFirstLine() {
+        return firstLineInParagraph;
+    }
+
+    public void setFirstLine(boolean isFirstLine) {
+        firstLineInParagraph = isFirstLine;
     }
 
     @Override

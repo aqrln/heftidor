@@ -65,6 +65,7 @@ public class ViewCompositor implements DocumentModelVisitor {
         currentAlignment = element.getAlignment();
 
         currentLine = new LineElement();
+        currentLine.setFirstLine(true);
 
         if (element.hasFirstLineIndent()) {
             currentLine.addChild(new IndentElement());

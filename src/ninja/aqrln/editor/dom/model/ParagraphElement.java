@@ -12,7 +12,7 @@ public class ParagraphElement extends DocumentModelCompositeElement {
 
     private boolean firstLineIndent = true;
 
-    private DocumentModelElement dummyElement = null;
+    private DocumentModelChildlessElement dummyElement = null;
 
     public ParagraphAlignment getAlignment() {
         return alignment;
@@ -44,7 +44,7 @@ public class ParagraphElement extends DocumentModelCompositeElement {
         return firstLineIndent;
     }
 
-    public DocumentModelElement getDummyElement() {
+    public DocumentModelChildlessElement getDummyElement() {
         if (dummyElement == null) {
             dummyElement = new CharacterElement(' ');
         }
