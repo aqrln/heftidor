@@ -33,8 +33,6 @@ public class EditorPane extends JPanel implements KeyListener {
 
     private static final Stroke CURSOR_STROKE = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
 
-    private boolean movingForward = true;
-
     public EditorPane(Document document) {
         this.document = document;
         setPreferredSize(new Dimension(800, 600));
