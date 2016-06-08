@@ -51,6 +51,10 @@ public class LaTeXExporter implements DocumentModelVisitor {
     }
 
     private void closeStyle(Style style) {
+        if (style == null) {
+            return;
+        }
+
         Font font = style.getFont();
 
         if (font.isBold()) {
