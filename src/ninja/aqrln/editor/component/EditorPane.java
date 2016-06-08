@@ -3,10 +3,7 @@ package ninja.aqrln.editor.component;
 import ninja.aqrln.editor.dom.Document;
 import ninja.aqrln.editor.dom.core.Element;
 import ninja.aqrln.editor.dom.core.Style;
-import ninja.aqrln.editor.dom.model.CharacterElement;
-import ninja.aqrln.editor.dom.model.DocumentModelChildlessElement;
-import ninja.aqrln.editor.dom.model.ParagraphAlignment;
-import ninja.aqrln.editor.dom.model.ParagraphElement;
+import ninja.aqrln.editor.dom.model.*;
 import ninja.aqrln.editor.dom.viewmodel.*;
 
 import javax.swing.JPanel;
@@ -14,6 +11,9 @@ import javax.swing.JScrollPane;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -21,7 +21,7 @@ import java.util.TimerTask;
 /**
  * @author Alexey Orlenko
  */
-public class EditorPane extends JPanel implements KeyListener {
+public class EditorPane extends JPanel implements KeyListener, MouseListener {
     private Document document;
 
     private JScrollPane scrollPane;
@@ -37,6 +37,8 @@ public class EditorPane extends JPanel implements KeyListener {
         this.document = document;
         setPreferredSize(new Dimension(800, 600));
         setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
+
+        addMouseListener(this);
 
         document.compose();
         paragraphIndex = 0;
@@ -362,5 +364,95 @@ public class EditorPane extends JPanel implements KeyListener {
         getParagraph().setAlignment(ParagraphAlignment.JUSTIFY);
         document.compose();
         repaint();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        int x = e.getX();
+        int y = e.getY();
+
+        CursorContext nearestElement = getNearestElement(x, y);
+        paragraphIndex = nearestElement.getParagraphIndex();
+        nextElementIndex = nearestElement.getNextElementIndex();
+
+        repaint();
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    private CursorContext getNearestElement(int x, int y) {
+        // TODO: optimize by iterating only visible elements
+        int selectedParagraphIndex = 0;
+        int selectedElementIndex = 0;
+
+        double distance = Double.MAX_VALUE;
+
+        ElementRegistry registry = document.getDocumentView().getElementRegistry();
+
+        List<Element> paragraphs = document.getRootElement().getChildren();
+        for (int paragraph = 0; paragraph < paragraphs.size(); paragraph++) {
+            ParagraphElement paragraphElement = (ParagraphElement) paragraphs.get(paragraph);
+            List<Element> elements = paragraphElement.getChildren();
+            List<Element> elementsIterable = elements;
+            int elementsCount = elements.size() + 1;
+
+            if (elements.size() == 0) {
+                elementsIterable = new ArrayList<>(1);
+                elementsIterable.add(paragraphElement.getDummyElement());
+            }
+
+            Dimension size = null;
+            Point leftTop = null;
+            int anchorX;
+            int anchorY;
+
+            for (int element = 0; element < elementsCount; element++) {
+                if (element < elementsIterable.size()) {
+                    DocumentModelChildlessElement model = (DocumentModelChildlessElement) elementsIterable.get(element);
+                    DocumentViewModelChildlessElement viewModel = registry.getElementView(model);
+
+                    size = viewModel.getSize();
+                    leftTop = viewModel.getViewContext().getPosition();
+
+                    anchorX = leftTop.x + size.width / 2;
+                    anchorY = leftTop.y + size.height / 2;
+                } else {
+                    anchorX = leftTop.x + size.width;
+                    anchorY = leftTop.y + size.height;
+                }
+
+                double currentDistance = getDistance(x, y, anchorX, anchorY);
+
+                if (currentDistance < distance) {
+                    distance = currentDistance;
+                    selectedElementIndex = element;
+                    selectedParagraphIndex = paragraph;
+                }
+            }
+        }
+
+        return new CursorContext(selectedParagraphIndex, selectedElementIndex);
+    }
+
+    private double getDistance(int x1, int y1, int x2, int y2) {
+        return Math.hypot(Math.abs(x1 - x2), Math.abs(y1 - y2));
     }
 }
