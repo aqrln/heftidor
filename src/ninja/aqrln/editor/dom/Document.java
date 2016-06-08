@@ -91,6 +91,10 @@ public class Document implements Serializable {
         return documentData;
     }
 
+    public void setRootElement(RootElement root) {
+        documentData = root;
+    }
+
     public void compose() {
         ViewCompositor compositor = new ViewCompositor();
         documentData.accept(compositor);

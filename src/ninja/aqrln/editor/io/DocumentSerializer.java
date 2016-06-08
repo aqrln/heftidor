@@ -1,13 +1,13 @@
 package ninja.aqrln.editor.io;
 
 import ninja.aqrln.editor.dom.Document;
+import ninja.aqrln.editor.io.xml.Reader;
+import ninja.aqrln.editor.io.xml.Writer;
 
 import javax.swing.JOptionPane;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -19,9 +19,9 @@ public class DocumentSerializer {
         String oldName = document.getName();
         document.setName(getDocumentName(filename));
 
-        try (FileOutputStream fileStream = new FileOutputStream(filename);
-             ObjectOutputStream stream = new ObjectOutputStream(fileStream)) {
-            stream.writeObject(document);
+        try (FileOutputStream stream = new FileOutputStream(filename)) {
+            Writer encoder = new Writer(document);
+            encoder.write(stream);
         } catch (IOException ioError) {
             document.setName(oldName);
 
@@ -33,15 +33,12 @@ public class DocumentSerializer {
     public static Document load(String filename) {
         Document document = null;
 
-        try (FileInputStream fileStream = new FileInputStream(filename);
-             ObjectInputStream stream = new ObjectInputStream(fileStream)) {
-            document = (Document) stream.readObject();
+        try (FileInputStream stream = new FileInputStream(filename)) {
+            Reader decoder = new Reader(stream);
+            document = decoder.read();
         } catch (IOException ioError) {
             JOptionPane.showMessageDialog(null, "Cannot load file " + filename, "Error", JOptionPane.ERROR_MESSAGE);
             ioError.printStackTrace();
-        } catch (ClassNotFoundException classError) {
-            JOptionPane.showMessageDialog(null, "Internal error happened", "Error", JOptionPane.ERROR_MESSAGE);
-            classError.printStackTrace();
         }
 
         if (document != null) {

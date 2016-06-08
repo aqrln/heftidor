@@ -109,24 +109,8 @@ public class HTMLExporter implements DocumentModelVisitor {
 
     @Override
     public void visitParagraphElement(ParagraphElement element) {
-        String alignment = "";
-        switch (element.getAlignment()) {
-            case LEFT:
-                alignment = "left";
-                break;
-            case RIGHT:
-                alignment = "right";
-                break;
-            case CENTER:
-                alignment = "center";
-                break;
-            case JUSTIFY:
-                alignment = "justify";
-                break;
-        }
-
         stringBuilder.append("<p style=\"text-align: ");
-        stringBuilder.append(alignment);
+        stringBuilder.append(element.getAlignment().toString());
         stringBuilder.append(";\">");
 
         for (Element character : element.getChildren()) {
