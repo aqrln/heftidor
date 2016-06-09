@@ -9,10 +9,7 @@ import ninja.aqrln.editor.dom.viewmodel.*;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -21,7 +18,7 @@ import java.util.TimerTask;
 /**
  * @author Alexey Orlenko
  */
-public class EditorPane extends JPanel implements KeyListener, MouseListener {
+public class EditorPane extends JPanel implements KeyListener, MouseListener, MouseMotionListener {
     private Document document;
 
     private JScrollPane scrollPane;
@@ -33,12 +30,20 @@ public class EditorPane extends JPanel implements KeyListener, MouseListener {
 
     private static final Stroke CURSOR_STROKE = new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL);
 
+    private CursorContext selectionStart;
+    private CursorContext selectionEnd;
+    private boolean hasSelection = false;
+    private boolean isSelectingNow = false;
+
+    private static final Color SELECTION_COLOR = new Color(20, 140, 255, 127);
+
     public EditorPane(Document document) {
         this.document = document;
         setPreferredSize(new Dimension(800, 600));
         setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 
         addMouseListener(this);
+        addMouseMotionListener(this);
 
         document.compose();
         paragraphIndex = 0;
@@ -82,7 +87,63 @@ public class EditorPane extends JPanel implements KeyListener, MouseListener {
         DocumentRenderer renderer = new DocumentRenderer(g2d, paddingLeft, 0, viewHeight, scrolledValue);
         rootElement.accept(renderer);
 
+        drawSelection(g2d);
+
         drawCursor(g2d);
+    }
+
+    private void drawSelection(Graphics2D graphics) {
+        if (!hasSelection) {
+            return;
+        }
+
+        CursorContext selectionStart = this.selectionStart;
+        CursorContext selectionEnd = this.selectionEnd;
+
+        if (selectionEnd.getParagraphIndex() < selectionStart.getParagraphIndex() ||
+                (selectionStart.getParagraphIndex() == selectionEnd.getParagraphIndex() &&
+                        selectionEnd.getNextElementIndex() < selectionStart.getNextElementIndex())) {
+            selectionStart = this.selectionEnd;
+            selectionEnd = this.selectionStart;
+        }
+
+        for (int paragraph = selectionStart.getParagraphIndex();
+             paragraph <= selectionEnd.getParagraphIndex(); paragraph++) {
+            ParagraphElement paragraphElement =
+                    (ParagraphElement) document.getRootElement().getChildren().get(paragraph);
+            int start;
+            int end;
+
+            if (paragraph == selectionStart.getParagraphIndex()) {
+                start = selectionStart.getNextElementIndex();
+            } else {
+                start = 0;
+            }
+
+            if (paragraph == selectionEnd.getParagraphIndex()) {
+                end = selectionEnd.getNextElementIndex();
+            } else {
+                end = paragraphElement.getChildren().size();
+            }
+
+            drawParagraphSelection(graphics, paragraphElement, start, end);
+        }
+    }
+
+    private void drawParagraphSelection(Graphics2D graphics, ParagraphElement paragraph, int start, int end) {
+        List<Element> elements = paragraph.getChildren();
+        ElementRegistry registry = document.getDocumentView().getElementRegistry();
+
+        for (int index = start; index < end; index++) {
+            DocumentModelChildlessElement element = (DocumentModelChildlessElement) elements.get(index);
+            DocumentViewModelChildlessElement view = registry.getElementView(element);
+
+            Point position = view.getViewContext().getPosition();
+            Dimension size = view.getSize();
+
+            graphics.setColor(SELECTION_COLOR);
+            graphics.fillRect(position.x, position.y, size.width, size.height);
+        }
     }
 
     private void drawCursor(Graphics2D graphics) {
@@ -106,9 +167,6 @@ public class EditorPane extends JPanel implements KeyListener, MouseListener {
     private ViewContext getCurrentElementViewContext() {
         Dimension size;
         Point position;
-
-        ParagraphElement paragraph = getParagraph();
-
 
         boolean cursorRight = false;
         if (nextElementIndex > 0) {
@@ -368,24 +426,31 @@ public class EditorPane extends JPanel implements KeyListener, MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        int x = e.getX();
-        int y = e.getY();
-
-        CursorContext nearestElement = getNearestElement(x, y);
-        paragraphIndex = nearestElement.getParagraphIndex();
-        nextElementIndex = nearestElement.getNextElementIndex();
-
-        repaint();
+        hasSelection = false;
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
+        selectionStart = getNearestElement(e.getX(), e.getY());
+        selectionEnd = selectionStart;
 
+        paragraphIndex = selectionStart.getParagraphIndex();
+        nextElementIndex = selectionStart.getNextElementIndex();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
+        if (!hasSelection) {
+            return;
+        }
 
+        if (selectionEnd.getParagraphIndex() < selectionStart.getParagraphIndex() ||
+                (selectionStart.getParagraphIndex() == selectionEnd.getParagraphIndex() &&
+                        selectionEnd.getNextElementIndex() < selectionStart.getNextElementIndex())) {
+            CursorContext temp = selectionStart;
+            selectionStart = selectionEnd;
+            selectionEnd = temp;
+        }
     }
 
     @Override
@@ -395,6 +460,22 @@ public class EditorPane extends JPanel implements KeyListener, MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        hasSelection = true;
+
+        selectionEnd = getNearestElement(e.getX(), e.getY());
+        paragraphIndex = selectionEnd.getParagraphIndex();
+        nextElementIndex = selectionEnd.getNextElementIndex();
+
+        repaint();
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
 
     }
 
