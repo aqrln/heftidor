@@ -36,4 +36,8 @@ public interface ApplicationMenuListener {
     void onRightAlignParagraph();
     void onCenterParagraph();
     void onJustifyParagraph();
+
+    void onMakeNormal();
+    void onMakeBold();
+    void onMakeItalic();
 }

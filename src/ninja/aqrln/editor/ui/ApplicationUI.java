@@ -353,4 +353,31 @@ public class ApplicationUI implements ApplicationMenuListener {
 
         activeWindow.getEditorPane().justifyCurrentParagraph();
     }
+
+    @Override
+    public void onMakeNormal() {
+        if (activeWindow == null) {
+            return;
+        }
+
+        activeWindow.getEditorPane().makeSelectionNormal();
+    }
+
+    @Override
+    public void onMakeBold() {
+        if (activeWindow == null) {
+            return;
+        }
+
+        activeWindow.getEditorPane().makeSelectionBold();
+    }
+
+    @Override
+    public void onMakeItalic() {
+        if (activeWindow == null) {
+            return;
+        }
+
+        activeWindow.getEditorPane().makeSelectionItalic();
+    }
 }

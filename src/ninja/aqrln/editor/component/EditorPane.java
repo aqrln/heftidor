@@ -3,7 +3,10 @@ package ninja.aqrln.editor.component;
 import ninja.aqrln.editor.dom.Document;
 import ninja.aqrln.editor.dom.core.Element;
 import ninja.aqrln.editor.dom.core.Style;
-import ninja.aqrln.editor.dom.model.*;
+import ninja.aqrln.editor.dom.model.CharacterElement;
+import ninja.aqrln.editor.dom.model.DocumentModelChildlessElement;
+import ninja.aqrln.editor.dom.model.ParagraphAlignment;
+import ninja.aqrln.editor.dom.model.ParagraphElement;
 import ninja.aqrln.editor.dom.viewmodel.*;
 
 import javax.swing.JPanel;
@@ -14,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.function.Consumer;
 
 /**
  * @author Alexey Orlenko
@@ -93,6 +97,20 @@ public class EditorPane extends JPanel implements KeyListener, MouseListener, Mo
     }
 
     private void drawSelection(Graphics2D graphics) {
+        ElementRegistry registry = document.getDocumentView().getElementRegistry();
+
+        traverseSelection(element -> {
+            DocumentViewModelChildlessElement view = registry.getElementView(element);
+
+            Point position = view.getViewContext().getPosition();
+            Dimension size = view.getSize();
+
+            graphics.setColor(SELECTION_COLOR);
+            graphics.fillRect(position.x, position.y, size.width, size.height);
+        });
+    }
+
+    private void traverseSelection(Consumer<DocumentModelChildlessElement> consumer) {
         if (!hasSelection) {
             return;
         }
@@ -126,23 +144,12 @@ public class EditorPane extends JPanel implements KeyListener, MouseListener, Mo
                 end = paragraphElement.getChildren().size();
             }
 
-            drawParagraphSelection(graphics, paragraphElement, start, end);
-        }
-    }
+            List<Element> elements = paragraphElement.getChildren();
 
-    private void drawParagraphSelection(Graphics2D graphics, ParagraphElement paragraph, int start, int end) {
-        List<Element> elements = paragraph.getChildren();
-        ElementRegistry registry = document.getDocumentView().getElementRegistry();
-
-        for (int index = start; index < end; index++) {
-            DocumentModelChildlessElement element = (DocumentModelChildlessElement) elements.get(index);
-            DocumentViewModelChildlessElement view = registry.getElementView(element);
-
-            Point position = view.getViewContext().getPosition();
-            Dimension size = view.getSize();
-
-            graphics.setColor(SELECTION_COLOR);
-            graphics.fillRect(position.x, position.y, size.width, size.height);
+            for (int index = start; index < end; index++) {
+                DocumentModelChildlessElement element = (DocumentModelChildlessElement) elements.get(index);
+                consumer.accept(element);
+            }
         }
     }
 
@@ -535,5 +542,30 @@ public class EditorPane extends JPanel implements KeyListener, MouseListener, Mo
 
     private double getDistance(int x1, int y1, int x2, int y2) {
         return Math.hypot(Math.abs(x1 - x2), Math.abs(y1 - y2));
+    }
+
+    public void makeSelectionNormal() {
+        changeSelectionFontStyle(Font.PLAIN);
+    }
+
+    public void makeSelectionBold() {
+        changeSelectionFontStyle(Font.BOLD);
+    }
+
+    public void makeSelectionItalic() {
+        changeSelectionFontStyle(Font.ITALIC);
+    }
+
+    private void changeSelectionFontStyle(int fontStyle) {
+        traverseSelection(element -> {
+            Style style = element.getStyle();
+            Font font = style.getFont();
+            Font newFont = new Font(font.getName(), fontStyle, font.getSize());
+            Style newStyle = new Style(newFont, style.getForegroundColor(), style.getBackgroundColor());
+            element.setStyle(newStyle);
+        });
+
+        document.compose();
+        repaint();
     }
 }

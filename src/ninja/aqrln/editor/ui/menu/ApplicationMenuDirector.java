@@ -97,7 +97,7 @@ public abstract class ApplicationMenuDirector {
         MenuBuilder builder = UIFactory.getInstance().createMenuBuilder();
         builder.buildMenu("Format", KeyEvent.VK_T);
 
-        builder.buildMenuItem("Toggle first line indent", KeystrokeHelper.getMenuShortcut(KeyEvent.VK_I), KeyEvent.VK_I,
+        builder.buildMenuItem("Toggle first line indent", KeystrokeHelper.getMenuShortcut(KeyEvent.VK_D), KeyEvent.VK_D,
                 e -> listener.onToggleFirstLineIndent());
 
         builder.buildSeparator();
@@ -110,6 +110,15 @@ public abstract class ApplicationMenuDirector {
                 e -> listener.onCenterParagraph());
         builder.buildMenuItem("Justify paragraph", KeystrokeHelper.getMenuShortcut(KeyEvent.VK_J), KeyEvent.VK_J,
                 e -> listener.onJustifyParagraph());
+
+        builder.buildSeparator();
+
+        builder.buildMenuItem("Make normal", KeystrokeHelper.getMenuShortcut(KeyEvent.VK_M), KeyEvent.VK_M,
+                e -> listener.onMakeNormal());
+        builder.buildMenuItem("Make bold", KeystrokeHelper.getMenuShortcut(KeyEvent.VK_B), KeyEvent.VK_B,
+                e -> listener.onMakeBold());
+        builder.buildMenuItem("Make italic", KeystrokeHelper.getMenuShortcut(KeyEvent.VK_I), KeyEvent.VK_I,
+                e -> listener.onMakeItalic());
 
         return builder.getMenu();
     }
