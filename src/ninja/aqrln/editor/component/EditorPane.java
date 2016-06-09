@@ -1,6 +1,7 @@
 package ninja.aqrln.editor.component;
 
 import ninja.aqrln.editor.dom.Document;
+import ninja.aqrln.editor.dom.core.CompositeElement;
 import ninja.aqrln.editor.dom.core.Element;
 import ninja.aqrln.editor.dom.core.Style;
 import ninja.aqrln.editor.dom.model.CharacterElement;
@@ -194,7 +195,7 @@ public class EditorPane extends JPanel implements KeyListener, MouseListener, Mo
         DocumentViewModelElement view = getElementView(element);
         ViewContext context = view.getViewContext();
 
-        size = context.getSize();
+        size = view.getSize();
         Point elementPosition = context.getPosition();
 
         if (cursorRight) {
@@ -274,11 +275,12 @@ public class EditorPane extends JPanel implements KeyListener, MouseListener, Mo
 
     private void addChar(char character) {
         Style style = getCurrentElement().getStyle();
-        List<Element> paragraphChildren = getParagraph().getChildren();
+        ParagraphElement paragraphElement = getParagraph();
+        List<Element> paragraphChildren = paragraphElement.getChildren();
         CharacterElement characterElement = new CharacterElement(character, style);
 
-        paragraphChildren.add(nextElementIndex, characterElement);
-        nextElementIndex++;
+        paragraphChildren.add(nextElementIndex++, characterElement);
+        characterElement.setParent(paragraphElement);
 
         document.compose();
         repaint();
@@ -597,6 +599,49 @@ public class EditorPane extends JPanel implements KeyListener, MouseListener, Mo
             Style newStyle = new Style(newFont, style.getForegroundColor(), style.getBackgroundColor());
             element.setStyle(newStyle);
         });
+
+        document.compose();
+        repaint();
+    }
+
+    public List<DocumentModelChildlessElement> copySelection() {
+        List<DocumentModelChildlessElement> list = new ArrayList<>();
+        traverseSelection(element -> list.add(element.clone()));
+        return list;
+    }
+
+    public List<DocumentModelChildlessElement> cutSelection() {
+        List<DocumentModelChildlessElement> list = copySelection();
+
+        while (paragraphIndex != selectionStart.getParagraphIndex() ||
+                nextElementIndex != selectionStart.getNextElementIndex()) {
+            deleteLeft();
+        }
+
+        hasSelection = false;
+
+        document.compose();
+        repaint();
+
+        return list;
+    }
+
+    public void pasteClipboard(List<DocumentModelChildlessElement> clipboardContent) {
+        CompositeElement prevParent = null;
+
+        for (DocumentModelChildlessElement element : clipboardContent) {
+            if (element.getParent() != prevParent && prevParent != null) {
+                splitParagraphAtInsertionPoint();
+            }
+
+            prevParent = element.getParent();
+
+            DocumentModelChildlessElement clonedElement = element.clone();
+            ParagraphElement paragraph = getParagraph();
+
+            clonedElement.setParent(paragraph);
+            paragraph.getChildren().add(nextElementIndex++, clonedElement);
+        }
 
         document.compose();
         repaint();

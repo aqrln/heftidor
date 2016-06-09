@@ -1,6 +1,7 @@
 package ninja.aqrln.editor.ui;
 
 import ninja.aqrln.editor.dom.Document;
+import ninja.aqrln.editor.dom.model.DocumentModelChildlessElement;
 import ninja.aqrln.editor.export.HTMLExporter;
 import ninja.aqrln.editor.export.LaTeXExporter;
 import ninja.aqrln.editor.export.latexrunner.LaTeXRunner;
@@ -16,13 +17,12 @@ import ninja.aqrln.editor.util.OperatingSystem;
 import javax.swing.*;
 import java.awt.Desktop;
 import java.awt.event.WindowEvent;
-import java.io.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * @author Alexey Orlenko
@@ -47,9 +47,12 @@ public class ApplicationUI implements ApplicationMenuListener {
 
     private JMenuBar applicationMenu;
 
+    private List<DocumentModelChildlessElement> clipboard;
+
     private ApplicationUI() {
         applicationMenu = UIFactory.getInstance().createApplicationMenuDirector(this).buildApplicationMenu();
         windowsPool = Collections.synchronizedSortedSet(new TreeSet<>());
+        clipboard = new ArrayList<>();
     }
 
     public void run() {
@@ -259,17 +262,29 @@ public class ApplicationUI implements ApplicationMenuListener {
 
     @Override
     public void onCut() {
+        if (activeWindow == null) {
+            return;
+        }
 
+        clipboard = activeWindow.getEditorPane().cutSelection();
     }
 
     @Override
     public void onCopy() {
+        if (activeWindow == null) {
+            return;
+        }
 
+        clipboard = activeWindow.getEditorPane().copySelection();
     }
 
     @Override
     public void onPaste() {
+        if (activeWindow == null) {
+            return;
+        }
 
+        activeWindow.getEditorPane().pasteClipboard(clipboard);
     }
 
     @Override
