@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
+ * Abstract composite element
  * @author Alexey Orlenko
  */
 public abstract class CompositeElement implements Element {
@@ -11,10 +12,18 @@ public abstract class CompositeElement implements Element {
 
     private CompositeElement parent;
 
+    /**
+     * Get parent element
+     * @return parent element
+     */
     public CompositeElement getParent() {
         return parent;
     }
 
+    /**
+     * Set parent element
+     * @param parent parent element
+     */
     public void setParent(CompositeElement parent) {
         this.parent = parent;
     }
@@ -24,6 +33,9 @@ public abstract class CompositeElement implements Element {
         return children;
     }
 
+    /**
+     * Public constructor
+     */
     public CompositeElement() {
         children = new LinkedList<>();
     }
@@ -44,6 +56,10 @@ public abstract class CompositeElement implements Element {
         return children.get(children.size() - 1).getStyle();
     }
 
+    /**
+     * Add a new child
+     * @param element child to be added
+     */
     public void addChild(Element element) {
         element.setParent(this);
         getChildren().add(element);

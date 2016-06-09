@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.util.List;
 
 /**
+ * Abstract document view model composite element
  * @author Alexey Orlenko
  */
 public abstract class DocumentViewModelCompositeElement extends CompositeElement implements DocumentViewModelElement {
@@ -21,6 +22,10 @@ public abstract class DocumentViewModelCompositeElement extends CompositeElement
         return context.getSize();
     }
 
+    /**
+     * Get view context
+     * @return view context
+     */
     public ViewContext getViewContext() {
         return context;
     }

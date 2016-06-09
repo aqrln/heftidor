@@ -11,6 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
+ * Facilities to connect to the API and push documents to cloud
  * @author Alexey Orlenko
  */
 public class EditorCloudAPI {
@@ -76,6 +77,12 @@ public class EditorCloudAPI {
         return response;
     }
 
+    /**
+     * Publish document to cloud
+     *
+     * @param htmlContent html data as string
+     * @return URL of the published document
+     */
     public static String publishDocument(String htmlContent) {
         String response = doPostRequest(htmlContent);
 

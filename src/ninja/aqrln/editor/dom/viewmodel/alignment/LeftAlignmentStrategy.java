@@ -3,6 +3,7 @@ package ninja.aqrln.editor.dom.viewmodel.alignment;
 import ninja.aqrln.editor.dom.viewmodel.LineElement;
 
 /**
+ * Left alignment strategy
  * @author Alexey Orlenko
  */
 public class LeftAlignmentStrategy implements TextAlignmentStrategy {

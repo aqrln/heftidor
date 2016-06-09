@@ -12,9 +12,14 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 
 /**
+ * Missing certificates installer
  * @author Alexey Orlenko
  */
 public class SSLHelper {
+
+    /**
+     * Load DSTRootCAX3 that seems to be missing in Java
+     */
     public static void installCertificate() {
         try {
             KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());

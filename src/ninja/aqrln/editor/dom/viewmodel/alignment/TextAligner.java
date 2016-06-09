@@ -3,6 +3,7 @@ package ninja.aqrln.editor.dom.viewmodel.alignment;
 import ninja.aqrln.editor.dom.model.ParagraphAlignment;
 
 /**
+ * Handles text alignment
  * @author Alexey Orlenko
  */
 public class TextAligner {
@@ -11,6 +12,11 @@ public class TextAligner {
     private static TextAlignmentStrategy center = new CenterAlignmentStrategy();
     private static TextAlignmentStrategy justify = new JustifyAlignmentStrategy();
 
+    /**
+     * Text alignment strategy factory method
+     * @param alignment paragraph alignment
+     * @return alignment strategy
+     */
     public static TextAlignmentStrategy getAligner(ParagraphAlignment alignment) {
         TextAlignmentStrategy strategy = null;
 

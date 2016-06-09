@@ -20,6 +20,7 @@ import java.util.TimerTask;
 import java.util.function.Consumer;
 
 /**
+ * Editor Swing component
  * @author Alexey Orlenko
  */
 public class EditorPane extends JPanel implements KeyListener, MouseListener, MouseMotionListener {
@@ -41,6 +42,10 @@ public class EditorPane extends JPanel implements KeyListener, MouseListener, Mo
 
     private static final Color SELECTION_COLOR = new Color(20, 140, 255, 127);
 
+    /**
+     * Public constructor
+     * @param document Document instance that is bound to this editor
+     */
     public EditorPane(Document document) {
         this.document = document;
         setPreferredSize(new Dimension(800, 600));
@@ -68,6 +73,10 @@ public class EditorPane extends JPanel implements KeyListener, MouseListener, Mo
         }, 0, 1000);
     }
 
+    /**
+     * Sets the scroll pane in which component is located
+     * @param scrollPane
+     */
     public void setScrollPane(JScrollPane scrollPane) {
         this.scrollPane = scrollPane;
     }
@@ -399,6 +408,9 @@ public class EditorPane extends JPanel implements KeyListener, MouseListener, Mo
         repaint();
     }
 
+    /**
+     * Toggles the indentation of the paragraph under cursor
+     */
     public void toggleCurrentParagraphIndent() {
         ParagraphElement paragraph = getParagraph();
         paragraph.setFirstLineIndent(!paragraph.getFirstLineIndent());
@@ -407,24 +419,36 @@ public class EditorPane extends JPanel implements KeyListener, MouseListener, Mo
         repaint();
     }
 
+    /**
+     * Makes current paragraph centered
+     */
     public void centerCurrentParagraph() {
         getParagraph().setAlignment(ParagraphAlignment.CENTER);
         document.compose();
         repaint();
     }
 
+    /**
+     * Makes current paragraph left-aligned
+     */
     public void leftAlignCurrentParagraph() {
         getParagraph().setAlignment(ParagraphAlignment.LEFT);
         document.compose();
         repaint();
     }
 
+    /**
+     * Makes current paragraph right-aligned
+     */
     public void rightAlignCurrentParagraph() {
         getParagraph().setAlignment(ParagraphAlignment.RIGHT);
         document.compose();
         repaint();
     }
 
+    /**
+     * Makes current paragraph justified
+     */
     public void justifyCurrentParagraph() {
         getParagraph().setAlignment(ParagraphAlignment.JUSTIFY);
         document.compose();
@@ -544,14 +568,23 @@ public class EditorPane extends JPanel implements KeyListener, MouseListener, Mo
         return Math.hypot(Math.abs(x1 - x2), Math.abs(y1 - y2));
     }
 
+    /**
+     * Sets the style of selected text to plain
+     */
     public void makeSelectionNormal() {
         changeSelectionFontStyle(Font.PLAIN);
     }
 
+    /**
+     * Sets the style of selected text to bold
+     */
     public void makeSelectionBold() {
         changeSelectionFontStyle(Font.BOLD);
     }
 
+    /**
+     * Sets the style of selected text to italic
+     */
     public void makeSelectionItalic() {
         changeSelectionFontStyle(Font.ITALIC);
     }

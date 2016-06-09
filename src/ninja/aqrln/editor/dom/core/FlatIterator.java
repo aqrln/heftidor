@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 /**
+ * Flat iterator that allows to iterate through the leaf nodes
  * @author Alexey Orlenko
  */
 public class FlatIterator implements ListIterator<Element> {
@@ -15,6 +16,10 @@ public class FlatIterator implements ListIterator<Element> {
     private List<ListIterator<Element>> iterators;
     private int currentIteratorIndex;
 
+    /**
+     * Public constructor
+     * @param element root element
+     */
     public FlatIterator(Element element) {
         this.element = element;
         this.iterators = new ArrayList<>();

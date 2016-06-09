@@ -8,6 +8,7 @@ import ninja.aqrln.editor.dom.viewmodel.SpaceElement;
 import java.util.List;
 
 /**
+ * Justify alignment strategy
  * @author Alexey Orlenko
  */
 public class JustifyAlignmentStrategy implements TextAlignmentStrategy {

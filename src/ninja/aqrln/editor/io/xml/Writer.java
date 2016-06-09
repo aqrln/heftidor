@@ -19,16 +19,25 @@ import java.awt.Font;
 import java.io.OutputStream;
 
 /**
+ * XML writer
  * @author Alexey Orlenko
  */
 public class Writer {
     private Document document;
     private org.w3c.dom.Document xml;
 
+    /**
+     * XML writer constructor
+     * @param document document to seriallize
+     */
     public Writer(Document document) {
         this.document = document;
     }
 
+    /**
+     * Write the document to a stream
+     * @param stream
+     */
     public void write(OutputStream stream) {
         try {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();

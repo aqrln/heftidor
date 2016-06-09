@@ -21,15 +21,25 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
+ * XML reader
  * @author Alexey Orlenko
  */
 public class Reader {
     private InputStream stream;
 
+    /**
+     * XML reader constructor
+     * @param stream input stream to read
+     */
     public Reader(InputStream stream) {
         this.stream = stream;
     }
 
+    /**
+     * Reads a document from the stream
+     * @return Document instance
+     * @throws IOException
+     */
     public Document read() throws IOException {
         try {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();

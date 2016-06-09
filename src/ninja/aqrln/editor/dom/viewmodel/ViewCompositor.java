@@ -7,6 +7,7 @@ import ninja.aqrln.editor.dom.viewmodel.alignment.TextAligner;
 import java.util.List;
 
 /**
+ * Translates document model tree into document view model tree
  * @author Alexey Orlenko
  */
 public class ViewCompositor implements DocumentModelVisitor {
@@ -16,6 +17,9 @@ public class ViewCompositor implements DocumentModelVisitor {
     private WordElement currentWord;
     private ParagraphAlignment currentAlignment;
 
+    /**
+     * Public constructor
+     */
     public ViewCompositor() {
         result = new ComposedRootElement();
         currentPage = new PageElement();
@@ -110,6 +114,10 @@ public class ViewCompositor implements DocumentModelVisitor {
         result.addChild(currentPage);
     }
 
+    /**
+     * Get result of the composition
+     * @return composed root element
+     */
     public ComposedRootElement getResult() {
         return result;
     }

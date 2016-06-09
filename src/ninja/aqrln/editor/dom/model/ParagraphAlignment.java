@@ -1,6 +1,7 @@
 package ninja.aqrln.editor.dom.model;
 
 /**
+ * Paragraph alignment enumeration
  * @author Alexey Orlenko
  */
 public enum ParagraphAlignment {
@@ -21,6 +22,11 @@ public enum ParagraphAlignment {
         return null;
     }
 
+    /**
+     * Parses alignment from the textual representation
+     * @param representation textual representation
+     * @return paragraph alignment
+     */
     public static ParagraphAlignment fromString(String representation) {
         switch (representation.toLowerCase()) {
             case "left":

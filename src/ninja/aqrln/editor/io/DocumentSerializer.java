@@ -12,9 +12,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
+ * Handles reading and writing documents
  * @author Alexey Orlenko
  */
 public class DocumentSerializer {
+
+    /**
+     * Save document to a file
+     * @param document document to save
+     * @param filename filename
+     */
     public static void save(Document document, String filename) {
         String oldName = document.getName();
         document.setName(getDocumentName(filename));
@@ -30,6 +37,11 @@ public class DocumentSerializer {
         }
     }
 
+    /**
+     * Load document from a file
+     * @param filename filename
+     * @return Document instance
+     */
     public static Document load(String filename) {
         Document document = null;
 

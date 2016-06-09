@@ -7,24 +7,39 @@ import java.awt.Dimension;
 import java.util.ListIterator;
 
 /**
+ * Line element
  * @author Alexey Orlenko
  */
 public class LineElement extends DocumentViewModelCompositeElement {
     private boolean firstLineInParagraph = false;
     private boolean lastLineInParagraph = false;
 
+    /**
+     * @return true if this line is last in the paragraph, false otherwise
+     */
     public boolean isLastLine() {
         return lastLineInParagraph;
     }
 
+    /**
+     * Sets whether this line is last in paragraph
+     * @param isLastLine if the line is last in paragraph
+     */
     public void setLastLine(boolean isLastLine) {
         lastLineInParagraph = isLastLine;
     }
 
+    /**
+     * @return true if this line is first in the paragraph, false otherwise
+     */
     public boolean isFirstLine() {
         return firstLineInParagraph;
     }
 
+    /**
+     * Sets whether this line is first in paragraph
+     * @param isFirstLine if the line is first in paragraph
+     */
     public void setFirstLine(boolean isFirstLine) {
         firstLineInParagraph = isFirstLine;
     }

@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.util.ListIterator;
 
 /**
+ * Word element
  * @author Alexey Orlenko
  */
 public class WordElement extends DocumentViewModelCompositeElement {

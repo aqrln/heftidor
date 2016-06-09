@@ -9,6 +9,7 @@ import java.awt.*;
 import static ninja.aqrln.editor.dom.viewmodel.PageElement.PAGE_SIZE;
 
 /**
+ * Renders the document view model tree onto Graphics2D
  * @author Alexey Orlenko
  */
 public class DocumentRenderer implements DocumentViewModelVisitor {
@@ -20,6 +21,14 @@ public class DocumentRenderer implements DocumentViewModelVisitor {
     private int viewHeight;
     private int scrolledValue;
 
+    /**
+     * Public constructor
+     * @param graphics Graphics2D instance
+     * @param x x coordinate from which the drawing should start on the surface
+     * @param y y coordinate from which the drawing should start on the surface
+     * @param viewHeight height of the viewport
+     * @param scrolledValue height of the scrolled part of the surface
+     */
     public DocumentRenderer(Graphics2D graphics, int x, int y, int viewHeight, int scrolledValue) {
         this.graphics = graphics;
         this.x = x;

@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 /**
+ * HTML exporter
  * @author Alexey Orlenko
  */
 public class HTMLExporter implements DocumentModelVisitor {
@@ -16,15 +17,29 @@ public class HTMLExporter implements DocumentModelVisitor {
     private String title;
     private Style prevStyle = null;
 
+    /**
+     * HTMLExporter constructor
+     * @param title document title
+     */
     public HTMLExporter(String title) {
         stringBuilder = new StringBuilder();
         this.title = title;
     }
 
+    /**
+     * Get the result string
+     * @return HTML source as string
+     */
     public String getString() {
         return stringBuilder.toString();
     }
 
+    /**
+     * Convenience static method
+     *
+     * @param document document to be exported
+     * @return HTML source
+     */
     public static String toHTML(Document document) {
         HTMLExporter exporter = new HTMLExporter(document.getName());
         document.getRootElement().accept(exporter);

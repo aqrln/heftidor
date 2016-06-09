@@ -3,6 +3,7 @@ package ninja.aqrln.editor.ui.dialogs;
 import java.awt.FileDialog;
 
 /**
+ * FilePicker implementation for Windows
  * @author Alexey Orlenko
  */
 public class WindowsFilePicker extends FilePicker {

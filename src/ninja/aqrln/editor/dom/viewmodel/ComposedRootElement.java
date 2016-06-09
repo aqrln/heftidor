@@ -7,20 +7,31 @@ import java.awt.Dimension;
 import java.util.ListIterator;
 
 /**
+ * Root element of document view model tree
  * @author Alexey Orlenko
  */
 public class ComposedRootElement extends DocumentViewModelCompositeElement {
+    /**
+     * Interpage spacing
+     */
     public static final int PAGE_SPACING = 10;
 
     private Dimension size;
 
     private ElementRegistry elementRegistry;
 
+    /**
+     * Public constructor
+     */
     public ComposedRootElement() {
         super();
         elementRegistry = new ElementRegistry();
     }
 
+    /**
+     * Get element registry
+     * @return element registry
+     */
     public ElementRegistry getElementRegistry() {
         return elementRegistry;
     }

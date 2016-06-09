@@ -4,9 +4,13 @@ import java.awt.FileDialog;
 import java.awt.Frame;
 
 /**
+ * Abstract file picker dialog
  * @author Alexey Orlenko
  */
 public abstract class FilePicker {
+    /**
+     * Default document extension
+     */
     public static final String DOCUMENT_EXTENSION = ".editordoc";
 
     private String lastDirectory = System.getProperty("user.home");
@@ -39,18 +43,34 @@ public abstract class FilePicker {
         return directory + filename;
     }
 
+    /**
+     * Show file loading dialog
+     * @return filename
+     */
     public String showLoadDialog() {
         return showDialog("Open file", FileDialog.LOAD, DOCUMENT_EXTENSION);
     }
 
+    /**
+     * Show file saving dialog
+     * @return filename
+     */
     public String showSaveDialog() {
         return showDialog("Save file", FileDialog.SAVE, DOCUMENT_EXTENSION);
     }
 
+    /**
+     * Show "save to HTML" dialog
+     * @return filename
+     */
     public String showSaveHTMLDialog() {
         return showDialog("Export to HTML", FileDialog.SAVE, ".html");
     }
 
+    /**
+     * Show "save to LaTeX" dialog
+     * @return filename
+     */
     public String showSaveLaTeXDialog() {
         return showDialog("Export to LaTeX", FileDialog.SAVE, ".tex");
     }

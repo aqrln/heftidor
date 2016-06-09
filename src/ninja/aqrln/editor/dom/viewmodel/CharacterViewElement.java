@@ -8,9 +8,13 @@ import java.awt.Dimension;
 import java.awt.FontMetrics;
 
 /**
+ * Character view model element
  * @author Alexey Orlenko
  */
 public class CharacterViewElement extends DocumentViewModelChildlessElement {
+    /**
+     * @param element original character element
+     */
     public CharacterViewElement(CharacterElement element) {
         setOrigin(element);
     }
@@ -41,6 +45,10 @@ public class CharacterViewElement extends DocumentViewModelChildlessElement {
         return getOrigin().getStyle();
     }
 
+    /**
+     * Get original character
+     * @return character that backs up the original character element
+     */
     public char getCharacter() {
         return ((CharacterElement) getOrigin()).getCharacter();
     }

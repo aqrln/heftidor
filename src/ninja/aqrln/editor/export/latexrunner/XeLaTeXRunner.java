@@ -3,6 +3,7 @@ package ninja.aqrln.editor.export.latexrunner;
 import java.io.IOException;
 
 /**
+ * XeLaTeX runner
  * @author Alexey Orlenko
  */
 public class XeLaTeXRunner extends LaTeXRunner {

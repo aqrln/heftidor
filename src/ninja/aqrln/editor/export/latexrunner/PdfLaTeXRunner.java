@@ -3,6 +3,7 @@ package ninja.aqrln.editor.export.latexrunner;
 import java.io.IOException;
 
 /**
+ * pdfLaTeX runner
  * @author Alexey Orlenko
  */
 public class PdfLaTeXRunner extends LaTeXRunner {

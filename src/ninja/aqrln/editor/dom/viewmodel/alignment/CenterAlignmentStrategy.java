@@ -5,6 +5,7 @@ import ninja.aqrln.editor.dom.viewmodel.LineElement;
 import ninja.aqrln.editor.dom.viewmodel.PageElement;
 
 /**
+ * Center alignment strategy
  * @author Alexey Orlenko
  */
 public class CenterAlignmentStrategy implements TextAlignmentStrategy {

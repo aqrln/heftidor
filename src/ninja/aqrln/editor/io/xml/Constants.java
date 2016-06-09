@@ -1,6 +1,7 @@
 package ninja.aqrln.editor.io.xml;
 
 /**
+ * Constants defining strings used in XML
  * @author Alexey Orlenko
  */
 class Constants {

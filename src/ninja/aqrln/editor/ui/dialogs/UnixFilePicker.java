@@ -3,6 +3,7 @@ package ninja.aqrln.editor.ui.dialogs;
 import java.awt.FileDialog;
 
 /**
+ * FilePicker implementation for OS X and Linux
  * @author Alexey Orlenko
  */
 public class UnixFilePicker extends FilePicker {
